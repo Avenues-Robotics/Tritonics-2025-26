@@ -1,9 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import java.io.File;
 
 @Autonomous(name = "Test")
 public class test extends LinearOpMode {
@@ -15,9 +20,12 @@ public class test extends LinearOpMode {
 
     ElapsedTime dt;
 
+    Telemetry telem;
+
     @Override
     public void runOpMode()
     {
+        telem = FtcDashboard.getInstance().getTelemetry();
 
         launcherLeft = hardwareMap.get(DcMotor.class, "BR");
         launcherRight = hardwareMap.get(DcMotor.class, "BL");
@@ -33,20 +41,20 @@ public class test extends LinearOpMode {
         launcherLeft.setPower(1);
         launcherRight.setPower(1);
 
-        sleep(100000000);
+        dt = new ElapsedTime();
 
-        dt.reset();
-
-        while(true)
+        while(opModeIsActive())
         {
-            telemetry.addData("right", launcherRight.getCurrentPosition());
-            telemetry.addData("left", launcherLeft.getCurrentPosition());
-            telemetry.addData("speed", (launcherLeft.getCurrentPosition() + launcherRight.getCurrentPosition())*(lastTicks)/(2*dt.seconds()));
-            telemetry.update();
+            telem.addData("right", launcherRight.getCurrentPosition());
+            telem.addData("left", launcherLeft.getCurrentPosition());
+            telem.addData("speed", (launcherLeft.getCurrentPosition() + launcherRight.getCurrentPosition())*(lastTicks)/(2*dt.seconds()));
+            telem.update();
 
             lastTicks = (launcherLeft.getCurrentPosition() + launcherRight.getCurrentPosition())/2;
 
             dt.reset();
+
+            sleep(1);
         }
 
     }
