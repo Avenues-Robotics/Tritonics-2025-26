@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Teleop(name = "Tritonics Teleop")
-public class Teleop extends LinearOpMode {
+@Autonomous(name = "Tritonics Autonomous")
+public class AutoOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() {
