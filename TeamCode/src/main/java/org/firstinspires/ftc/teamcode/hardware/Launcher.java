@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class launcher {
+public class Launcher {
 
     //The two motors driving the launcher
     DcMotor R;
@@ -23,7 +23,7 @@ public class launcher {
     Servo DEC;
 
     //Launcher constructor, initiates launcher hardware
-    public launcher(LinearOpMode opMode) {
+    public Launcher(LinearOpMode opMode) {
         //Grabs motors
         R = opMode.hardwareMap.get(DcMotor.class, "launcherR");
         L = opMode.hardwareMap.get(DcMotor.class, "launcherL");

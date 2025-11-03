@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
-public class driveTrain {
+public class DriveTrain {
 
     //Four drive train motors
     DcMotor FR;
@@ -39,7 +39,7 @@ public class driveTrain {
     Telemetry telem;
 
     //Drive Train constructor initiates drive train hardware, giving the option to run without encoder
-    public driveTrain(LinearOpMode opMode, boolean runWithEncoder){
+    public DriveTrain(LinearOpMode opMode, boolean runWithEncoder){
         //Grabs four drive train motors
         FR = opMode.hardwareMap.get(DcMotor.class, "FR");
         FL = opMode.hardwareMap.get(DcMotor.class, "FL");
@@ -83,7 +83,7 @@ public class driveTrain {
 
     //Same as above without runmode option
     //Drive Train constructor initiates drive train hardware, not giving the option to run without encoder
-    public driveTrain(LinearOpMode opMode){
+    public DriveTrain(LinearOpMode opMode){
         //Grabs four drive train motors
         FR = opMode.hardwareMap.get(DcMotor.class, "FR");
         FL = opMode.hardwareMap.get(DcMotor.class, "FL");
