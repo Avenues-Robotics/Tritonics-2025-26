@@ -16,10 +16,7 @@ public class AutoOpMode extends LinearOpMode {
         driveTrain = new DriveTrain(this, true);
 
         waitForStart();
-        init
-        while (opModeIsActive()) {
-            drive();
-            buttons();
-        }
+
+        driveTrain.drive(1, 1000, 0);
     }
 }
