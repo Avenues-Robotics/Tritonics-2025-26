@@ -12,6 +12,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -31,15 +32,23 @@ public class DriveTrain {
     public static boolean blForward = true;
 
     //Three odometry wheels (Right, Left, and Horizontal respectively) and their motor slots
-    DcMotor odomR; public static String odomRConfig = "FR";
-    DcMotor odomL; public static String odomLConfig = "FL";
-    DcMotor odomH; public static String odomHConfig = "BR";
+    DcMotor odomR;
+    public static String odomRConfig = "FR";
+    DcMotor odomL;
+    public static String odomLConfig = "FL";
+    DcMotor odomH;
+    public static String odomHConfig = "BR";
+
+    double drive;
+    double strafe ;
+    double yaw;
+    double max;
 
     //Dashboard telemetry instance
     Telemetry telem;
 
     //Drive Train constructor initiates drive train hardware, giving the option to run without encoder
-    public DriveTrain(LinearOpMode opMode, boolean runWithEncoder){
+    public DriveTrain(LinearOpMode opMode, boolean runWithEncoder) {
         //Grabs four drive train motors
         FR = opMode.hardwareMap.get(DcMotor.class, "FR");
         FL = opMode.hardwareMap.get(DcMotor.class, "FL");
@@ -47,20 +56,32 @@ public class DriveTrain {
         BL = opMode.hardwareMap.get(DcMotor.class, "BL");
 
         //Sets the direction for each motor depending on the setting
-        if(frForward){FR.setDirection(DcMotor.Direction.FORWARD);}
-        else{FR.setDirection(DcMotor.Direction.REVERSE);}
+        if (frForward) {
+            FR.setDirection(DcMotor.Direction.FORWARD);
+        } else {
+            FR.setDirection(DcMotor.Direction.REVERSE);
+        }
 
-        if(flForward){FL.setDirection(DcMotor.Direction.FORWARD);}
-        else{FL.setDirection(DcMotor.Direction.REVERSE);}
+        if (flForward) {
+            FL.setDirection(DcMotor.Direction.FORWARD);
+        } else {
+            FL.setDirection(DcMotor.Direction.REVERSE);
+        }
 
-        if(brForward){BR.setDirection(DcMotor.Direction.FORWARD);}
-        else{BR.setDirection(DcMotor.Direction.REVERSE);}
+        if (brForward) {
+            BR.setDirection(DcMotor.Direction.FORWARD);
+        } else {
+            BR.setDirection(DcMotor.Direction.REVERSE);
+        }
 
-        if(blForward){BL.setDirection(DcMotor.Direction.FORWARD);}
-        else{BL.setDirection(DcMotor.Direction.REVERSE);}
+        if (blForward) {
+            BL.setDirection(DcMotor.Direction.FORWARD);
+        } else {
+            BL.setDirection(DcMotor.Direction.REVERSE);
+        }
 
         //Sets the runmode of the motors
-        if(runWithEncoder) {
+        if (runWithEncoder) {
             FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -83,7 +104,7 @@ public class DriveTrain {
 
     //Same as above without runmode option
     //Drive Train constructor initiates drive train hardware, not giving the option to run without encoder
-    public DriveTrain(LinearOpMode opMode){
+    public DriveTrain(LinearOpMode opMode) {
         //Grabs four drive train motors
         FR = opMode.hardwareMap.get(DcMotor.class, "FR");
         FL = opMode.hardwareMap.get(DcMotor.class, "FL");
@@ -91,17 +112,29 @@ public class DriveTrain {
         BL = opMode.hardwareMap.get(DcMotor.class, "BL");
 
         //Sets the direction for each motor depending on the setting
-        if(frForward){FR.setDirection(DcMotor.Direction.FORWARD);}
-        else{FR.setDirection(DcMotor.Direction.REVERSE);}
+        if (frForward) {
+            FR.setDirection(DcMotor.Direction.FORWARD);
+        } else {
+            FR.setDirection(DcMotor.Direction.REVERSE);
+        }
 
-        if(flForward){FL.setDirection(DcMotor.Direction.FORWARD);}
-        else{FL.setDirection(DcMotor.Direction.REVERSE);}
+        if (flForward) {
+            FL.setDirection(DcMotor.Direction.FORWARD);
+        } else {
+            FL.setDirection(DcMotor.Direction.REVERSE);
+        }
 
-        if(brForward){BR.setDirection(DcMotor.Direction.FORWARD);}
-        else{BR.setDirection(DcMotor.Direction.REVERSE);}
+        if (brForward) {
+            BR.setDirection(DcMotor.Direction.FORWARD);
+        } else {
+            BR.setDirection(DcMotor.Direction.REVERSE);
+        }
 
-        if(blForward){BL.setDirection(DcMotor.Direction.FORWARD);}
-        else{BL.setDirection(DcMotor.Direction.REVERSE);}
+        if (blForward) {
+            BL.setDirection(DcMotor.Direction.FORWARD);
+        } else {
+            BL.setDirection(DcMotor.Direction.REVERSE);
+        }
 
         //Sets the runmode of the motors
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -127,8 +160,8 @@ public class DriveTrain {
 
         double radians = degrees * PI / 180;
 
-        frblMultiplier = cos(radians)-sin(radians);
-        flbrMultiplier = cos(radians)+sin(radians);
+        frblMultiplier = cos(radians) - sin(radians);
+        flbrMultiplier = cos(radians) + sin(radians);
 
         // Reset the tick encoders to zero
         FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -162,11 +195,11 @@ public class DriveTrain {
         BL.setPower(speed * frblMultiplier);
 
         // Run while the motors are moving
-        while (Math.abs(FR.getTargetPosition()-FR.getCurrentPosition()) >= 30 ||
-                Math.abs(FR.getTargetPosition()-FR.getCurrentPosition()) >= 30) {
+        while (Math.abs(FR.getTargetPosition() - FR.getCurrentPosition()) >= 30 ||
+                Math.abs(FR.getTargetPosition() - FR.getCurrentPosition()) >= 30) {
 
             // Update the telem data
-            if (speed*frblMultiplier > 1 || speed*flbrMultiplier > 1) {
+            if (speed * frblMultiplier > 1 || speed * flbrMultiplier > 1) {
                 telem.addData("Drive Status", "The set speed and direction has maxed out the speed of one of the wheels. Direction and speed may not be accurate");
             }
             telem.addData("Running to", "Font Right and Back Left: " + frblTicks + " | Front Left and Back Right: " + flbrTicks);
@@ -183,7 +216,7 @@ public class DriveTrain {
     }
 
     //rotate function, input speed, and degree angle to rotate
-    public void rotate(double speed, double degrees){
+    public void rotate(double speed, double degrees) {
 
         // Reset the tick encoders to zero
         FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -192,7 +225,7 @@ public class DriveTrain {
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Convert from degrees to ticks
-        int ticks = (int) (degrees*12.4);
+        int ticks = (int) (degrees * 12.4);
 
         // set the target position
         FR.setTargetPosition(-ticks);
@@ -213,8 +246,8 @@ public class DriveTrain {
         BL.setPower(-speed);
 
         // Run while both motors are moving
-        while (Math.abs(FR.getTargetPosition()-FR.getCurrentPosition()) >= 50 ||
-                Math.abs(FL.getTargetPosition()-FL.getCurrentPosition()) >= 50) {
+        while (Math.abs(FR.getTargetPosition() - FR.getCurrentPosition()) >= 50 ||
+                Math.abs(FL.getTargetPosition() - FL.getCurrentPosition()) >= 50) {
             // Update the telem data
             telem.addData("Running to", "Left " + ticks + " | Right: " + -ticks);
             telem.addData("Current pos", "Front Right: " + FR.getCurrentPosition() + " | Front Left: " + FL.getCurrentPosition() + " | Back Right: " + BR.getCurrentPosition() + " | Back Left: " + BL.getCurrentPosition());
@@ -226,5 +259,35 @@ public class DriveTrain {
         FL.setPower(0);
         BR.setPower(0);
         BL.setPower(0);
+    }
+
+    public void driveTeleop(Gamepad gamepad)
+    {
+        // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
+         drive = gamepad.left_stick_y;
+         strafe = gamepad.left_stick_x;
+         yaw = gamepad.right_stick_x;
+
+        // Combine the joystick requests for each axis-motion to determine each wheel's power.
+        double fr = (drive - strafe - yaw) * Math.abs(drive - strafe - yaw);
+        double fl = (drive + strafe + yaw) * Math.abs(drive + strafe + yaw);
+        double br = (drive + strafe - yaw) * Math.abs(drive + strafe - yaw);
+        double bl = (drive - strafe + yaw) * Math.abs(drive - strafe + yaw);
+
+        // Normalize the values so no wheel power exceeds 100%
+        max = Math.max(Math.max(Math.max(Math.abs(fl), Math.abs(fr)), Math.abs(bl)), Math.abs(br));
+
+        if (max > 1.0) {
+            fl /= max;
+            fr /= max;
+            bl /= max;
+            br /= max;
+        }
+
+        FL.setPower(fl);
+        FR.setPower(fr);
+        BL.setPower(bl);
+        BR.setPower(br);
+
     }
 }
