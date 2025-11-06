@@ -17,8 +17,14 @@ public class TeleopOpMode extends LinearOpMode {
 
         waitForStart();
 
+<<<<<<< HEAD
         while (opModeIsActive()) {
             driveTrain.driveTeleop(gamepad1);
         }
+=======
+//        while (opModeIsActive()) {
+//            driveTrain.drive();
+//        }
+>>>>>>> af9bd8b5fb00c0d9267cf01e90c567424a989481
     }
 }
