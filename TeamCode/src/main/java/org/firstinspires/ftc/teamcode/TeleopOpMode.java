@@ -4,27 +4,32 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
+import org.firstinspires.ftc.teamcode.tasks.DriveTeleop;
+import org.firstinspires.ftc.teamcode.tasks.ParallelTask;
+import org.firstinspires.ftc.teamcode.tasks.Task;
 
 @TeleOp(name = "Tritonics Teleop")
 public class TeleopOpMode extends LinearOpMode {
 
     DriveTrain driveTrain;
 
+    DriveTeleop driveTeleop;
+
+    Task teleop;
+
     @Override
     public void runOpMode() {
 
         driveTrain = new DriveTrain(this);
 
+        driveTeleop = new DriveTeleop(driveTrain, this);
+
+        teleop = new ParallelTask(driveTeleop, new Task());
+
         waitForStart();
 
-<<<<<<< HEAD
         while (opModeIsActive()) {
-            driveTrain.driveTeleop(gamepad1);
+            teleop.run();
         }
-=======
-//        while (opModeIsActive()) {
-//            driveTrain.drive();
-//        }
->>>>>>> af9bd8b5fb00c0d9267cf01e90c567424a989481
     }
 }
