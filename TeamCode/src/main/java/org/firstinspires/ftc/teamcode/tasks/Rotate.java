@@ -24,10 +24,10 @@ public class Rotate extends Task{
     public static int tolerance = 15;
 
     enum State {
-        STEPONE,
-        STEPTWO,
-        STEPTHREE,
-        STEPFOUR,
+        RESETIMU,
+        INIT,
+        MOVE,
+        STOP,
         DONE
     }
 
@@ -39,35 +39,35 @@ public class Rotate extends Task{
         this.speed = speed;
         this.degrees = degrees;
 
-        state = State.STEPONE;
+        state = State.RESETIMU;
     }
 
     @Override
     public boolean run() {
-        if(state == State.STEPONE) {
-            stepOne();
+        if(state == State.RESETIMU) {
+            resetImu();
         }
-        if(state == State.STEPTWO) {
-            stepTwo();
+        if(state == State.INIT) {
+            init();
         }
-        if(state == State.STEPTHREE) {
-            stepThree();
+        if(state == State.MOVE) {
+            move();
         }
-        if(state == State.STEPFOUR) {
-            stepFour();
+        if(state == State.STOP) {
+            stop();
         }
 
         return state == State.DONE;
     }
 
-    void stepOne() {
+    void resetImu() {
         // Reset the imu
         sensors.imu.resetYaw();
 
-        state = State.STEPTWO;
+        state = State.INIT;
     }
 
-    void stepTwo() {
+    void init() {
         degrees = degrees + sensors.imu.getRobotYawPitchRollAngles().getYaw();
 
         // Reset the tick encoders to zero
@@ -97,9 +97,9 @@ public class Rotate extends Task{
         driveTrain.BR.setPower(-speed);
         driveTrain.BL.setPower(-speed);
 
-        state = State.STEPTHREE;
+        state = State.MOVE;
     }
-    void stepThree() {
+    void move() {
         // Update the telem data
         driveTrain.telem.addData("Running to", "Left " + ticks + " | Right: " + -ticks);
         driveTrain.telem.addData("Current pos", "Front Right: " + driveTrain.FR.getCurrentPosition() + " | Front Left: " + driveTrain.FL.getCurrentPosition() + " | Back Right: " + driveTrain.BR.getCurrentPosition() + " | Back Left: " + driveTrain.BL.getCurrentPosition());
@@ -107,11 +107,11 @@ public class Rotate extends Task{
 
         if(Math.abs(driveTrain.FR.getTargetPosition()-driveTrain.FR.getCurrentPosition()) <= tolerance &&
                 Math.abs(driveTrain.FL.getTargetPosition()-driveTrain.FL.getCurrentPosition()) <= tolerance) {
-            state = State.STEPFOUR;
+            state = State.STOP;
         }
     }
 
-    void stepFour() {
+    void stop() {
         // Stop the motors
         driveTrain.FR.setPower(0);
         driveTrain.FL.setPower(0);

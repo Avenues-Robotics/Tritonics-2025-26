@@ -40,10 +40,10 @@ public class Drive extends Task{
     public static double rotateCorrectionSpeed = 0.5;
 
     enum State {
-        STEPONE,
-        STEPTWO,
-        STEPTHREE,
-        STEPFOUR,
+        INIT,
+        MOVE,
+        CORRECT,
+        FINISH,
         DONE
     }
 
@@ -56,27 +56,27 @@ public class Drive extends Task{
         this.cm = cm;
         this.degrees = degrees;
 
-        state = State.STEPONE;
+        state = State.INIT;
     }
 
     @Override
     public boolean run() {
-        if(state == State.STEPONE) {
-            stepOne();
+        if(state == State.INIT) {
+            init();
         }
-        if (state == State.STEPTWO) {
-            stepTwo();
+        if (state == State.MOVE) {
+            move();
         }
-        if (state == State.STEPTHREE) {
-            stepThree();
+        if (state == State.CORRECT) {
+            correct();
         }
-        if (state == State.STEPFOUR) {
-            stepFour();
+        if (state == State.FINISH) {
+            finish();
         }
         return state == State.DONE;
     }
 
-    void stepOne() {
+    void init() {
         radians = degrees * PI / 180;
 
         frblMultiplier = cos(radians)-sin(radians);
@@ -116,10 +116,10 @@ public class Drive extends Task{
         driveTrain.BR.setPower(speed * flbrMultiplier);
         driveTrain.BL.setPower(speed * frblMultiplier);
 
-        state = State.STEPTWO;
+        state = State.MOVE;
     }
 
-    void stepTwo() {
+    void move() {
         // Update the telem data
         if (speed*frblMultiplier > 1 || speed*flbrMultiplier > 1) {
             driveTrain.telem.addData("Drive Status", "The set speed and direction has maxed out the speed of one of the wheels. Direction and speed may not be accurate");
@@ -130,16 +130,16 @@ public class Drive extends Task{
 
         if(Math.abs(driveTrain.FR.getTargetPosition()-driveTrain.FR.getCurrentPosition()) <= tolerance &&
                 Math.abs(driveTrain.FL.getTargetPosition()-driveTrain.FL.getCurrentPosition()) <= tolerance) {
-            state = State.STEPTHREE;
+            state = State.CORRECT;
         }
     }
 
-    void stepThree() {
+    void correct() {
         rotate = new Rotate(driveTrain, sensors, rotateCorrectionSpeed, sensors.imu.getRobotYawPitchRollAngles().getYaw());
-        state = State.STEPFOUR;
+        state = State.FINISH;
     }
 
-    void stepFour() {
+    void finish() {
         if(rotate.run()) {
             state = State.DONE;
         }
