@@ -4,32 +4,38 @@ package org.firstinspires.ftc.teamcode.tasks;
  * This task can rotate the robot given some speed and some number of degrees to rotate
  */
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
+import org.firstinspires.ftc.teamcode.hardware.Sensors;
 
+@Config
 public class Rotate extends Task{
 
     DriveTrain driveTrain;
+    Sensors sensors;
 
     double speed;
     double degrees;
 
     int ticks;
 
-    public static int tolerance = 30;
+    public static int tolerance = 15;
 
     enum State {
         STEPONE,
         STEPTWO,
         STEPTHREE,
+        STEPFOUR,
         DONE
     }
 
     State state;
 
-    public Rotate(DriveTrain driveTrain, double speed, double degrees) {
+    public Rotate(DriveTrain driveTrain, Sensors sensors, double speed, double degrees) {
         this.driveTrain = driveTrain;
+        this.sensors = sensors;
         this.speed = speed;
         this.degrees = degrees;
 
@@ -47,11 +53,23 @@ public class Rotate extends Task{
         if(state == State.STEPTHREE) {
             stepThree();
         }
+        if(state == State.STEPFOUR) {
+            stepFour();
+        }
 
         return state == State.DONE;
     }
 
     void stepOne() {
+        // Reset the imu
+        sensors.imu.resetYaw();
+
+        state = State.STEPTWO;
+    }
+
+    void stepTwo() {
+        degrees = degrees + sensors.imu.getRobotYawPitchRollAngles().getYaw();
+
         // Reset the tick encoders to zero
         driveTrain.FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         driveTrain.FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -59,7 +77,7 @@ public class Rotate extends Task{
         driveTrain.BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Convert from degrees to ticks
-        ticks = (int) (degrees*DriveTrain.degToTicks);
+        ticks = (int) (degrees * DriveTrain.degToTicks);
 
         // set the target position
         driveTrain.FR.setTargetPosition(-ticks);
@@ -79,10 +97,9 @@ public class Rotate extends Task{
         driveTrain.BR.setPower(-speed);
         driveTrain.BL.setPower(-speed);
 
-        state = State.STEPTWO;
+        state = State.STEPTHREE;
     }
-
-    void stepTwo() {
+    void stepThree() {
         // Update the telem data
         driveTrain.telem.addData("Running to", "Left " + ticks + " | Right: " + -ticks);
         driveTrain.telem.addData("Current pos", "Front Right: " + driveTrain.FR.getCurrentPosition() + " | Front Left: " + driveTrain.FL.getCurrentPosition() + " | Back Right: " + driveTrain.BR.getCurrentPosition() + " | Back Left: " + driveTrain.BL.getCurrentPosition());
@@ -90,11 +107,11 @@ public class Rotate extends Task{
 
         if(Math.abs(driveTrain.FR.getTargetPosition()-driveTrain.FR.getCurrentPosition()) <= tolerance &&
                 Math.abs(driveTrain.FL.getTargetPosition()-driveTrain.FL.getCurrentPosition()) <= tolerance) {
-            state = State.STEPTHREE;
+            state = State.STEPFOUR;
         }
     }
 
-    void stepThree() {
+    void stepFour() {
         // Stop the motors
         driveTrain.FR.setPower(0);
         driveTrain.FL.setPower(0);

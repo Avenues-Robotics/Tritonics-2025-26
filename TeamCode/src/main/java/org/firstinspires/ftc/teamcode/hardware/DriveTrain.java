@@ -28,7 +28,7 @@ public class DriveTrain {
 
     //Scaling constants between cm/deg and ticks
     public static double cmToTicks = 11;
-    public static double degToTicks = 4.15;
+    public static double degToTicks = 5.4;
 
     //Three odometry wheels (Right, Left, and Horizontal respectively) and their motor slots
     public DcMotor odomR; public static String odomRConfig = "FR";

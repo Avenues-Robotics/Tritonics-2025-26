@@ -8,10 +8,13 @@ import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
+import org.firstinspires.ftc.teamcode.hardware.Sensors;
 
+@Config
 public class Drive extends Task{
 
     double radians;
@@ -25,12 +28,16 @@ public class Drive extends Task{
     int flbrTicks;
 
     DriveTrain driveTrain;
+    Sensors sensors;
+
+    Rotate rotate;
 
     double speed;
     double cm;
     double degrees;
 
     public static int tolerance = 30;
+    public static double rotateCorrectionSpeed = 0.5;
 
     enum State {
         STEPONE,
@@ -42,8 +49,9 @@ public class Drive extends Task{
 
     State state;
 
-    public Drive(DriveTrain driveTrain, double speed, double cm, double degrees) {
+    public Drive(DriveTrain driveTrain, Sensors sensors, double speed, double cm, double degrees) {
         this.driveTrain = driveTrain;
+        this.sensors = sensors;
         this.speed = speed;
         this.cm = cm;
         this.degrees = degrees;
@@ -99,6 +107,9 @@ public class Drive extends Task{
         driveTrain.BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         driveTrain.BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        // Reset the imu
+        sensors.imu.resetYaw();
+
         // make the motors run at the given speed
         driveTrain.FR.setPower(speed * frblMultiplier);
         driveTrain.FL.setPower(speed * flbrMultiplier);
@@ -124,17 +135,13 @@ public class Drive extends Task{
     }
 
     void stepThree() {
-        //realign rotation with imu (for later)
+        rotate = new Rotate(driveTrain, sensors, rotateCorrectionSpeed, sensors.imu.getRobotYawPitchRollAngles().getYaw());
         state = State.STEPFOUR;
     }
 
     void stepFour() {
-        //Stop motor power
-        driveTrain.FR.setPower(0);
-        driveTrain.FL.setPower(0);
-        driveTrain.BR.setPower(0);
-        driveTrain.BL.setPower(0);
-
-        state = State.DONE;
+        if(rotate.run()) {
+            state = State.DONE;
+        }
     }
 }
