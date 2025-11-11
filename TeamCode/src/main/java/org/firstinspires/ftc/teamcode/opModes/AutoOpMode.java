@@ -89,7 +89,7 @@ public class AutoOpMode extends LinearOpMode {
         sensors = new Sensors(this);
 
         ADrive = new Drive(driveTrain, sensors, ASpeed, ADist, ADeg);
-        BDrive = new Drive(driveTrain, sensors, BSpeed, BDist, BDeg);
+        BDrive = new Drive(driveTrain, sensors, BSpeed, BDist, BDeg, 600);
         CDrive = new Drive(driveTrain, sensors, CSpeed, CDist, CDeg);
         DDrive = new Drive(driveTrain, sensors, DSpeed, DDist, DDeg);
         EDrive = new Drive(driveTrain, sensors, ESpeed, EDist, EDeg);
@@ -103,10 +103,9 @@ public class AutoOpMode extends LinearOpMode {
         // Think recursive function...
         // - Mr. Carpenter
         auto = new SeriesTask(
-                new SeriesTask(new SeriesTask(new SeriesTask(ADrive, new ParallelRaceTask(BDrive,
-                new Timer(600))), new SeriesTask(CDrive, DDrive)), EDrive), new SeriesTask(
-                new SeriesTask(new SeriesTask(FDrive, GDrive), new SeriesTask(HDrive, IDrive)),
-                JDrive)
+                new SeriesTask(new SeriesTask(new SeriesTask(ADrive, BDrive), new SeriesTask(CDrive,
+                DDrive)), EDrive), new SeriesTask(new SeriesTask(new SeriesTask(FDrive, GDrive),
+                new SeriesTask(HDrive, IDrive)), JDrive)
         );
 
         waitForStart();

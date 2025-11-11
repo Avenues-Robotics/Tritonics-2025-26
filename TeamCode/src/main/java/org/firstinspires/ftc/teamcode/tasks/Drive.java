@@ -10,6 +10,7 @@ import static java.lang.Math.sin;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
@@ -39,6 +40,9 @@ public class Drive extends Task{
     public static int tolerance = 30;
     public static double rotateCorrectionSpeed = 0.5;
 
+    ElapsedTime timer;
+    int time;
+
     enum State {
         INIT,
         MOVE,
@@ -56,6 +60,18 @@ public class Drive extends Task{
         this.cm = cm;
         this.degrees = degrees;
 
+        state = State.INIT;
+    }
+
+    public Drive(DriveTrain driveTrain, Sensors sensors, double speed, double cm, double degrees, int time) {
+        this.driveTrain = driveTrain;
+        this.sensors = sensors;
+        this.speed = speed;
+        this.cm = cm;
+        this.degrees = degrees;
+        this.time = time;
+
+        timer = new ElapsedTime();
         state = State.INIT;
     }
 
@@ -110,6 +126,9 @@ public class Drive extends Task{
         // Reset the imu
         sensors.imu.resetYaw();
 
+        // Reset timer
+        timer.reset();
+
         // make the motors run at the given speed
         driveTrain.FR.setPower(speed * frblMultiplier);
         driveTrain.FL.setPower(speed * flbrMultiplier);
@@ -128,8 +147,9 @@ public class Drive extends Task{
         driveTrain.telem.addData("Current pos", "Front Right: " + driveTrain.FR.getCurrentPosition() + " | Front Left: " + driveTrain.FL.getCurrentPosition() + " | Back Right: " + driveTrain.BR.getCurrentPosition() + " | Back Left: " + driveTrain.BL.getCurrentPosition());
         driveTrain.telem.update();
 
-        if(Math.abs(driveTrain.FR.getTargetPosition()-driveTrain.FR.getCurrentPosition()) <= tolerance &&
-                Math.abs(driveTrain.FL.getTargetPosition()-driveTrain.FL.getCurrentPosition()) <= tolerance) {
+        if((Math.abs(driveTrain.FR.getTargetPosition()-driveTrain.FR.getCurrentPosition()) <= tolerance &&
+                Math.abs(driveTrain.FL.getTargetPosition()-driveTrain.FL.getCurrentPosition()) <= tolerance) ||
+                timer.milliseconds()>=time) {
             state = State.CORRECT;
         }
     }
