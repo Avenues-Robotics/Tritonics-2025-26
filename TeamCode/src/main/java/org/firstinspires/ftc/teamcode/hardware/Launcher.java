@@ -44,4 +44,11 @@ public class Launcher {
         L.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
+    // Looks good so far.  I know this is still a work in progress.  
+    // One thing I would definitely add is a PID for velocity control.
+    // Even if you are not changing shooter motor speeds, the power = 1
+    // will change over the course of the match as your battery drains.
+    // Measure a reasonable maximum low battery ticks/sec and use that.
+    // - Mr. Carpenter
+
 }
