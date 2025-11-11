@@ -59,7 +59,9 @@ public class Drive extends Task{
         this.speed = speed;
         this.cm = cm;
         this.degrees = degrees;
+        this.time = 0;
 
+        timer = new ElapsedTime();
         state = State.INIT;
     }
 
@@ -149,13 +151,13 @@ public class Drive extends Task{
 
         if((Math.abs(driveTrain.FR.getTargetPosition()-driveTrain.FR.getCurrentPosition()) <= tolerance &&
                 Math.abs(driveTrain.FL.getTargetPosition()-driveTrain.FL.getCurrentPosition()) <= tolerance) ||
-                timer.milliseconds()>=time) {
+                (timer.milliseconds()>=time && time != 0)) {
             state = State.CORRECT;
         }
     }
 
     void correct() {
-        rotate = new Rotate(driveTrain, sensors, rotateCorrectionSpeed, sensors.imu.getRobotYawPitchRollAngles().getYaw());
+        rotate = new Rotate(driveTrain, sensors, rotateCorrectionSpeed, -sensors.imu.getRobotYawPitchRollAngles().getYaw());
         state = State.FINISH;
     }
 

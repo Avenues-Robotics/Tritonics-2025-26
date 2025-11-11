@@ -23,8 +23,8 @@ public class DriveTrain {
     //Direction of each drive train motor, dashboard configurable
     public static boolean frForward = true;
     public static boolean flForward = false;
-    public static boolean brForward = true;
-    public static boolean blForward = false;
+    public static boolean brForward = false;
+    public static boolean blForward = true;
 
     //Scaling constants between cm/deg and ticks
     public static double cmToTicks = 11;
