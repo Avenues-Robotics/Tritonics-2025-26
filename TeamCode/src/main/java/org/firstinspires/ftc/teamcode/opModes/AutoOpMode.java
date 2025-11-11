@@ -19,6 +19,17 @@ public class AutoOpMode extends LinearOpMode {
     DriveTrain driveTrain;
     Sensors sensors;
 
+    // This looks like a good opportunity to define a class like
+    // DriveSegment(speed, distance, angle)
+    // and then define these inside of an array like
+    // DriveSegment[] segments
+    // Then when you run this you can just loop through the 
+    // array using for (DriveSegment s : segments){}
+    // This has the advantage of being able to add new segments 
+    // in one place with one line of code, rather than adding 4 lines up here
+    // and another line inside runOpMode()
+    // -Mr. Carpenter
+    
     public static double ASpeed = 0.8;
     public static double ADist = 120;
     public static double ADeg = 0;
@@ -88,6 +99,9 @@ public class AutoOpMode extends LinearOpMode {
         IDrive = new Drive(driveTrain, sensors, ISpeed, IDist, IDeg);
         JDrive = new Drive(driveTrain, sensors, JSpeed, JDist, JDeg);
 
+        // This will be fun to figure out how to impelement using a list
+        // Think recursive function...
+        // - Mr. Carpenter
         auto = new SeriesTask(
                 new SeriesTask(new SeriesTask(new SeriesTask(ADrive, new ParallelRaceTask(BDrive,
                 new Timer(600))), new SeriesTask(CDrive, DDrive)), EDrive), new SeriesTask(
