@@ -4,11 +4,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.Launcher;
 
-public class powerLauncher extends Task{
+public class PowerLauncher extends Task{
 
     Launcher launcher;
     int speed;
-    int error;
 
     double derivative;
     double proportional;
@@ -22,6 +21,7 @@ public class powerLauncher extends Task{
     public static double d;
 
     ElapsedTime dt;
+    ElapsedTime t;
 
     enum State {
         INITONE,
@@ -32,7 +32,7 @@ public class powerLauncher extends Task{
 
     State state;
 
-    public powerLauncher(Launcher launcher, int speed) {
+    public PowerLauncher(Launcher launcher, int speed) {
         this.launcher = launcher;
         this.speed = speed;
 
@@ -58,26 +58,28 @@ public class powerLauncher extends Task{
     }
 
     void initOne() {
-        lastIntegral = launcher.R.getCurrentPosition();
+        lastIntegral = speed*t.seconds() - launcher.R.getCurrentPosition();
         dt.reset();
+        t.reset();
 
         state = State.INITTWO;
     }
 
     void initTwo() {
-        integral = launcher.R.getCurrentPosition();
-        proportional = (lastIntegral - integral)/dt.seconds();
+        integral = speed*t.seconds() - launcher.R.getCurrentPosition();
+        proportional = speed - (lastIntegral - integral)/dt.seconds();
 
         state = State.GO;
     }
 
     void go() {
-        integral = launcher.R.getCurrentPosition();
+        integral = speed*t.seconds() - launcher.R.getCurrentPosition();
         proportional = (lastIntegral - integral)/dt.seconds();
         derivative = (lastProportional - proportional)/dt.seconds();
         dt.reset();
 
         launcher.R.setPower(integral*i+proportional*p+derivative*d);
+        launcher.L.setPower(integral*i+proportional*p+derivative*d);
 
         lastIntegral = integral;
         lastProportional = proportional;
