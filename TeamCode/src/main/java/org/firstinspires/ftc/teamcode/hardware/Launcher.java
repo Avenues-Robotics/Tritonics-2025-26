@@ -11,22 +11,27 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Launcher {
 
     //The two motors driving the launcher
-    DcMotor R;
-    DcMotor L;
+    public DcMotor R;
+    public DcMotor L;
 
-    //Direction of each launcher motor, dashboard configurable
+    //Motor driving the ramp
+    public DcMotor ramp;
+
+    //Direction of each motor, dashboard configurable
     public static boolean rForward = false;
     public static boolean lForward = true;
+    public static boolean rampForward = true;
 
     //The servos angling the launcher
-    Servo RA;
-    Servo DEC;
+    public Servo RA;
+    public Servo DEC;
 
     //Launcher constructor, initiates launcher hardware
     public Launcher(LinearOpMode opMode) {
         //Grabs motors
         R = opMode.hardwareMap.get(DcMotor.class, "launcherR");
         L = opMode.hardwareMap.get(DcMotor.class, "launcherL");
+        ramp = opMode.hardwareMap.get(DcMotor.class, "transfer");
 
         //Grabs servo
         RA = opMode.hardwareMap.get(Servo.class, "launcherRA");
@@ -38,6 +43,9 @@ public class Launcher {
 
         if(lForward){L.setDirection(DcMotor.Direction.FORWARD);}
         else{L.setDirection(DcMotor.Direction.REVERSE);}
+
+        if(rampForward){ramp.setDirection(DcMotor.Direction.FORWARD);}
+        else{ramp.setDirection(DcMotor.Direction.REVERSE);}
 
         //Sets the runmode for each motor
         R.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

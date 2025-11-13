@@ -79,17 +79,20 @@ public class Drive extends Task{
 
     @Override
     public boolean run() {
-        if(state == State.INIT) {
-            init();
+        switch(state) {
+            case INIT: init(); break;
+            case MOVE: move(); break;
+            case CORRECT: correct(); break;
+            case FINISH: finish(); break;
         }
-        if (state == State.MOVE) {
-            move();
-        }
-        if (state == State.CORRECT) {
-            correct();
-        }
-        if (state == State.FINISH) {
-            finish();
+        return state == State.DONE;
+    }
+
+    @Override
+    public boolean end() {
+        switch(state) {
+            case CORRECT: correct(); break;
+            case FINISH: finish(); break;
         }
         return state == State.DONE;
     }

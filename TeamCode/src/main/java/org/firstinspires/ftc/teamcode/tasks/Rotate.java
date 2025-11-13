@@ -44,20 +44,20 @@ public class Rotate extends Task{
 
     @Override
     public boolean run() {
-        if(state == State.RESETIMU) {
-            resetImu();
+        switch(state) {
+            case RESETIMU: resetImu(); break;
+            case INIT: init(); break;
+            case MOVE: move(); break;
+            case STOP: stop(); break;
         }
-        if(state == State.INIT) {
-            init();
-        }
-        if(state == State.MOVE) {
-            move();
-        }
-        if(state == State.STOP) {
+        return state == State.DONE;
+    }
+
+    public boolean end() {
+        if(state != State.DONE){
             stop();
         }
-
-        return state == State.DONE;
+        return true;
     }
 
     void resetImu() {

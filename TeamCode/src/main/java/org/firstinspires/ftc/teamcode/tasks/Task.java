@@ -16,4 +16,8 @@ public class Task {
         return true;
     }
 
+    public boolean end() {
+        return true;
+    }
+
 }
