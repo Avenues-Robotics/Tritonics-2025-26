@@ -10,6 +10,13 @@ package org.firstinspires.ftc.teamcode.tasks;
 
 public class Task {
 
+    enum State {
+        INIT,
+        DONE
+    }
+
+    State state;
+
     public Task() {}
 
     public boolean run() {
@@ -19,5 +26,7 @@ public class Task {
     public boolean end() {
         return true;
     }
+
+    public void reset() { state = State.INIT; }
 
 }

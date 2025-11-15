@@ -21,40 +21,20 @@ public class test extends LinearOpMode {
     Telemetry telem;
 
     @Override
-    public void runOpMode()
-    {
-        telem = FtcDashboard.getInstance().getTelemetry();
+    public void runOpMode() {
 
-        launcherLeft = hardwareMap.get(DcMotor.class, "BR");
-        launcherRight = hardwareMap.get(DcMotor.class, "BL");
+        launcherLeft = hardwareMap.get(DcMotor.class, "launcherL");
+        launcherRight = hardwareMap.get(DcMotor.class, "launcherR");
 
         launcherLeft.setDirection(DcMotor.Direction.FORWARD);
-        launcherRight.setDirection(DcMotor.Direction.REVERSE);
-
-        launcherLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        launcherRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        launcherRight.setDirection(DcMotor.Direction.FORWARD);
 
         waitForStart();
 
-        launcherLeft.setPower(1);
-        launcherRight.setPower(1);
-
-        dt = new ElapsedTime();
-
-        while(opModeIsActive())
-        {
-            telem.addData("right", launcherRight.getCurrentPosition());
-            telem.addData("left", launcherLeft.getCurrentPosition());
-            telem.addData("speed", (launcherLeft.getCurrentPosition() + launcherRight.getCurrentPosition())*(lastTicks)/(2*dt.seconds()));
-            telem.update();
-
-            lastTicks = (launcherLeft.getCurrentPosition() + launcherRight.getCurrentPosition())/2;
-
-            dt.reset();
-
-            sleep(1);
+        while(opModeIsActive()){
+            launcherLeft.setPower(1);
+            launcherRight.setPower(1);
         }
 
     }
-
 }

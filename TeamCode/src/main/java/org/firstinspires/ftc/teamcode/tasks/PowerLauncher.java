@@ -16,15 +16,15 @@ public class PowerLauncher extends Task{
     double lastIntegral;
     double lastProportional;
 
-    public static double p;
-    public static double i;
-    public static double d;
+    public static double p = 1;
+    public static double i = 0;
+    public static double d = 0;
 
     ElapsedTime dt;
     ElapsedTime t;
 
     enum State {
-        INITONE,
+        INIT,
         INITTWO,
         GO,
         STOP
@@ -36,13 +36,15 @@ public class PowerLauncher extends Task{
         this.launcher = launcher;
         this.speed = speed;
 
-        state = State.INITONE;
+        state = State.INIT;
+        dt = new ElapsedTime();
+        t = new ElapsedTime();
     }
 
     @Override
     public boolean run() {
         switch(state){
-            case INITONE: initOne(); break;
+            case INIT: initOne(); break;
             case INITTWO: initTwo(); break;
             case GO: go(); break;
         }

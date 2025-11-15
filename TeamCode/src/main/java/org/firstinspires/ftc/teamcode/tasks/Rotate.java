@@ -24,8 +24,8 @@ public class Rotate extends Task{
     public static int tolerance = 15;
 
     enum State {
-        RESETIMU,
         INIT,
+        INITTWO,
         MOVE,
         STOP,
         DONE
@@ -39,14 +39,14 @@ public class Rotate extends Task{
         this.speed = speed;
         this.degrees = degrees;
 
-        state = State.RESETIMU;
+        state = State.INIT;
     }
 
     @Override
     public boolean run() {
         switch(state) {
-            case RESETIMU: resetImu(); break;
-            case INIT: init(); break;
+            case INIT: resetImu(); break;
+            case INITTWO: init(); break;
             case MOVE: move(); break;
             case STOP: stop(); break;
         }
@@ -64,7 +64,7 @@ public class Rotate extends Task{
         // Reset the imu
         sensors.imu.resetYaw();
 
-        state = State.INIT;
+        state = State.INITTWO;
     }
 
     void init() {

@@ -18,7 +18,7 @@ public class Launcher {
     public DcMotor ramp;
 
     //Direction of each motor, dashboard configurable
-    public static boolean rForward = false;
+    public static boolean rForward = true;
     public static boolean lForward = true;
     public static boolean rampForward = true;
 

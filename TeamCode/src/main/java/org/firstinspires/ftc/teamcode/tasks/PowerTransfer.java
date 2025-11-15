@@ -24,7 +24,7 @@ public class PowerTransfer extends Task{
     ElapsedTime t;
 
     enum State {
-        INITONE,
+        INIT,
         INITTWO,
         GO,
         STOP
@@ -36,13 +36,13 @@ public class PowerTransfer extends Task{
         this.launcher = launcher;
         this.speed = speed;
 
-        state = State.INITONE;
+        state = State.INIT;
     }
 
     @Override
     public boolean run() {
         switch(state){
-            case INITONE: initOne(); break;
+            case INIT: initOne(); break;
             case INITTWO: initTwo(); break;
             case GO: go(); break;
         }
