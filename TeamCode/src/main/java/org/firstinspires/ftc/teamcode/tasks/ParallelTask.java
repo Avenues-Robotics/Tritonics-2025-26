@@ -10,6 +10,9 @@ public class ParallelTask extends Task{
     Task taskOne;
     Task taskTwo;
 
+    boolean ahh;
+    boolean aah;
+
     public ParallelTask(Task taskOne, Task taskTwo) {
         this.taskOne = taskOne;
         this.taskTwo = taskTwo;
@@ -17,6 +20,8 @@ public class ParallelTask extends Task{
 
     @Override
     public boolean run() {
-        return taskOne.run() && taskTwo.run();
+        ahh = taskOne.run();
+        aah = taskTwo.run();
+        return ahh && aah;
     }
 }

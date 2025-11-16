@@ -16,7 +16,7 @@ public class Intake {
 
         thwacker = opMode.hardwareMap.get(Servo.class, "thwacker");
 
-        if(motorForward){motor.setDirection(DcMotor.Direction.FORWARD);}
+        if(motorForward){motor.setDirection(DcMotor.Direction.REVERSE);}
 
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }

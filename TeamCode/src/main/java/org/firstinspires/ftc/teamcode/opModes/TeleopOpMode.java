@@ -39,7 +39,7 @@ public class TeleopOpMode extends LinearOpMode {
         sensors = new Sensors(this);
         intake = new Intake(this);
         powerIntake = new TeleopTask(new PowerIntake(intake, 1), () -> gamepad1.dpad_down, false);
-        powerTransfer =  new TeleopTask(new PowerTransfer(launcher, 1), () -> gamepad1.dpad_right, false);
+        powerTransfer =  new TeleopTask(new PowerTransfer(launcher, 1), () -> gamepad1.dpad_left, false);
         powerLauncher = new TeleopTask(new PowerLauncher(launcher, 1), () -> gamepad1.dpad_up, false);
 
         drive = new DriveTeleop(driveTrain, this);
