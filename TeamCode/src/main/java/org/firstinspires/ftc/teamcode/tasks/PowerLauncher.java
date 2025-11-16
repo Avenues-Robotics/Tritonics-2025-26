@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.hardware.Launcher;
 public class PowerLauncher extends Task{
 
     Launcher launcher;
-    int speed;
+    double speed;
 
     double derivative;
     double proportional;
@@ -32,7 +32,7 @@ public class PowerLauncher extends Task{
 
     State state;
 
-    public PowerLauncher(Launcher launcher, int speed) {
+    public PowerLauncher(Launcher launcher, double speed) {
         this.launcher = launcher;
         this.speed = speed;
 
@@ -43,12 +43,19 @@ public class PowerLauncher extends Task{
 
     @Override
     public boolean run() {
-        switch(state){
-            case INIT: initOne(); break;
-            case INITTWO: initTwo(); break;
-            case GO: go(); break;
+//        switch(state){
+//            case INIT: initOne(); break;
+//            case INITTWO: initTwo(); break;
+//            case GO: go(); break;
+//        }
+        if(launcher.R.getPower() == 0){
+            launcher.R.setPower(1);
+            launcher.L.setPower(1);
+        } else {
+            launcher.R.setPower(0);
+            launcher.L.setPower(0);
         }
-        return false;
+        return true;
     }
 
     @Override

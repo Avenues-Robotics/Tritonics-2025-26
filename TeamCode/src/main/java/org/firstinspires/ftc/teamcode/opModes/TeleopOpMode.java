@@ -4,12 +4,15 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
+import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Launcher;
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
 import org.firstinspires.ftc.teamcode.tasks.Drive;
 import org.firstinspires.ftc.teamcode.tasks.DriveTeleop;
 import org.firstinspires.ftc.teamcode.tasks.ParallelTask;
+import org.firstinspires.ftc.teamcode.tasks.PowerIntake;
 import org.firstinspires.ftc.teamcode.tasks.PowerLauncher;
+import org.firstinspires.ftc.teamcode.tasks.PowerTransfer;
 import org.firstinspires.ftc.teamcode.tasks.Task;
 import org.firstinspires.ftc.teamcode.tasks.TeleopTask;
 
@@ -17,15 +20,14 @@ import org.firstinspires.ftc.teamcode.tasks.TeleopTask;
 public class TeleopOpMode extends LinearOpMode {
 
     DriveTrain driveTrain;
-
-    DriveTeleop driveTeleop;
-
-    PowerLauncher powerLauncher;
-
-    TeleopTask teleopTask;
-
     Launcher launcher;
     Sensors sensors;
+    Intake intake;
+
+    Task powerIntake;
+    Task powerTransfer;
+    Task powerLauncher;
+    Task drive;
 
     Task teleop;
 
@@ -35,17 +37,19 @@ public class TeleopOpMode extends LinearOpMode {
         driveTrain = new DriveTrain(this);
         launcher = new Launcher(this);
         sensors = new Sensors(this);
+        intake = new Intake(this);
+        powerIntake = new TeleopTask(new PowerIntake(intake, 1), () -> gamepad1.dpad_down, false);
+        powerTransfer =  new TeleopTask(new PowerTransfer(launcher, 1), () -> gamepad1.dpad_right, false);
+        powerLauncher = new TeleopTask(new PowerLauncher(launcher, 1), () -> gamepad1.dpad_up, false);
 
-        powerLauncher = new PowerLauncher(launcher, 5000);
-        teleopTask = new TeleopTask(powerLauncher, () -> gamepad1.dpad_left, true);
+        drive = new DriveTeleop(driveTrain, this);
 
-        driveTeleop = new DriveTeleop(driveTrain, this);
+        teleop = new ParallelTask(new ParallelTask(powerIntake, powerTransfer), new ParallelTask(powerLauncher, drive));
 
         waitForStart();
 
         while (opModeIsActive()) {
-            driveTeleop.run();
-            teleopTask.run();
+            teleop.run();
         }
     }
 }

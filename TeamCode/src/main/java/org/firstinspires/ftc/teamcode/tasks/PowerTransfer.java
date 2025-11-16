@@ -41,10 +41,15 @@ public class PowerTransfer extends Task{
 
     @Override
     public boolean run() {
-        switch(state){
-            case INIT: initOne(); break;
-            case INITTWO: initTwo(); break;
-            case GO: go(); break;
+//        switch(state){
+//            case INIT: initOne(); break;
+//            case INITTWO: initTwo(); break;
+//            case GO: go(); break;
+//        }
+        if(launcher.ramp.getPower() == 0){
+            launcher.ramp.setPower(1);
+        } else {
+            launcher.ramp.setPower(0);
         }
         return false;
     }

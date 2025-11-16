@@ -27,34 +27,14 @@ public class TeleopTask extends Task{
 
     @Override
     public boolean run() {
-
-        switch(state){
-            case STATIC:
-                if(button.getAsBoolean()){
-                    state = State.STARTING;
-                }
-                break;
-            case STARTING:
-                task.run();
-                if(!button.getAsBoolean()) {
-                    state = State.RUNNING;
-                }
-            case RUNNING:
-                if(task.run()){
-                    state = State.STATIC;
-                    task.reset();
-                }
-                if(button.getAsBoolean() && toggle) {
-                    state = State.SHUTTINGDOWN;
-                    task.reset();
-                }
-                break;
-            case SHUTTINGDOWN:
-                if(!button.getAsBoolean()) {
-                    state = State.STATIC;
-                }
+        if(button.getAsBoolean() && state == State.STATIC){
+            task.run();
+            state = State.RUNNING;
         }
 
+        if(!button.getAsBoolean()) {
+            state = State.STATIC;
+        }
         return false;
     }
 
