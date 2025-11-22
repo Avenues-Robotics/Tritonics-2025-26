@@ -22,7 +22,7 @@ If you are an Android Studio programmer, there are several ways to download this
 
 * If you are a git user, you can clone the most current version of the repository:
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;git clone https://github.com/FIRST-Tech-Challenge/FtcRobotController.git</p>
+<pCoeff>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;git clone https://github.com/FIRST-Tech-Challenge/FtcRobotController.git</pCoeff>
 
 * Or, if you prefer, you can use the "Download Zip" button available through the main repository page.  Downloading the project as a .ZIP file will keep the size of the download manageable.
 
@@ -552,7 +552,7 @@ This is a bug fix only release to address the following four issues.
 * Adds `opModeInInit()` method to `LinearOpMode` to facilitate init-loops. Similar to `opModeIsActive()` but for the init phase.
 * Warns user if they have a Logitech F310 gamepad connected that is set to DirectInput mode.
 * Allows SPARKmini motor controllers to react more quickly to speed changes.
-* Hides the version number of incorrectly installed sister app (i.e. DS installed on RC device or vice-versa) on inspection screen.
+* Hides the version number of incorrectly installed sister app (iCoeff.e. DS installed on RC device or vice-versa) on inspection screen.
 * Adds support for allowing the user to edit the comment for the runOpMode block.
 * Adds parameterDefaultValues field to @ExportToBlocks. This provides the ability for a java method with an @ExportToBlocks annotation to specify default values for method parameters when it is shown in the block editor.
 * Make LinearOpMode blocks more readable. The opmode name is displayed on the runOpMode block, but not on the other LinearOpMode blocks.
@@ -715,14 +715,14 @@ This is a bug fix only release to address the following four issues.
 * Adds support in UVC driver for virtual PTZ control
 * Adds support in UVC driver for gain (ISO) control
 * Adds support in UVC driver for enabling/disable AE priority. This setting provides a means to tell the camera firmware either
-    * A) It can undershoot the requested frame rate in order to provide a theoretically better image (i.e. with a longer exposure than the inter-frame period of the selected frame rate allows)
+    * A) It can undershoot the requested frame rate in order to provide a theoretically better image (iCoeff.e. with a longer exposure than the inter-frame period of the selected frame rate allows)
     * B) It *must* meet the inter-frame deadline for the selected frame rate, even if the image may be underexposed as a result
 * Adds support for the Control Hub OS 1.1.2 Robot Controller watchdog
     * The Robot Controller app will be restarted if it stops responding for more than 10 seconds
 * Adds support for using the Driver Station app on Android 10+
 * Introduces an automatic TeleOp preselection feature
     * For details and usage guide, please see [this wiki entry](https://github.com/FIRST-Tech-Challenge/FtcRobotController/wiki/Automatically-Loading-a-Driver-Controlled-Op-Mode)
-* Shows icon next to OpMode name in the OpMode list dropdown on the Driver Station to indicate the source of the OpMode (i.e. the programming tool used to create it)
+* Shows icon next to OpMode name in the OpMode list dropdown on the Driver Station to indicate the source of the OpMode (iCoeff.e. the programming tool used to create it)
 * Fixes issue where the Driver Station app would exit after displaying the Configuring Wi-Fi Direct screen
 * Fixes Blocks and OnBotJava prompts when accessed via the REV Hardware Client
 
@@ -1172,7 +1172,7 @@ Known issues:
  * Wireless
     - When user selects a wireless channel, this channel does not necessarily persist if the phone is power cycled.
         + Tech Team is hoping to eventually address this issue in a future release.
-	+ Issue has been present since apps were introduced (i.e., it is not new with the v4.0 release).
+	+ Issue has been present since apps were introduced (iCoeff.e., it is not new with the v4.0 release).
     - Wireless channel is not currently displayed for Wi-Fi Direct connections.
 
  * Miscellaneous
@@ -1315,7 +1315,7 @@ This software is being released as an "alpha" version.  Use this version at your
 
 This pre-release software contains SIGNIFICANT changes, including changes to the Wi-Fi Direct pairing mechanism, rewrites of the I2C sensor classes, changes to the USB/FTDI layer, and the introduction of support for the REV Robotics Expansion Hub and the REV Robotics color-range-light sensor.  These changes were implemented to improve the reliability and resiliency of the FTC control system.
 
-Please note, however, that version 3.00 is considered "alpha" code.  This code is being released so that the FIRST community will have an opportunity to test the new REV Expansion Hub electronics module when it becomes available in May.  The developers do not recommend using this code for critical applications (i.e., competition use).
+Please note, however, that version 3.00 is considered "alpha" code.  This code is being released so that the FIRST community will have an opportunity to test the new REV Expansion Hub electronics module when it becomes available in May.  The developers do not recommend using this code for critical applications (iCoeff.e., competition use).
 
 *** Use this version of the software at YOUR OWN RISK!!! ***
 
@@ -1674,7 +1674,7 @@ Changes include:
  * An init() method is added to the OpMode class.
    - For this release, init() is triggered right before the start() method.
    - Eventually, the init() method will be triggered when the user presses an "INIT" button on driver station.
-   - The init() and loop() methods are now required (i.e., need to be overridden in the user's OpMode).
+   - The init() and loop() methods are now required (iCoeff.e., need to be overridden in the user's OpMode).
    - The start() and stop() methods are optional.
  * A new LinearOpMode class is introduced.
    - Teams can use the LinearOpMode mode to create a linear (not event driven) program model.
