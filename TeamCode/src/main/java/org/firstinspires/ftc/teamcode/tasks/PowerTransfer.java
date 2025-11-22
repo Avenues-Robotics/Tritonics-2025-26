@@ -47,7 +47,7 @@ public class PowerTransfer extends Task{
 //            case GO: go(); break;
 //        }
         if(launcher.ramp.getPower() == 0){
-            launcher.ramp.setPower(1);
+            launcher.ramp.setPower(speed);
         } else {
             launcher.ramp.setPower(0);
         }

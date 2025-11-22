@@ -30,8 +30,8 @@ public class AutoOpMode extends LinearOpMode {
     // and another line inside runOpMode()
     // -Mr. Carpenter
     
-    public static double ASpeed = 0.8;
-    public static double ADist = 120;
+    public static double ASpeed = 0.5;
+    public static double ADist = 50;
     public static double ADeg = 0;
     Drive ADrive;
 
@@ -111,7 +111,7 @@ public class AutoOpMode extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive()) {
-            auto.run();
+            ADrive.run();
         }
     }
 }

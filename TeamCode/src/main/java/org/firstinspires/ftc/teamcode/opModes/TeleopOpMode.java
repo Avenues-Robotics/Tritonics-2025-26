@@ -28,6 +28,9 @@ public class TeleopOpMode extends LinearOpMode {
     Task powerTransfer;
     Task powerLauncher;
     Task drive;
+    Task reverseLauncher;
+    Task reverseTransfer;
+    Task reverseIntake;
 
     Task teleop;
 
@@ -38,13 +41,16 @@ public class TeleopOpMode extends LinearOpMode {
         launcher = new Launcher(this);
         sensors = new Sensors(this);
         intake = new Intake(this);
-        powerIntake = new TeleopTask(new PowerIntake(intake, 1), () -> gamepad1.dpad_down, false);
-        powerTransfer =  new TeleopTask(new PowerTransfer(launcher, 1), () -> gamepad1.dpad_left, false);
-        powerLauncher = new TeleopTask(new PowerLauncher(launcher, 1), () -> gamepad1.dpad_up, false);
+        powerIntake = new TeleopTask(new PowerIntake(intake, 1), () -> gamepad1.right_bumper, false);
+        powerTransfer =  new TeleopTask(new PowerTransfer(launcher, 1), () -> gamepad1.left_bumper, false);
+        powerLauncher = new TeleopTask(new PowerLauncher(launcher, 1), () -> gamepad1.left_trigger > 0.2, false);
+        reverseLauncher = new TeleopTask(new PowerLauncher(launcher, -1), () -> gamepad1.dpad_down, false);
+        reverseTransfer = new TeleopTask(new PowerTransfer(launcher, -1), () -> gamepad1.a, false);
+        reverseIntake = new TeleopTask(new PowerIntake(intake, -1), () -> gamepad1.right_trigger > 0.2, false);
 
         drive = new DriveTeleop(driveTrain, this);
 
-        teleop = new ParallelTask(new ParallelTask(powerIntake, powerTransfer), new ParallelTask(powerLauncher, drive));
+        teleop = new ParallelTask (new ParallelTask(new ParallelTask(new ParallelTask(powerIntake, powerTransfer), new ParallelTask(powerLauncher, drive)), new ParallelTask(reverseLauncher, reverseTransfer)), reverseIntake);
 
         waitForStart();
 

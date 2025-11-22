@@ -49,8 +49,8 @@ public class PowerLauncher extends Task{
 //            case GO: go(); break;
 //        }
         if(launcher.R.getPower() == 0){
-            launcher.R.setPower(1);
-            launcher.L.setPower(1);
+            launcher.R.setPower(speed);
+            launcher.L.setPower(speed);
         } else {
             launcher.R.setPower(0);
             launcher.L.setPower(0);

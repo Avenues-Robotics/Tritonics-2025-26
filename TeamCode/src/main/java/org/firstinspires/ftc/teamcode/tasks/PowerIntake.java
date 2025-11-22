@@ -48,7 +48,7 @@ public class PowerIntake extends Task{
 //            case GO: go(); break;
 //        }
         if(intake.motor.getPower() == 0){
-            intake.motor.setPower(1);
+            intake.motor.setPower(speed);
         } else {
             intake.motor.setPower(0);
         }
