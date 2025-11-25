@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.tasks;
 
 public class LauncherAutoTracking {
-    double DO_y = 1.04
+    double DO_y = 1.04 //measured in meters
     double DX = Math.sqrt(Math.pow(G_xo,2)+Math.pow(G_yo,2));
     double V_g = V_gx(Math.cos(theta-90)-V_gy(Math.sin(theta-90)));
     double t_o = Math.sqrt((2*DO_xo(DY*DO_xo-DO_y*DX))/(9.8*DX(DX-DO_xo)));
