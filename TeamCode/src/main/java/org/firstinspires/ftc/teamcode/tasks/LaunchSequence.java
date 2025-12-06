@@ -36,10 +36,21 @@ public class LaunchSequence extends SeriesTask {
     VelPID velPID;
 
     public LaunchSequence(Intake intake, Launcher launcher, double speed, Telemetry telem) {
+//        super(
+//            new ParallelTask(new PowerLauncher(launcher, speed, telem),
+//                    new SeriesTask(new Timer(2000), new ParallelTask(new PowerIntake(intake, 0.5), new PowerTransfer(launcher, -1)))),
+//            new SeriesTask(new RotateServo(rightServoUp, intake.right), new SeriesTask(new Timer(servoWait), new SeriesTask(new RotateServo(leftServoUp, intake.left), new SeriesTask(new Timer(servoWait),
+//                    new ParallelTask(new EndTask(new PowerLauncher(launcher, speed, telem)), new ParallelTask(new EndTask(new PowerIntake(intake, 0.5)), new EndTask(new PowerTransfer(launcher, -1))))))))
+//        );
         super(
-            new ParallelTask(new PowerLauncher(launcher, speed, telem), new ParallelTask(new PowerIntake(intake, 0.5), new PowerTransfer(launcher, -1))),
-            new SeriesTask(new RotateServo(rightServoUp, intake.right), new SeriesTask(new Timer(servoWait), new SeriesTask(new RotateServo(leftServoUp, intake.left), new SeriesTask(new Timer(servoWait),
-                    new ParallelTask(new EndTask(new PowerLauncher(launcher, speed, telem)), new ParallelTask(new EndTask(new PowerIntake(intake, 0.5)), new EndTask(new PowerTransfer(launcher, -1))))))))
+                new ParallelRaceTask(new PowerLauncher(launcher, speed, telem),
+                        new SeriesTask(new Timer(2000), new SeriesTask(
+                                new ParallelTask(new PowerIntake(intake, 0.5), new PowerTransfer(launcher, -1)), new SeriesTask(
+                                        new RotateServo(rightServoUp, intake.right), new SeriesTask(new Timer(servoWait),
+                                new SeriesTask(new RotateServo(leftServoUp, intake.left), new Timer(servoWait)))
+                        )
+                        ))),
+                new ParallelTask(new ParallelTask(new EndTask(new PowerLauncher(launcher, speed, telem)), new EndTask(new PowerIntake(intake, 0.5))), new ParallelTask(new ParallelTask(new EndTask(new PowerTransfer(launcher, -1)), new RotateServo(rightServoDown, intake.right)), new RotateServo(leftServoDown, intake.left)))
         );
 //        this.launcher = launcher;
 //        this.intake = intake;
