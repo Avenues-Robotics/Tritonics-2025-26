@@ -7,14 +7,16 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Intake {
     public DcMotor motor;
 
-    public static boolean motorForward = true;
+    public Servo right;
+    public Servo left;
 
-    public Servo thwacker;
+    public static boolean motorForward = true;
 
     public Intake(LinearOpMode opMode){
         motor = opMode.hardwareMap.get(DcMotor.class, "intakeMotor");
 
-        thwacker = opMode.hardwareMap.get(Servo.class, "thwacker");
+        right = opMode.hardwareMap.get(Servo.class, "intakeRight");
+        left = opMode.hardwareMap.get(Servo.class, "intakeLeft");
 
         if(motorForward){motor.setDirection(DcMotor.Direction.REVERSE);}
 

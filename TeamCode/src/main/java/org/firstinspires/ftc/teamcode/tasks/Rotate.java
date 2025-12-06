@@ -21,6 +21,8 @@ public class Rotate extends Task{
 
     int ticks;
 
+    int i;
+
     public static int tolerance = 15;
 
     enum State {
@@ -40,6 +42,8 @@ public class Rotate extends Task{
         this.degrees = degrees;
 
         state = State.INIT;
+
+        i = 0;
     }
 
     @Override
@@ -50,6 +54,7 @@ public class Rotate extends Task{
             case MOVE: move(); break;
             case STOP: stop(); break;
         }
+        driveTrain.telem.addData("tuthificationiness", state);
         return state == State.DONE;
     }
 
@@ -93,9 +98,9 @@ public class Rotate extends Task{
 
         // make the motors run at the given speed
         driveTrain.FR.setPower(-speed);
-        driveTrain.FL.setPower(-speed);
+        driveTrain.FL.setPower(speed);
         driveTrain.BR.setPower(-speed);
-        driveTrain.BL.setPower(-speed);
+        driveTrain.BL.setPower(speed);
 
         state = State.MOVE;
     }
@@ -103,7 +108,10 @@ public class Rotate extends Task{
         // Update the telem data
         driveTrain.telem.addData("Running to", "Left " + ticks + " | Right: " + -ticks);
         driveTrain.telem.addData("Current pos", "Front Right: " + driveTrain.FR.getCurrentPosition() + " | Front Left: " + driveTrain.FL.getCurrentPosition() + " | Back Right: " + driveTrain.BR.getCurrentPosition() + " | Back Left: " + driveTrain.BL.getCurrentPosition());
+        driveTrain.telem.addData("i", i);
         driveTrain.telem.update();
+
+        i++;
 
         if(Math.abs(driveTrain.FR.getTargetPosition()-driveTrain.FR.getCurrentPosition()) <= tolerance &&
                 Math.abs(driveTrain.FL.getTargetPosition()-driveTrain.FL.getCurrentPosition()) <= tolerance) {

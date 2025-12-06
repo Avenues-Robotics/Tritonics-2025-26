@@ -85,6 +85,7 @@ public class Drive extends Task{
             case CORRECT: correct(); break;
             case FINISH: finish(); break;
         }
+        driveTrain.telem.addData("truthiness", state);
         return state == State.DONE;
     }
 

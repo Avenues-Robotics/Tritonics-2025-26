@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.utilities;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import java.util.function.IntSupplier;
 
 public class VelPID {
@@ -9,6 +11,7 @@ public class VelPID {
     double pCoeff;
     double iCoeff;
     double dCoeff;
+    double fCoeff;
 
     IntSupplier globalPos;
     IntSupplier pos;
@@ -25,15 +28,20 @@ public class VelPID {
 
     int initPos;
 
-    public VelPID(double pCoeff, double iCoeff, double dCoeff, IntSupplier pos){
+    Telemetry telem;
+
+    public VelPID(double pCoeff, double iCoeff, double dCoeff, double fCoeff, IntSupplier pos, Telemetry telem){
         this.pCoeff = pCoeff;
         this.iCoeff = iCoeff;
         this.dCoeff = dCoeff;
+        this.fCoeff = fCoeff;
 
         this.globalPos = pos;
 
         t = new ElapsedTime();
         dt = new ElapsedTime();
+
+        this.telem = telem;
     }
 
     //vel is in ticks/millisecond
@@ -59,6 +67,7 @@ public class VelPID {
         dt.reset();
         iLast = i;
         pLast = p;
-        return p*pCoeff+i*iCoeff+d*dCoeff;
+        telem.addData("Speed:", p);
+        return p*pCoeff+i*iCoeff+d*dCoeff+fCoeff;
     }
 }

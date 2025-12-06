@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
 import org.firstinspires.ftc.teamcode.tasks.Drive;
 import org.firstinspires.ftc.teamcode.tasks.ParallelRaceTask;
+import org.firstinspires.ftc.teamcode.tasks.Rotate;
 import org.firstinspires.ftc.teamcode.tasks.SeriesTask;
 import org.firstinspires.ftc.teamcode.tasks.Task;
 import org.firstinspires.ftc.teamcode.tasks.Timer;
@@ -23,15 +24,15 @@ public class AutoOpMode extends LinearOpMode {
     // DriveSegment(speed, distance, angle)
     // and then define these inside of an array like
     // DriveSegment[] segments
-    // Then when you run this you can just loop through the 
+    // Then when you run this you can just loop through the
     // array using for (DriveSegment s : segments){}
-    // This has the advantage of being able to add new segments 
+    // This has the advantage of being able to add new segments
     // in one place with one line of code, rather than adding 4 lines up here
     // and another line inside runOpMode()
     // -Mr. Carpenter
-    
+
     public static double ASpeed = 0.5;
-    public static double ADist = 50;
+    public static double ADist = 150;
     public static double ADeg = 0;
     Drive ADrive;
 
@@ -111,7 +112,7 @@ public class AutoOpMode extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive()) {
-            ADrive.run();
+            auto.run();
         }
     }
 }

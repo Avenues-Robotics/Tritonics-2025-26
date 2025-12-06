@@ -27,7 +27,7 @@ public class test extends LinearOpMode {
         launcherRight = hardwareMap.get(DcMotor.class, "launcherR");
 
         launcherLeft.setDirection(DcMotor.Direction.REVERSE);
-        launcherRight.setDirection(DcMotor.Direction.REVERSE);
+        launcherRight.setDirection(DcMotor.Direction.FORWARD);
 
         waitForStart();
 

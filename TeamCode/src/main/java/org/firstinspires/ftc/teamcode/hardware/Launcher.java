@@ -4,10 +4,12 @@ package org.firstinspires.ftc.teamcode.hardware;
  * Manages launcher hardware including motors and servos
  */
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+@Config
 public class Launcher {
 
     //The two motors driving the launcher
@@ -19,7 +21,7 @@ public class Launcher {
 
     //Direction of each motor, dashboard configurable
     public static boolean rForward = true;
-    public static boolean lForward = true;
+    public static boolean lForward = false;
     public static boolean rampForward = true;
 
     //The servos angling the launcher

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opModes;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -43,8 +44,8 @@ public class TeleopOpMode extends LinearOpMode {
         intake = new Intake(this);
         powerIntake = new TeleopTask(new PowerIntake(intake, 1), () -> gamepad1.right_bumper, false);
         powerTransfer =  new TeleopTask(new PowerTransfer(launcher, 1), () -> gamepad1.left_bumper, false);
-        powerLauncher = new TeleopTask(new PowerLauncher(launcher, 1), () -> gamepad1.left_trigger > 0.2, false);
-        reverseLauncher = new TeleopTask(new PowerLauncher(launcher, -1), () -> gamepad1.dpad_down, false);
+        powerLauncher = new TeleopTask(new PowerLauncher(launcher, 1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.left_trigger > 0.2, false);
+        reverseLauncher = new TeleopTask(new PowerLauncher(launcher, -1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.dpad_down, false);
         reverseTransfer = new TeleopTask(new PowerTransfer(launcher, -1), () -> gamepad1.a, false);
         reverseIntake = new TeleopTask(new PowerIntake(intake, -1), () -> gamepad1.right_trigger > 0.2, false);
 

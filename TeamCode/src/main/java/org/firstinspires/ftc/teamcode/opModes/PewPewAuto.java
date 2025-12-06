@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opModes;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -15,6 +17,7 @@ import org.firstinspires.ftc.teamcode.tasks.SeriesTask;
 import org.firstinspires.ftc.teamcode.tasks.Task;
 import org.firstinspires.ftc.teamcode.tasks.Timer;
 
+@Config
 @Autonomous()
 public class PewPewAuto extends LinearOpMode {
 
@@ -32,6 +35,8 @@ public class PewPewAuto extends LinearOpMode {
 
     Task auto;
 
+    public static double speed = 1.65;
+
     @Override
     public void runOpMode() {
 
@@ -40,14 +45,12 @@ public class PewPewAuto extends LinearOpMode {
         launcher = new Launcher(this);
         intake = new Intake(this);
 
-        drive = new Drive(driveTrain, sensors, 1, 50, 0);
-        powerLauncher = new PowerLauncher(launcher, 1);
-        powerIntake = new PowerIntake(intake, 1);
-        powerTransfer = new PowerTransfer(launcher, 1);
+        drive = new Drive(driveTrain, sensors, 0, 0, 0);
+        powerLauncher = new PowerLauncher(launcher, speed, FtcDashboard.getInstance().getTelemetry());
 
         timer = new Timer(1000);
 
-        auto = new SeriesTask(drive, new SeriesTask(powerLauncher, new SeriesTask(powerIntake, new SeriesTask(new Task(), powerTransfer))));
+        auto = new SeriesTask(drive, powerLauncher);
 
         waitForStart();
 
