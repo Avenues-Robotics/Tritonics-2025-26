@@ -35,6 +35,8 @@ public class TeleopOpMode extends LinearOpMode {
     Task reverseTransfer;
     Task reverseIntake;
     Task launchSequenceClose;
+    Task launchSequenceMiddle;
+    Task launchSequenceFar;
 
     Task teleop;
 
@@ -54,6 +56,8 @@ public class TeleopOpMode extends LinearOpMode {
 
         // Three launch sequences for different distances
         launchSequenceClose = new TeleopTask(new LaunchSequence(intake, launcher,1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.dpad_up);
+        launchSequenceMiddle = new TeleopTask(new LaunchSequence(intake, launcher, 1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.dpad_left);
+        launchSequenceFar = new TeleopTask(new LaunchSequence(intake, launcher, 1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.dpad_down);
 
         drive = new DriveTeleop(driveTrain, this);
 
@@ -65,7 +69,13 @@ public class TeleopOpMode extends LinearOpMode {
                         ),
                         new ParallelTask(reverseLauncher, reverseTransfer)
                 ),
-                launchSequenceClose
+                new ParallelTask(
+                        launchSequenceClose,
+                        new ParallelTask(
+                                launchSequenceMiddle,
+                                launchSequenceFar
+                        )
+                )
         );
 
         waitForStart();

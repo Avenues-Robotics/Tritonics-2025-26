@@ -37,7 +37,7 @@ public class TeleopTask extends Task{
         }
 
         if(toggled) {
-            task.run();
+            toggled = !task.run();
         }
 
         prevButton = currButton;
