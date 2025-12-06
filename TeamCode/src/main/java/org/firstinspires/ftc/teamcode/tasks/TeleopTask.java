@@ -6,7 +6,10 @@ public class TeleopTask extends Task{
 
     Task task;
     BooleanSupplier button;
-    boolean toggle;
+    boolean toggled;
+
+    boolean currButton;
+    boolean prevButton;
 
     enum State {
         RUNNING,
@@ -17,24 +20,27 @@ public class TeleopTask extends Task{
 
     State state;
 
-    public TeleopTask(Task task, BooleanSupplier button, boolean toggle) {
+    public TeleopTask(Task task, BooleanSupplier button) {
         this.task = task;
         this.button = button;
-        this.toggle = toggle;
 
+        toggled = false;
         state = State.STATIC;
     }
 
     @Override
     public boolean run() {
-        if(button.getAsBoolean() && state == State.STATIC){
-            task.run();
-            state = State.RUNNING;
+        currButton = button.getAsBoolean();
+
+        if(currButton && !prevButton){
+            toggled = !toggled;
         }
 
-        if(!button.getAsBoolean()) {
-            state = State.STATIC;
+        if(toggled) {
+            task.run();
         }
+
+        prevButton = currButton;
         return false;
     }
 

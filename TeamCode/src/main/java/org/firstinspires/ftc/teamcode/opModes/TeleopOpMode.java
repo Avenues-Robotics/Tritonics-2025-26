@@ -45,15 +45,15 @@ public class TeleopOpMode extends LinearOpMode {
         launcher = new Launcher(this);
         sensors = new Sensors(this);
         intake = new Intake(this);
-        powerIntake = new TeleopTask(new PowerIntake(intake, 1), () -> gamepad1.right_bumper, false);
-        powerTransfer =  new TeleopTask(new PowerTransfer(launcher, 1), () -> gamepad1.left_bumper, false);
-        powerLauncher = new TeleopTask(new PowerLauncher(launcher, 1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.left_trigger > 0.2, false);
-        reverseLauncher = new TeleopTask(new PowerLauncher(launcher, -1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.a, false);
-        reverseTransfer = new TeleopTask(new PowerTransfer(launcher, -1), () -> gamepad1.a, false);
-        reverseIntake = new TeleopTask(new PowerIntake(intake, -1), () -> gamepad1.right_trigger > 0.2, false);
+        powerIntake = new TeleopTask(new PowerIntake(intake, 1), () -> gamepad1.right_bumper);
+        powerTransfer =  new TeleopTask(new PowerTransfer(launcher, 1), () -> gamepad1.left_bumper);
+        powerLauncher = new TeleopTask(new PowerLauncher(launcher, 1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.left_trigger > 0.2);
+        reverseLauncher = new TeleopTask(new PowerLauncher(launcher, -1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.a);
+        reverseTransfer = new TeleopTask(new PowerTransfer(launcher, -1), () -> gamepad1.a);
+        reverseIntake = new TeleopTask(new PowerIntake(intake, -1), () -> gamepad1.right_trigger > 0.2);
 
         // Three launch sequences for different distances
-        launchSequenceClose = new TeleopTask(new LaunchSequence(intake, launcher,1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.dpad_up, false);
+        launchSequenceClose = new TeleopTask(new LaunchSequence(intake, launcher,1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.dpad_up);
 
         drive = new DriveTeleop(driveTrain, this);
 
