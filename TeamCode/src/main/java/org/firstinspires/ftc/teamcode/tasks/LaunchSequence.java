@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.tasks;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -7,7 +8,7 @@ import org.firstinspires.ftc.teamcode.hardware.Launcher;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.utilities.VelPID;
 
-
+@Config
 public class LaunchSequence extends SeriesTask {
 
     Launcher launcher;
@@ -16,11 +17,12 @@ public class LaunchSequence extends SeriesTask {
     public static double closeSpeed = 0.1;
     public static double middleSpeed = 0.1;
     public static double farSpeed = 0.1;
-    public static double rightServoUp = .5;
-    public static double rightServoDown = 0;
+    public static double rightServoUp = 1;
+    public static double rightServoDown = .75;
     public static double leftServoUp = .23;
     public static double leftServoDown = 0;
-    public static int servoWait = 1000;
+    public static int getServoWait1 = 300;
+    public static int servoWait2 = 800;
     private ElapsedTime servoWaitET = new ElapsedTime();
 
     enum State {
@@ -44,10 +46,10 @@ public class LaunchSequence extends SeriesTask {
 //        );
         super(
                 new ParallelRaceTask(new PowerLauncher(launcher, speed, telem),
-                        new SeriesTask(new Timer(2000), new SeriesTask(
-                                new ParallelTask(new PowerIntake(intake, 0.5), new PowerTransfer(launcher, -1)), new SeriesTask(
-                                        new RotateServo(rightServoUp, intake.right), new SeriesTask(new Timer(servoWait),
-                                new SeriesTask(new RotateServo(leftServoUp, intake.left), new Timer(servoWait)))
+                        new SeriesTask(new Timer(1500), new SeriesTask(
+                                new ParallelTask(new PowerIntake(intake, 0.5), new PowerTransfer(launcher, -1)), new SeriesTask(new Timer(getServoWait1),
+                                        new SeriesTask(new RotateServo(rightServoUp, intake.right), new SeriesTask(new Timer(servoWait2),
+                                                new SeriesTask(new RotateServo(leftServoUp, intake.left), new Timer(servoWait2))))
                         )
                         ))),
                 new ParallelTask(new ParallelTask(new EndTask(new PowerLauncher(launcher, speed, telem)), new EndTask(new PowerIntake(intake, 0.5))), new ParallelTask(new ParallelTask(new EndTask(new PowerTransfer(launcher, -1)), new RotateServo(rightServoDown, intake.right)), new RotateServo(leftServoDown, intake.left)))

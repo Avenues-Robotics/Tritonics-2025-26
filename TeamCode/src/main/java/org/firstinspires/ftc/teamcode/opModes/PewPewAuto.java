@@ -10,12 +10,14 @@ import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Launcher;
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
 import org.firstinspires.ftc.teamcode.tasks.Drive;
+import org.firstinspires.ftc.teamcode.tasks.ParallelTask;
 import org.firstinspires.ftc.teamcode.tasks.PowerIntake;
 import org.firstinspires.ftc.teamcode.tasks.PowerLauncher;
 import org.firstinspires.ftc.teamcode.tasks.PowerTransfer;
 import org.firstinspires.ftc.teamcode.tasks.SeriesTask;
 import org.firstinspires.ftc.teamcode.tasks.Task;
 import org.firstinspires.ftc.teamcode.tasks.Timer;
+import org.firstinspires.ftc.teamcode.tasks.RotateServo;
 
 @Config
 @Autonomous()
@@ -36,6 +38,7 @@ public class PewPewAuto extends LinearOpMode {
     Task auto;
 
     public static double speed = 1.65;
+    public static double servopos = .6;
 
     @Override
     public void runOpMode() {
@@ -47,10 +50,12 @@ public class PewPewAuto extends LinearOpMode {
 
         drive = new Drive(driveTrain, sensors, 0, 0, 0);
         powerLauncher = new PowerLauncher(launcher, speed, FtcDashboard.getInstance().getTelemetry());
+        powerTransfer = new PowerTransfer(launcher, -1);
+        //rotateServo = new RotateServo(servopos, launcher.RA);
 
         timer = new Timer(1000);
 
-        auto = new SeriesTask(drive, powerLauncher);
+        //auto = new SeriesTask(drive, new ParallelTask(powerLauncher, new ParallelTask(powerTransfer, rotateServo.run());
 
         waitForStart();
 

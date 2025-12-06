@@ -53,7 +53,7 @@ public class TeleopOpMode extends LinearOpMode {
         reverseIntake = new TeleopTask(new PowerIntake(intake, -1), () -> gamepad1.right_trigger > 0.2);
 
         // Three launch sequences for different distances
-        launchSequenceClose = new TeleopTask(new LaunchSequence(intake, launcher,1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.dpad_up);
+        launchSequenceClose = new TeleopTask(new LaunchSequence(intake, launcher,1.1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.dpad_up);
 
         drive = new DriveTeleop(driveTrain, this);
 
