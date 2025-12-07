@@ -98,6 +98,11 @@ public class Drive extends Task{
         return state == State.DONE;
     }
 
+    @Override
+    public Task reset() {
+        return new Drive(driveTrain, sensors, speed, cm, degrees, time);
+    }
+
     void init() {
         radians = degrees * PI / 180;
 

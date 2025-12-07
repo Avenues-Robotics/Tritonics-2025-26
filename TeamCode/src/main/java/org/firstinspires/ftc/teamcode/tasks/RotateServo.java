@@ -18,4 +18,9 @@ public class RotateServo extends Task{
         return true;
     }
 
+    @Override
+    public Task reset() {
+        return new RotateServo(position, servo);
+    }
+
 }

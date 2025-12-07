@@ -13,4 +13,9 @@ public class EndTask extends Task{
         return task.end();
     }
 
+    @Override
+    public Task reset() {
+        return new EndTask(task.reset());
+    }
+
 }

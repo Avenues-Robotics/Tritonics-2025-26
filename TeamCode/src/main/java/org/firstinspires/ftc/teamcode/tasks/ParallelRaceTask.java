@@ -19,4 +19,9 @@ public class ParallelRaceTask extends Task{
     public boolean run() {
         return taskOne.run() || taskTwo.run();
     }
+
+    @Override
+    public Task reset() {
+        return new ParallelRaceTask(taskOne.reset(), taskTwo.reset());
+    }
 }

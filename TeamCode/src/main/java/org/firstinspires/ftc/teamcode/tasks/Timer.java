@@ -28,6 +28,11 @@ public class Timer extends Task{
         return time.milliseconds() >= threshold;
     }
 
+    @Override
+    public Task reset() {
+        return new Timer(threshold);
+    }
+
     void init() {
         time = new ElapsedTime();
         state = State.TIMING;

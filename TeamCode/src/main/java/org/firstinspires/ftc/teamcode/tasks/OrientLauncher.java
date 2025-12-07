@@ -21,4 +21,9 @@ public class OrientLauncher extends Task{
         return true;
     }
 
+    @Override
+    public Task reset() {
+        return new OrientLauncher(launcher, RA, DEC);
+    }
+
 }

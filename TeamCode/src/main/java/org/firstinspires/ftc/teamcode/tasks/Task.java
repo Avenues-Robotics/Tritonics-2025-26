@@ -27,6 +27,8 @@ public class Task {
         return true;
     }
 
-    public void reset() { state = State.INIT; }
+    public Task reset() {
+        return new Task();
+    }
 
 }
