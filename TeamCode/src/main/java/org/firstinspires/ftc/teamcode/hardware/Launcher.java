@@ -7,14 +7,15 @@ package org.firstinspires.ftc.teamcode.hardware;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 public class Launcher {
 
     //The two motors driving the launcher
-    public DcMotor R;
-    public DcMotor L;
+    public DcMotorEx R;
+    public DcMotorEx L;
 
     //Motor driving the ramp
     public DcMotor ramp;
@@ -31,8 +32,8 @@ public class Launcher {
     //Launcher constructor, initiates launcher hardware
     public Launcher(LinearOpMode opMode) {
         //Grabs motors
-        R = opMode.hardwareMap.get(DcMotor.class, "launcherR");
-        L = opMode.hardwareMap.get(DcMotor.class, "launcherL");
+        R = opMode.hardwareMap.get(DcMotorEx.class, "launcherR");
+        L = opMode.hardwareMap.get(DcMotorEx.class, "launcherL");
         ramp = opMode.hardwareMap.get(DcMotor.class, "transfer");
 
         //Grabs servo

@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.hardware.Intake;
+import org.firstinspires.ftc.teamcode.hardware.Launcher;
 import org.firstinspires.ftc.teamcode.tasks.RotateServo;
 import org.firstinspires.ftc.teamcode.tasks.Task;
 
@@ -14,13 +15,14 @@ import org.firstinspires.ftc.teamcode.tasks.Task;
 public class testFive extends LinearOpMode {
 
     Intake intake;
+    Launcher launcher;
     Task rotateServo;
     public static double servotest = .7;
 
     @Override
     public void runOpMode() {
         intake = new Intake(this);
-        rotateServo = new RotateServo(servotest, intake.right);
+        rotateServo = new RotateServo(servotest, launcher.RA);
 
         waitForStart();
 
