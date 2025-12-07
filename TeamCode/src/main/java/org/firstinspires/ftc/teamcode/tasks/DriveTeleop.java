@@ -48,4 +48,9 @@ public class DriveTeleop extends Task{
         return false;
     }
 
+    @Override
+    public Task reset(){
+        return new DriveTeleop(driveTrain, opMode);
+    }
+
 }

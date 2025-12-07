@@ -30,6 +30,8 @@ public class PowerLauncher extends Task{
 
     VelPID velPID;
 
+    Telemetry telem;
+
     public PowerLauncher(Launcher launcher, double speed, Telemetry telem) {
         this.launcher = launcher;
         this.speed = speed;
@@ -37,6 +39,8 @@ public class PowerLauncher extends Task{
         state = State.INIT;
         dt = new ElapsedTime();
         t = new ElapsedTime();
+
+        this.telem = telem;
 
         velPID = new VelPID(p, i, d, f, () -> this.launcher.R.getCurrentPosition(), telem);
     }
@@ -57,6 +61,11 @@ public class PowerLauncher extends Task{
             stop();
         }
         return true;
+    }
+
+    @Override
+    public Task reset(){
+        return new PowerLauncher(launcher, speed, telem);
     }
 
     void initOne() {

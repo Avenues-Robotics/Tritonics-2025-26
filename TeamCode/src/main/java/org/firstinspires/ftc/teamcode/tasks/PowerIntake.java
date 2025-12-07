@@ -27,4 +27,9 @@ public class PowerIntake extends Task{
         return true;
     }
 
+    @Override
+    public Task reset() {
+        return new PowerIntake(intake, speed);
+    }
+
 }

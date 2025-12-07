@@ -58,11 +58,17 @@ public class Rotate extends Task{
         return state == State.DONE;
     }
 
+    @Override
     public boolean end() {
         if(state != State.DONE){
             stop();
         }
         return true;
+    }
+
+    @Override
+    public Task reset() {
+        return new Rotate(driveTrain, sensors, speed, degrees);
     }
 
     void resetImu() {

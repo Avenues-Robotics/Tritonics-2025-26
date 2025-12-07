@@ -24,4 +24,9 @@ public class ParallelTask extends Task{
         aah = taskTwo.run();
         return ahh && aah;
     }
+
+    @Override
+    public Task reset() {
+        return new ParallelTask(taskOne.reset(), taskTwo.reset());
+    }
 }

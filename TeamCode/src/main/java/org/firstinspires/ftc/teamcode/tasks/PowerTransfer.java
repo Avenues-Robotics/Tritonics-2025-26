@@ -26,4 +26,9 @@ public class PowerTransfer extends Task{
         return true;
     }
 
+    @Override
+    public Task reset() {
+        return new PowerTransfer(launcher, speed);
+    }
+
 }

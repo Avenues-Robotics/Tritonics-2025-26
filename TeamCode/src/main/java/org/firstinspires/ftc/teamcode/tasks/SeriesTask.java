@@ -26,4 +26,9 @@ public class SeriesTask extends Task{
         return false;
     }
 
+    @Override
+    public Task reset() {
+        return new SeriesTask(taskOne.reset(), taskTwo.reset());
+    }
+
 }
