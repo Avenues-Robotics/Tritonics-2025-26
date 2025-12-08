@@ -46,7 +46,7 @@ public class LaunchSequence extends SeriesTask {
                 new ParallelRaceTask(new PowerLauncher(launcher, speed, telem),
                         new SeriesTask(new Timer(2000), new SeriesTask(
                                 new ParallelTask(new PowerIntake(intake, 0.5), new PowerTransfer(launcher, -1)), new SeriesTask(
-                                        new RotateServo(rightServoUp, intake.right), new SeriesTask(new Timer(servoWait),
+                                        new SeriesTask(new Timer(300), new RotateServo(rightServoUp, intake.right)), new SeriesTask(new Timer(servoWait),
                                 new SeriesTask(new RotateServo(leftServoUp, intake.left), new Timer(2000)))
                         )
                         ))),

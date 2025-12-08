@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opModes;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -10,20 +11,20 @@ import org.firstinspires.ftc.teamcode.hardware.Launcher;
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
 import org.firstinspires.ftc.teamcode.tasks.Drive;
 import org.firstinspires.ftc.teamcode.tasks.LaunchSequence;
-import org.firstinspires.ftc.teamcode.tasks.ParallelTask;
 import org.firstinspires.ftc.teamcode.tasks.Rotate;
 import org.firstinspires.ftc.teamcode.tasks.RotateServo;
+import org.firstinspires.ftc.teamcode.tasks.SeriesTask;
 import org.firstinspires.ftc.teamcode.tasks.Task;
 
 @Config
-@Autonomous(name = "Tritonics Autonomous Far")
-public class AutoOpModeFar extends LinearOpMode {
+@Autonomous
+public class AutoOpModeFarBlue extends LinearOpMode {
 
     DriveTrain driveTrain;
     Sensors sensors;
     Launcher launcher;
     Intake intake;
-    LaunchSequence FarLaunch;
+    Task FarLaunch;
     RotateServo Aim;
 
     // This looks like a good opportunity to define a class like
@@ -37,8 +38,8 @@ public class AutoOpModeFar extends LinearOpMode {
     // and another line inside runOpMode()
     // -Mr. Carpenter
     public static double ServoPos = .5;
-    public static double ASpeed = 0;
-    public static double ADist = 0;
+    public static double ASpeed = 1;
+    public static double ADist = 100;
     public static double ADeg = 0;
     Drive ADrive;
 
@@ -115,13 +116,12 @@ public class AutoOpModeFar extends LinearOpMode {
         GDrive = new Drive(driveTrain, sensors, GSpeed, GDist, GDeg);
         HDrive = new Drive(driveTrain, sensors, HSpeed, HDist, HDeg);
         IDrive = new Drive(driveTrain, sensors, ISpeed, IDist, IDeg);
-        FarLaunch = new LaunchSequence(intake, launcher, 1.9, .6, telemetry);
-        Aim = new RotateServo(ServoPos, launcher.DEC);
+        FarLaunch = new SeriesTask(new SeriesTask(new RotateServo(1, launcher.RA), new RotateServo(0.67, launcher.DEC)), new LaunchSequence(intake, launcher, 1.9, FtcDashboard.getInstance().getTelemetry()));
 
         // This will be fun to figure out how to impelement using a list
         // Think recursive function...
         // - Mr. Carpenter
-        auto = new ParallelTask(FarLaunch, Aim);
+        auto = new SeriesTask(FarLaunch, ADrive);
 
         waitForStart();
 

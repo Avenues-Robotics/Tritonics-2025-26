@@ -3,24 +3,24 @@ package org.firstinspires.ftc.teamcode.opModes;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Launcher;
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
-import org.firstinspires.ftc.teamcode.tasks.Drive;
 import org.firstinspires.ftc.teamcode.tasks.DriveTeleop;
 import org.firstinspires.ftc.teamcode.tasks.LaunchSequence;
 import org.firstinspires.ftc.teamcode.tasks.ParallelTask;
 import org.firstinspires.ftc.teamcode.tasks.PowerIntake;
 import org.firstinspires.ftc.teamcode.tasks.PowerLauncher;
 import org.firstinspires.ftc.teamcode.tasks.PowerTransfer;
+import org.firstinspires.ftc.teamcode.tasks.RotateServo;
+import org.firstinspires.ftc.teamcode.tasks.SeriesTask;
 import org.firstinspires.ftc.teamcode.tasks.Task;
 import org.firstinspires.ftc.teamcode.tasks.TeleopTask;
 
-@TeleOp(name = "Tritonics Teleop")
-public class TeleopOpMode extends LinearOpMode {
+@TeleOp
+public class TeleopOpModeBlue extends LinearOpMode {
 
     DriveTrain driveTrain;
     Launcher launcher;
@@ -55,9 +55,9 @@ public class TeleopOpMode extends LinearOpMode {
         reverseIntake = new TeleopTask(new PowerIntake(intake, -1), () -> gamepad1.right_trigger > 0.2);
 
         // Three launch sequences for different distances
-        launchSequenceClose = new TeleopTask(new LaunchSequence(intake, launcher,1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.dpad_up);
-        launchSequenceMiddle = new TeleopTask(new LaunchSequence(intake, launcher, 1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.dpad_left);
-        launchSequenceFar = new TeleopTask(new LaunchSequence(intake, launcher, 1, FtcDashboard.getInstance().getTelemetry()), () -> gamepad1.dpad_down);
+        launchSequenceClose = new TeleopTask(new SeriesTask(new SeriesTask(new RotateServo(0, launcher.RA), new RotateServo(0.76, launcher.DEC)), new LaunchSequence(intake, launcher,1.1, FtcDashboard.getInstance().getTelemetry())), () -> gamepad1.dpad_up);
+        launchSequenceMiddle = new TeleopTask(new SeriesTask(new SeriesTask(new RotateServo(0.55, launcher.RA), new RotateServo(0.76, launcher.DEC)), new LaunchSequence(intake, launcher, 1.4, FtcDashboard.getInstance().getTelemetry())), () -> gamepad1.dpad_left);
+        launchSequenceFar = new TeleopTask(new SeriesTask(new SeriesTask(new RotateServo(1, launcher.RA), new RotateServo(0.67, launcher.DEC)), new LaunchSequence(intake, launcher, 1.9, FtcDashboard.getInstance().getTelemetry())), () -> gamepad1.dpad_down);
 
         drive = new DriveTeleop(driveTrain, this);
 
