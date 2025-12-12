@@ -117,7 +117,7 @@ public class AutoOpMode extends LinearOpMode {
         IDrive = new Drive(driveTrain, sensors, ISpeed, IDist, IDeg);
         CloseLaunch = new SeriesTask(new SeriesTask(new RotateServo(0, launcher.RA), new RotateServo(0.2, launcher.DEC)), new LaunchSequence(intake, launcher,1.1, FtcDashboard.getInstance().getTelemetry()));
 
-        // This will be fun to figure out how to impelement using a list
+        // This will be fun to figure out how to implement using a list
         // Think recursive function...
         // - Mr. Carpenter
         auto = new SeriesTask(ADrive,
