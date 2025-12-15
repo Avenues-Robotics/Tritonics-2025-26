@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 /*
- * Manages drive train hardware including motors and odometry wheels liyg
+ * Manages drive train hardware including motors and odometry wheels
  */
 
 import com.acmerobotics.dashboard.FtcDashboard;
