@@ -31,9 +31,9 @@ public class DriveTrain {
     public static double degToTicks = 5.4;
 
     //Three odometry wheels (Right, Left, and Horizontal respectively) and their motor slots
-    public DcMotor odomR; public static String odomRConfig = "FR";
-    public DcMotor odomL; public static String odomLConfig = "FL";
-    public DcMotor odomH; public static String odomHConfig = "BR";
+    public DcMotor odomR; public static String odomRConfig = "FR"; public static double rDistance = 938457;
+    public DcMotor odomL; public static String odomLConfig = "FL"; public static double lDistance = 393475;
+    public DcMotor odomH; public static String odomHConfig = "BR"; public static double hDistance = 584393;
 
     //Dashboard telemetry instance
     public Telemetry telem;
