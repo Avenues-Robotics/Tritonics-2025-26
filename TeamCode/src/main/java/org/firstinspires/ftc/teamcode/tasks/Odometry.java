@@ -70,12 +70,13 @@ public class Odometry extends Task{
         } catch (NullPointerException e) {
 
             odomLSpeed = 0; odomRSpeed = 0; odomHSpeed = 0;
+            driveTrain.telem.addData("odomHPrev", odomHPrev);
 
         }
 
-        omega = (odomLSpeed - odomRSpeed)/(dOne + dTwo);
-        yDot = odomRSpeed + dTwo * (odomLSpeed - odomRSpeed)/(dOne + dTwo);
-        xDot = odomHSpeed + dThree * (odomLSpeed - odomRSpeed)/(dOne + dTwo);
+        omega = -(odomLSpeed - odomRSpeed)/(dOne + dTwo);
+        yDot = -odomRSpeed + dTwo * (odomLSpeed - odomRSpeed)/(dOne + dTwo);
+        xDot = -odomHSpeed + dThree * (odomLSpeed - odomRSpeed)/(dOne + dTwo);
 
         theta = theta + omega * dt.seconds();
 

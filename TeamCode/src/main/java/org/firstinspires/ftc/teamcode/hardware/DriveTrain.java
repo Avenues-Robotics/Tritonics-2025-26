@@ -82,6 +82,9 @@ public class DriveTrain {
         odomL = opMode.hardwareMap.get(DcMotor.class, odomLConfig);
         odomH = opMode.hardwareMap.get(DcMotor.class, odomHConfig);
 
+        odomR.setDirection(DcMotor.Direction.REVERSE);
+        odomL.setDirection(DcMotor.Direction.REVERSE);
+
         //grabs a dashboard telemetry instance
         telem = FtcDashboard.getInstance().getTelemetry();
     }

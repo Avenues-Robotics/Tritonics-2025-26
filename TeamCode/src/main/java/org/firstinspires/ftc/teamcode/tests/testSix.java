@@ -33,8 +33,9 @@ public class testSix extends LinearOpMode {
 
         while(opModeIsActive()) {
             odometry.run();
-            telemetry.addData("position", odometry.getPosition());
-            telemetry.addData("velocity", odometry.getVelocity());
+            telemetry.addData("x", odometry.getPosition()[0]);
+            telemetry.addData("y", odometry.getPosition()[1]);
+            telemetry.addData("theta", odometry.getPosition()[2]);
             telemetry.update();
         }
 
