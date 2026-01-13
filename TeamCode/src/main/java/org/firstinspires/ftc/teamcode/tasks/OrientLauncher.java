@@ -17,7 +17,7 @@ public class OrientLauncher extends Task{
     @Override
     public boolean run(){
         launcher.RA.setPosition(RA);
-        launcher.DEC.setPosition(DEC);
+        //launcher.DEC.setPosition(DEC);
         return true;
     }
 

@@ -23,7 +23,7 @@ public class testSix extends LinearOpMode {
     public void runOpMode() {
 
         driveTrain = new DriveTrain(this);
-        sensors = new Sensors(this);
+        sensors = new Sensors(this, true);
 
         odometry = new Odometry(driveTrain, 0, 0, 0);
 

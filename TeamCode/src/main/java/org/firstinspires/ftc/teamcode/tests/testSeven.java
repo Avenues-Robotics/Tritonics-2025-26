@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.tests;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -17,7 +16,7 @@ public class testSeven extends LinearOpMode {
     public void runOpMode() {
 
         driveTrain = new DriveTrain(this);
-        sensors = new Sensors(this);
+        sensors = new Sensors(this, true);
 
         waitForStart();
 

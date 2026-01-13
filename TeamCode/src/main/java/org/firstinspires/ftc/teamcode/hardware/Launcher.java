@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -27,7 +28,7 @@ public class Launcher {
 
     //The servos angling the launcher
     public Servo RA;
-    public Servo DEC;
+    public CRServo DEC;
 
     //Launcher constructor, initiates launcher hardware
     public Launcher(LinearOpMode opMode) {
@@ -38,7 +39,7 @@ public class Launcher {
 
         //Grabs servo
         RA = opMode.hardwareMap.get(Servo.class, "launcherRA");
-        DEC = opMode.hardwareMap.get(Servo.class, "launcherDEC");
+        DEC = opMode.hardwareMap.get(CRServo.class, "launcherDEC");
 
         //Sets the direction for each motor depending on the setting
         if(rForward){R.setDirection(DcMotor.Direction.FORWARD);}
