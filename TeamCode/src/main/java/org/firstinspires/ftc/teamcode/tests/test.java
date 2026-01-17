@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.hardware.Launcher;
 
 @Autonomous(name = "Test")
 public class test extends LinearOpMode {
@@ -20,20 +21,18 @@ public class test extends LinearOpMode {
 
     Telemetry telem;
 
+    Launcher launcher;
+
     @Override
     public void runOpMode() {
 
-        launcherLeft = hardwareMap.get(DcMotor.class, "launcherL");
-        launcherRight = hardwareMap.get(DcMotor.class, "launcherR");
-
-        launcherLeft.setDirection(DcMotor.Direction.REVERSE);
-        launcherRight.setDirection(DcMotor.Direction.FORWARD);
+        launcher = new Launcher(this);
 
         waitForStart();
 
         while(opModeIsActive()){
-            launcherLeft.setPower(1);
-            launcherRight.setPower(1);
+            launcher.L.setPower(1);
+            launcher.R.setPower(1);
         }
 
     }

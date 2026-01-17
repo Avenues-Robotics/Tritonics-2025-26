@@ -40,6 +40,10 @@ public class DriveTeleop extends Task{
             br /= max;
         }
 
+        driveTrain.telem.addData("fr", fr);
+        driveTrain.telem.addData("bl", bl);
+        driveTrain.telem.update();
+
         driveTrain.FL.setPower(fl);
         driveTrain.FR.setPower(fr);
         driveTrain.BL.setPower(bl);

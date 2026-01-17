@@ -39,6 +39,12 @@ public class PosPID {
         this.telem = telem;
     }
 
+    public void resetIntegral() {
+        runningIntegral = 0;
+        prevPos = 0;
+        dt.reset();
+    }
+
     public double findPower(double target) {
         prevPos = currPos - target;
         currPos = pos.getAsDouble();

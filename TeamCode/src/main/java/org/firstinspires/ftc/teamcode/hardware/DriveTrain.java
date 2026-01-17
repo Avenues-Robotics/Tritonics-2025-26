@@ -8,6 +8,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -77,13 +78,13 @@ public class DriveTrain {
             BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
 
-        //Sets the odometry wheels equal to the proper encoders
-        odomR = opMode.hardwareMap.get(DcMotor.class, odomRConfig);
-        odomL = opMode.hardwareMap.get(DcMotor.class, odomLConfig);
-        odomH = opMode.hardwareMap.get(DcMotor.class, odomHConfig);
-
-        odomR.setDirection(DcMotor.Direction.REVERSE);
-        odomL.setDirection(DcMotor.Direction.REVERSE);
+//        //Sets the odometry wheels equal to the proper encoders
+//        odomR = opMode.hardwareMap.get(DcMotor.class, odomRConfig);
+//        odomL = opMode.hardwareMap.get(DcMotor.class, odomLConfig);
+//        odomH = opMode.hardwareMap.get(DcMotor.class, odomHConfig);
+//
+//        odomR.setDirection(DcMotor.Direction.REVERSE);
+//        odomL.setDirection(DcMotor.Direction.REVERSE);
 
         //grabs a dashboard telemetry instance
         telem = FtcDashboard.getInstance().getTelemetry();
@@ -123,9 +124,9 @@ public class DriveTrain {
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Sets the odometry wheels equal to the proper encoders
-        odomR = opMode.hardwareMap.get(DcMotor.class, odomRConfig);
-        odomL = opMode.hardwareMap.get(DcMotor.class, odomLConfig);
-        odomH = opMode.hardwareMap.get(DcMotor.class, odomHConfig);
+//        odomR = opMode.hardwareMap.get(DcMotor.class, odomRConfig);
+//        odomL = opMode.hardwareMap.get(DcMotor.class, odomLConfig);
+//        odomH = opMode.hardwareMap.get(DcMotor.class, odomHConfig);
 
         //grabs a dashboard telemetry instance
         telem = FtcDashboard.getInstance().getTelemetry();

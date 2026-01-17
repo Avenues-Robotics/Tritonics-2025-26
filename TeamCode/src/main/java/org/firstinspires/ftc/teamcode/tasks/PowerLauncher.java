@@ -10,6 +10,7 @@ public class PowerLauncher extends Task{
 
     Launcher launcher;
     double speed;
+    double origSpeed;
 
     public static double p = 2;
     public static double i = 0;
@@ -35,6 +36,7 @@ public class PowerLauncher extends Task{
     public PowerLauncher(Launcher launcher, double speed, Telemetry telem) {
         this.launcher = launcher;
         this.speed = speed;
+        this.origSpeed = speed;
 
         state = State.INIT;
         dt = new ElapsedTime();
@@ -65,7 +67,11 @@ public class PowerLauncher extends Task{
 
     @Override
     public Task reset(){
-        return new PowerLauncher(launcher, speed, telem);
+        return new PowerLauncher(launcher, origSpeed, telem);
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 
     void initOne() {

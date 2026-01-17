@@ -24,7 +24,7 @@ public class Launcher {
     //Direction of each motor, dashboard configurable
     public static boolean rForward = true;
     public static boolean lForward = false;
-    public static boolean rampForward = true;
+    public static boolean rampForward = false;
 
     //The servos angling the launcher
     public Servo RA;
