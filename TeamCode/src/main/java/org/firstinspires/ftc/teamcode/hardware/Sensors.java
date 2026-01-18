@@ -17,7 +17,10 @@ public class Sensors {
 
     public Telemetry telem;
 
+    public boolean redSide;
+
     public Sensors(LinearOpMode opMode, boolean redSide) {
+        this.redSide = redSide;
         imu = opMode.hardwareMap.get(IMU.class, imuConfig);
         imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot (
                 RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
@@ -26,7 +29,7 @@ public class Sensors {
 
         limelight = opMode.hardwareMap.get(Limelight3A.class, limelightConfig);
 
-        if(redSide) {
+        if(this.redSide) {
             limelight.pipelineSwitch(0);
         } else {
             limelight.pipelineSwitch(1);

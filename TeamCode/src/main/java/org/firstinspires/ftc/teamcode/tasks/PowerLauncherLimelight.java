@@ -16,9 +16,9 @@ public class PowerLauncherLimelight extends Task{
     public static double limelightAngle = 21.152967;
     public static double height = 35; //cm
 
-    public static double u = 0.00000673972;
-    public static double v = 0.00301059;
-    public static double w = 0.802864;
+    public static double u = 0.0000105549;
+    public static double v = 0.00222657;
+    public static double w = 0.839113;
 
     public static double division = -1;
 
@@ -40,8 +40,6 @@ public class PowerLauncherLimelight extends Task{
             d = height / Math.sin(Math.toRadians(sensors.limelight.getLatestResult().getTy() + limelightAngle));
             powerLauncher.setSpeed((u * d * d + v * d + w)/division);
             powerLauncher.run();
-        } else {
-            launcher.R.setPower(0); launcher.L.setPower(0);
         }
         return false;
     }

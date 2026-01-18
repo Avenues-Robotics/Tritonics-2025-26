@@ -46,8 +46,8 @@ public class PosPID {
     }
 
     public double findPower(double target) {
-        prevPos = currPos - target;
-        currPos = pos.getAsDouble();
+        prevPos = currPos;
+        currPos = pos.getAsDouble() - target;
 
         runningIntegral += currPos * dt.seconds();
         power = pCoeff*currPos + iCoeff*runningIntegral + dCoeff*(prevPos - currPos)/dt.seconds();

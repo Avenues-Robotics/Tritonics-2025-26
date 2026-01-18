@@ -11,10 +11,16 @@ import org.firstinspires.ftc.teamcode.hardware.Launcher;
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
 import org.firstinspires.ftc.teamcode.tasks.Drive;
 import org.firstinspires.ftc.teamcode.tasks.LaunchSequence;
+import org.firstinspires.ftc.teamcode.tasks.OrientLauncherLimelight;
+import org.firstinspires.ftc.teamcode.tasks.ParallelRaceTask;
+import org.firstinspires.ftc.teamcode.tasks.ParallelTask;
+import org.firstinspires.ftc.teamcode.tasks.PowerIntake;
+import org.firstinspires.ftc.teamcode.tasks.PowerLauncherLimelight;
 import org.firstinspires.ftc.teamcode.tasks.Rotate;
 import org.firstinspires.ftc.teamcode.tasks.RotateServo;
 import org.firstinspires.ftc.teamcode.tasks.SeriesTask;
 import org.firstinspires.ftc.teamcode.tasks.Task;
+import org.firstinspires.ftc.teamcode.tasks.Timer;
 
 @Config
 @Autonomous
@@ -37,62 +43,28 @@ public class AutoOpModeFarBlue extends LinearOpMode {
     // in one place with one line of code, rather than adding 4 lines up here
     // and another line inside runOpMode()
     // -Mr. Carpenter
-    public static double ServoPos = .5;
-    public static double ASpeed = 1;
-    public static double ADist = 100;
-    public static double ADeg = 0;
-    Drive ADrive;
 
-    public static double ARotateDeg = 0;
-    public static double ARotateSpeed = 0;
-    Rotate ARotate;
+    public static double Aspeed = 0.5;
+    public static double Adist = 160;
+    public static double Adir = -1;
 
-    public static double BSpeed = 0;
-    public static double BDist = 0;
-    public static double BDeg = 0;
-    Drive BDrive;
+    public static double Bspeed = 0.5;
+    public static double Bdist = 140;
+    public static double Bdir = 10;
 
-    public static double CSpeed = 0;
-    public static double CDist = 0;
-    public static double CDeg = 0;
-    Drive CDrive;
 
-    public static double BRotateDeg = 0;
-    public static double BRotateSpeed = 0;
-    Rotate BRotate;
-
-    public static double DSpeed = 0;
-    public static double DDist = 0;
-    public static double DDeg = 0;
-    Drive DDrive;
-
-    public static double CRotateDeg = 0;
-    public static double CRotateSpeed = 0;
-    Rotate CRotate;
-    public static double ESpeed = 0;
-    public static double EDist = 0;
-    public static double EDeg = 0;
-    Drive EDrive;
-
-    public static double FSpeed = 0;
-    public static double FDist = 0;
-    public static double FDeg = 0;
-    Drive FDrive;
-
-    public static double GSpeed = 0;
-    public static double GDist = 0;
-    public static double GDeg = 0;
-    Drive GDrive;
-
-    public static double HSpeed = 0;
-    public static double HDist = 0;
-    public static double HDeg = 0;
-    Drive HDrive;
-
-    public static double ISpeed = 0;
-    public static double IDist = 0;
-    public static double IDeg = 0;
-    Drive IDrive;
+    Task ADrive;
+    Task BDrive;
+    Task AOrientLauncherLimelight;
+    Task APowerLauncherLimelight;
+    Task ALaunchSequence;
+    Task BLaunchSequence;
+    Task powerIntake;
+    Task BOrientLauncherLimelight;
+    Task BPowerLauncherLimelight;
+    Task ATimer;
+    Task BTimer;
+    Task WTimer;
 
     Task auto;
 
@@ -104,24 +76,25 @@ public class AutoOpModeFarBlue extends LinearOpMode {
         intake = new Intake(this);
         launcher = new Launcher(this);
 
-        ADrive = new Drive(driveTrain, sensors, ASpeed, ADist, ADeg);
-        ARotate = new Rotate(driveTrain, sensors, ARotateSpeed, ARotateDeg);
-        BDrive = new Drive(driveTrain, sensors, BSpeed, BDist, BDeg, 600);
-        CDrive = new Drive(driveTrain, sensors, CSpeed, CDist, CDeg);
-        BRotate = new Rotate(driveTrain, sensors, BRotateSpeed, BRotateDeg);
-        DDrive = new Drive(driveTrain, sensors, DSpeed, DDist, DDeg);
-        CRotate = new Rotate(driveTrain, sensors, CRotateSpeed, CRotateDeg);
-        EDrive = new Drive(driveTrain, sensors, ESpeed, EDist, EDeg);
-        FDrive = new Drive(driveTrain, sensors, FSpeed, FDist, FDeg);
-        GDrive = new Drive(driveTrain, sensors, GSpeed, GDist, GDeg);
-        HDrive = new Drive(driveTrain, sensors, HSpeed, HDist, HDeg);
-        IDrive = new Drive(driveTrain, sensors, ISpeed, IDist, IDeg);
-        //FarLaunch = new SeriesTask(new SeriesTask(new RotateServo(1, launcher.RA), new RotateServo(0.67, launcher.DEC)), new LaunchSequence(intake, launcher, 1.9, FtcDashboard.getInstance().getTelemetry()));
+        powerIntake = new PowerIntake(intake, 1);
+        AOrientLauncherLimelight = new OrientLauncherLimelight(sensors, launcher);
+        APowerLauncherLimelight = new PowerLauncherLimelight(sensors, launcher);
+        ATimer = new Timer(3000);
+        ALaunchSequence = new LaunchSequence(intake, launcher);
+        ADrive = new Drive(driveTrain, sensors, Aspeed, Adist, Adir);
+        WTimer = new Timer(1000);
+        BDrive = new Drive(driveTrain, sensors, Bspeed, Bdist, Bdir);
+        BOrientLauncherLimelight = new OrientLauncherLimelight(sensors, launcher);
+        BPowerLauncherLimelight = new PowerLauncherLimelight(sensors, launcher);
+        BTimer = new Timer(3000);
+        BLaunchSequence = new LaunchSequence(intake, launcher);
 
-        // This will be fun to figure out how to impelement using a list
-        // Think recursive function...
-        // - Mr. Carpenter
-        //auto = new SeriesTask(FarLaunch, ADrive);
+        auto = new ParallelTask(powerIntake,
+                new SeriesTask(new ParallelRaceTask(AOrientLauncherLimelight, new ParallelRaceTask(APowerLauncherLimelight, new SeriesTask(ATimer, ALaunchSequence))),
+                        new SeriesTask(ADrive,
+                                new SeriesTask(WTimer,
+                                        new SeriesTask(BDrive,
+                                                new ParallelRaceTask(BOrientLauncherLimelight, new ParallelRaceTask(BPowerLauncherLimelight, new SeriesTask(BTimer, BLaunchSequence))))))));
 
         waitForStart();
 

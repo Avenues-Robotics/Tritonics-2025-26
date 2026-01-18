@@ -18,13 +18,13 @@ public class LaunchSequence extends SeriesTask {
     public LaunchSequence(Intake intake, Launcher launcher) {
         super(new SeriesTask(new ParallelTask(new PowerIntake(intake, 1),
               new PowerTransfer(launcher, 1)),
-                    new SeriesTask(new Timer(1000),
+                    new SeriesTask(new Timer(1500),
                             new SeriesTask(new RotateServo(rightServoUp, intake.right),
-                                    new SeriesTask(new Timer(1000),
+                                    new SeriesTask(new Timer(1500),
                                             new SeriesTask(new RotateServo(leftServoUp, intake.left),
-                                                    new SeriesTask(new Timer(1000),
-                                                            new ParallelTask(new EndTask(new PowerIntake(intake, 1)),
-                                                            new ParallelTask(new EndTask(new PowerTransfer(launcher, 1)),
+                                                    new SeriesTask(new Timer(1500),
+                                                            new ParallelTask(new PowerIntake(intake, 0),
+                                                            new ParallelTask(new PowerTransfer(launcher, 0),
                                                             new ParallelTask(new RotateServo(rightServoDown, intake.right),
                                                             new RotateServo(leftServoDown, intake.left)
         ))))))))), new Task());

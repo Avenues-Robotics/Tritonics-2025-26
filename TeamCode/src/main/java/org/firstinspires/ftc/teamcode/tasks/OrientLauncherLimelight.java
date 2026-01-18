@@ -43,7 +43,13 @@ public class OrientLauncherLimelight extends Task{
         sensors.telem.addData("d", d);
         sensors.telem.update();
         if(result.isValid() && result != null) {
-            launcher.DEC.setPower(pid.findPower(dashboardVariable));
+            if(sensors.redSide) {
+                launcher.DEC.setPower(pid.findPower(dashboardVariable));
+                sensors.telem.addLine("Red");
+            } else {
+                launcher.DEC.setPower(pid.findPower(-dashboardVariable));
+                sensors.telem.addLine("Blue");
+            }
             d = height / Math.sin(Math.toRadians(sensors.limelight.getLatestResult().getTy() + limelightAngle));
             launcher.RA.setPosition(x * d * d + y * d + z);
         } else {
