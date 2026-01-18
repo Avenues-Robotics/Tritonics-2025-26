@@ -8,58 +8,51 @@ import org.firstinspires.ftc.teamcode.hardware.Sensors;
 import org.firstinspires.ftc.teamcode.utilities.PosPID;
 
 @Config
-public class OrientLauncherLimelight extends Task{
+public class PowerLauncherLimelight extends Task{
 
     Sensors sensors;
     Launcher launcher;
 
-    PosPID pid;
-
-    public static double pCoeff = 0.02;
-    public static double iCoeff = 0;
-    public static double dCoeff = -0.005;
-
     public static double limelightAngle = 21.152967;
     public static double height = 35; //cm
 
-    public static double x = -0.0000361952;
-    public static double y = 0.0158997;
-    public static double z = -0.938325;
+    public static double u = 0.00000673972;
+    public static double v = 0.00301059;
+    public static double w = 0.802864;
 
-    public static double dashboardVariable = 0.000000005;
+    public static double division = -1;
 
     double d;
 
     LLResult result;
 
-    public OrientLauncherLimelight(Sensors sensors, Launcher launcher) {
+    PowerLauncher powerLauncher;
+
+    public PowerLauncherLimelight(Sensors sensors, Launcher launcher) {
         this.sensors = sensors;
         this.launcher = launcher;
-        pid = new PosPID(pCoeff, iCoeff, dCoeff, () -> sensors.limelight.getLatestResult().getTx(), sensors.telem);
+        powerLauncher = new PowerLauncher(launcher, 1.1, sensors.telem);
     }
 
     public boolean run() {
         result = sensors.limelight.getLatestResult();
-        sensors.telem.addData("d", d);
-        sensors.telem.update();
         if(result.isValid() && result != null) {
-            launcher.DEC.setPower(pid.findPower(dashboardVariable));
             d = height / Math.sin(Math.toRadians(sensors.limelight.getLatestResult().getTy() + limelightAngle));
-            launcher.RA.setPosition(x * d * d + y * d + z);
+            powerLauncher.setSpeed((u * d * d + v * d + w)/division);
+            powerLauncher.run();
         } else {
-            launcher.DEC.setPower(0);
-            pid.resetIntegral();
+            launcher.R.setPower(0); launcher.L.setPower(0);
         }
         return false;
     }
 
     public boolean end() {
-        launcher.DEC.setPower(0);
+        launcher.R.setPower(0); launcher.L.setPower(0);
         return true;
     }
 
     public Task reset() {
-        return new OrientLauncherLimelight(sensors, launcher);
+        return new PowerLauncherLimelight(sensors, launcher);
     }
 
 }

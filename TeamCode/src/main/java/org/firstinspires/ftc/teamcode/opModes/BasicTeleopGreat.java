@@ -23,8 +23,6 @@ public class BasicTeleopGreat extends LinearOpMode {
         driveTrain = new DriveTrain(this, false);
         driveTeleop = new DriveTeleop(driveTrain, this);
 
-        BL = hardwareMap.get(DcMotor.class, "BL");
-
         waitForStart();
 
         while(opModeIsActive()) {

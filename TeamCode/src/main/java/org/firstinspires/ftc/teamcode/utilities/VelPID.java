@@ -49,25 +49,26 @@ public class VelPID {
         initPos = globalPos.getAsInt();
         pos = () -> globalPos.getAsInt() - initPos;
         t.reset();
-        iLast = pos.getAsInt() - vel * t.milliseconds();
+        iLast = pos.getAsInt();
         dt.reset();
     }
 
     public void initTwo(double vel) {
-        i = pos.getAsInt() - vel * t.milliseconds();
-        pLast = (iLast - i)/dt.milliseconds();
+        i = pos.getAsInt();
+        pLast = (iLast - i)/dt.milliseconds() - vel;
         dt.reset();
         iLast = i;
     }
 
     public double findPower(double vel) {
-        i = pos.getAsInt() - vel * t.milliseconds();
-        p = (iLast - i)/dt.milliseconds();
+        i = pos.getAsInt();
+        p = (iLast - i)/dt.milliseconds() - vel;
         d = (pLast - p)/dt.milliseconds();
         dt.reset();
         iLast = i;
         pLast = p;
-        telem.addData("Speed:", p);
+        telem.addData("Speed", p);
+        telem.addData("Power", p*pCoeff + d);
         return p*pCoeff+i*iCoeff+d*dCoeff+fCoeff;
     }
 }

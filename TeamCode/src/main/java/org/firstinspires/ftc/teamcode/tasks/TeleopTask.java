@@ -7,6 +7,7 @@ public class TeleopTask extends Task{
     Task task;
     BooleanSupplier button;
     boolean toggled;
+    boolean toggleable;
 
     boolean currButton;
     boolean prevButton;
@@ -20,9 +21,10 @@ public class TeleopTask extends Task{
 
     State state;
 
-    public TeleopTask(Task task, BooleanSupplier button) {
+    public TeleopTask(Task task, BooleanSupplier button, boolean toggleable) {
         this.task = task;
         this.button = button;
+        this.toggleable = toggleable;
 
         toggled = false;
         state = State.STATIC;
@@ -32,14 +34,27 @@ public class TeleopTask extends Task{
     public boolean run() {
         currButton = button.getAsBoolean();
 
-        if(currButton && !prevButton){
-            toggled = true;
-        }
+        if(toggleable) {
+            if (currButton && !prevButton) {
+                toggled = true;
+            }
 
-        if(toggled) {
-            toggled = !task.run();
-            if(!toggled) {
-                task = task.reset();
+            if (toggled) {
+                toggled = !task.run();
+                if (toggled) {
+                    toggled = !(currButton && !prevButton);
+                }
+                if (!toggled) {
+                    task = task.reset();
+                }
+            }
+        } else {
+            if(currButton) {
+                if(task.run()) {
+                    task = task.reset();
+                }
+            } else {
+                task.end();
             }
         }
 

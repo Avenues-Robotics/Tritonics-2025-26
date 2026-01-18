@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Launcher;
 
 @Autonomous(name = "Test")
@@ -21,18 +22,17 @@ public class test extends LinearOpMode {
 
     Telemetry telem;
 
-    Launcher launcher;
+    Intake intake;
 
     @Override
     public void runOpMode() {
 
-        launcher = new Launcher(this);
+        intake = new Intake(this);
 
         waitForStart();
 
         while(opModeIsActive()){
-            launcher.L.setPower(1);
-            launcher.R.setPower(1);
+            intake.motor.setPower(1);
         }
 
     }

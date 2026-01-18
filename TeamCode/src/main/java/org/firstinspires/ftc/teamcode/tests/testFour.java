@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Config
 public class testFour extends LinearOpMode {
 
-    public static String name = "launcherDEC";
+    public static String name = "launcherRA";
 
     public static double pos;
 
