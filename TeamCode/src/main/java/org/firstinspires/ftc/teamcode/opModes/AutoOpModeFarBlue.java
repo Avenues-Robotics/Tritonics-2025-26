@@ -46,11 +46,11 @@ public class AutoOpModeFarBlue extends LinearOpMode {
 
     public static double Aspeed = 0.5;
     public static double Adist = 160;
-    public static double Adir = -1;
+    public static double Adir = 1;
 
     public static double Bspeed = 0.5;
-    public static double Bdist = 140;
-    public static double Bdir = 10;
+    public static double Bdist = 130;
+    public static double Bdir = 180;
 
 
     Task ADrive;
@@ -65,6 +65,13 @@ public class AutoOpModeFarBlue extends LinearOpMode {
     Task ATimer;
     Task BTimer;
     Task WTimer;
+    Task CDrive;
+    Task DDrive;
+    Task EDrive;
+    Task COrientLauncherLimelight;
+    Task CPowerLauncherLimelight;
+    Task CTimer;
+    Task CLaunchSequence;
 
     Task auto;
 
@@ -88,13 +95,24 @@ public class AutoOpModeFarBlue extends LinearOpMode {
         BPowerLauncherLimelight = new PowerLauncherLimelight(sensors, launcher);
         BTimer = new Timer(3000);
         BLaunchSequence = new LaunchSequence(intake, launcher);
+        CDrive = new Drive(driveTrain, sensors, 0.5, 66, 90);
+        DDrive = new Drive(driveTrain, sensors, 0.3, 130, 0);
+        EDrive = new Drive(driveTrain, sensors, 0.5, 145.79, 206.92);
+        COrientLauncherLimelight = new OrientLauncherLimelight(sensors, launcher);
+        CPowerLauncherLimelight = new PowerLauncherLimelight(sensors, launcher);
+        CTimer = new Timer(3000);
+        CLaunchSequence = new LaunchSequence(intake, launcher);
 
         auto = new ParallelTask(powerIntake,
                 new SeriesTask(new ParallelRaceTask(AOrientLauncherLimelight, new ParallelRaceTask(APowerLauncherLimelight, new SeriesTask(ATimer, ALaunchSequence))),
                         new SeriesTask(ADrive,
                                 new SeriesTask(WTimer,
                                         new SeriesTask(BDrive,
-                                                new ParallelRaceTask(BOrientLauncherLimelight, new ParallelRaceTask(BPowerLauncherLimelight, new SeriesTask(BTimer, BLaunchSequence))))))));
+                                                new SeriesTask(new ParallelRaceTask(BOrientLauncherLimelight, new ParallelRaceTask(BPowerLauncherLimelight, new SeriesTask(BTimer, BLaunchSequence))),
+                                                        new SeriesTask(CDrive,
+                                                                new SeriesTask(DDrive,
+                                                                        new SeriesTask(EDrive,
+                                                                                new ParallelRaceTask(COrientLauncherLimelight, new ParallelRaceTask(BPowerLauncherLimelight, new SeriesTask(CTimer, CLaunchSequence))))))))))));
 
         waitForStart();
 
