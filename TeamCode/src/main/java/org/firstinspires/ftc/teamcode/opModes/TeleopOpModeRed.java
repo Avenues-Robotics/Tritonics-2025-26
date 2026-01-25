@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.hardware.Launcher;
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
 import org.firstinspires.ftc.teamcode.tasks.DriveTeleop;
 import org.firstinspires.ftc.teamcode.tasks.LaunchSequence;
-import org.firstinspires.ftc.teamcode.tasks.OrientLauncherLimelight;
 import org.firstinspires.ftc.teamcode.tasks.PowerIntake;
 import org.firstinspires.ftc.teamcode.tasks.PowerLauncherLimelight;
 import org.firstinspires.ftc.teamcode.tasks.PowerTransfer;
@@ -60,7 +59,7 @@ public class TeleopOpModeRed extends LinearOpMode {
         reverseIntake = new PowerIntake(intake,-1);
         FIRE = new LaunchSequence(intake, launcher);
         charge = new PowerLauncherLimelight(sensors, launcher);
-        orientLauncher = new OrientLauncherLimelight(sensors, launcher);
+        orientLauncher = new Task(); //new OrientLauncherLimelight(sensors, launcher);
         stopTransfer = new PowerTransfer(launcher, 0);
         reverseTransfer = new PowerTransfer(launcher, -1);
 

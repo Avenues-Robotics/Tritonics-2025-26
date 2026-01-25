@@ -10,13 +10,6 @@ package org.firstinspires.ftc.teamcode.tasks;
 
 public class Task {
 
-    enum State {
-        INIT,
-        DONE
-    }
-
-    State state;
-
     public Task() {}
 
     public boolean run() {

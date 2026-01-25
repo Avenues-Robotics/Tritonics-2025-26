@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.opModes;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -11,12 +10,10 @@ import org.firstinspires.ftc.teamcode.hardware.Launcher;
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
 import org.firstinspires.ftc.teamcode.tasks.Drive;
 import org.firstinspires.ftc.teamcode.tasks.LaunchSequence;
-import org.firstinspires.ftc.teamcode.tasks.OrientLauncherLimelight;
 import org.firstinspires.ftc.teamcode.tasks.ParallelRaceTask;
 import org.firstinspires.ftc.teamcode.tasks.ParallelTask;
 import org.firstinspires.ftc.teamcode.tasks.PowerIntake;
 import org.firstinspires.ftc.teamcode.tasks.PowerLauncherLimelight;
-import org.firstinspires.ftc.teamcode.tasks.Rotate;
 import org.firstinspires.ftc.teamcode.tasks.RotateServo;
 import org.firstinspires.ftc.teamcode.tasks.SeriesTask;
 import org.firstinspires.ftc.teamcode.tasks.Task;
@@ -84,21 +81,21 @@ public class AutoOpModeFarRed extends LinearOpMode {
         launcher = new Launcher(this);
 
         powerIntake = new PowerIntake(intake, 1);
-        AOrientLauncherLimelight = new OrientLauncherLimelight(sensors, launcher);
+        AOrientLauncherLimelight = new Task(); //new OrientLauncherLimelight(sensors, launcher);
         APowerLauncherLimelight = new PowerLauncherLimelight(sensors, launcher);
         ATimer = new Timer(3000);
         ALaunchSequence = new LaunchSequence(intake, launcher);
         ADrive = new Drive(driveTrain, sensors, Aspeed, Adist, Adir);
         WTimer = new Timer(1000);
         BDrive = new Drive(driveTrain, sensors, Bspeed, Bdist, Bdir);
-        BOrientLauncherLimelight = new OrientLauncherLimelight(sensors, launcher);
+        BOrientLauncherLimelight = new Task(); //new OrientLauncherLimelight(sensors, launcher);
         BPowerLauncherLimelight = new PowerLauncherLimelight(sensors, launcher);
         BTimer = new Timer(3000);
         BLaunchSequence = new LaunchSequence(intake, launcher);
         CDrive = new Drive(driveTrain, sensors, 0.5, 66, -90);
         DDrive = new Drive(driveTrain, sensors, 0.3, 130, 0);
         EDrive = new Drive(driveTrain, sensors, 0.5, 145.79, -206.92);
-        COrientLauncherLimelight = new OrientLauncherLimelight(sensors, launcher);
+        COrientLauncherLimelight = new Task(); //new OrientLauncherLimelight(sensors, launcher);
         CPowerLauncherLimelight = new PowerLauncherLimelight(sensors, launcher);
         CTimer = new Timer(3000);
         CLaunchSequence = new LaunchSequence(intake, launcher);

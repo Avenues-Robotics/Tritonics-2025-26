@@ -4,12 +4,15 @@ package org.firstinspires.ftc.teamcode.hardware;
  * Manages launcher hardware including motors and servos
  */
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
 public class Launcher {
@@ -28,7 +31,9 @@ public class Launcher {
 
     //The servos angling the launcher
     public Servo RA;
-    public CRServo DEC;
+    public Servo DEC;
+
+    public Telemetry telem;
 
     //Launcher constructor, initiates launcher hardware
     public Launcher(LinearOpMode opMode) {
@@ -39,7 +44,7 @@ public class Launcher {
 
         //Grabs servo
         RA = opMode.hardwareMap.get(Servo.class, "launcherRA");
-        DEC = opMode.hardwareMap.get(CRServo.class, "launcherDEC");
+        DEC = opMode.hardwareMap.get(Servo.class, "launcherDEC");
 
         //Sets the direction for each motor depending on the setting
         if(rForward){R.setDirection(DcMotor.Direction.FORWARD);}
@@ -54,6 +59,8 @@ public class Launcher {
         //Sets the runmode for each motor
         R.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         L.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        telem = FtcDashboard.getInstance().getTelemetry();
     }
 
     // Looks good so far.  I know this is still a work in progress.  
