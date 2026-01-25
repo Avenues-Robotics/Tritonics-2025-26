@@ -21,7 +21,7 @@ public class testTwo extends LinearOpMode {
         double calculation = -b * Math.log(1 + m) + (v / m);
 
         telemetry.addData("Calculation", calculation); //gpt said addData was better than Println
-        telemetry.update();
+        telemetry.update(); // did gpt write this code? GPT code is unreliable and doesn't build your skills
     }
 
 
