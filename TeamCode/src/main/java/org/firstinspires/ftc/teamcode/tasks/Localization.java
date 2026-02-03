@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.tasks;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -16,25 +17,30 @@ public class Localization extends Task{
 
     RoboState roboState;
 
+    ElapsedTime dt;
+
     public Localization(Sensors sensors){
         this.sensors = sensors;
     }
 
     @Override
     public boolean run() {
+        if (dt == null) {
+            dt = new ElapsedTime();
+        }
         roboState = filter(odom(), tags(), prediction());
         setOdom(roboState);
+        dt.reset();
         return false;
-    }
-
-    @Override
-    public boolean end() {
-        return true;
     }
 
     @Override
     public Task reset() {
         return new Localization(sensors);
+    }
+
+    public RoboState getRoboState(){
+        return roboState;
     }
 
     private RoboState odom() {
@@ -63,7 +69,25 @@ public class Localization extends Task{
     }
 
     private RoboState prediction() {
-        return new RoboState();
+        RoboState state = new RoboState();
+
+        state.x = roboState.x + roboState.velX * dt.seconds();
+        state.sigmaX = Math.sqrt(Math.pow(roboState.x, 2) + Math.pow(roboState.sigmaVelX * dt.seconds(), 2));
+
+        state.y = roboState.y + roboState.velY * dt.seconds();
+        state.sigmaY = Math.sqrt(Math.pow(roboState.y, 2) + Math.pow(roboState.sigmaVelY * dt.seconds(), 2));
+
+        state.theta = roboState.theta + roboState.velTheta * dt.seconds();
+        state.sigmaTheta = Math.sqrt(Math.pow(roboState.theta, 2) + Math.pow(roboState.sigmaVelTheta * dt.seconds(), 2));
+
+        state.velX = roboState.velX;
+        state.velY = roboState.velY;
+        state.velTheta = roboState.velTheta;
+        state.sigmaVelX = 100000000;
+        state.sigmaVelY = 100000000;
+        state.sigmaVelTheta = 100000000;
+
+        return state;
     }
 
     private RoboState filter(RoboState odom, RoboState tags, RoboState prediction) {
