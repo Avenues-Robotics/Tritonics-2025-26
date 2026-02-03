@@ -22,6 +22,8 @@ public class Localization extends Task{
 
     @Override
     public boolean run() {
+        roboState = filter(odom(), tags(), prediction());
+        setOdom(roboState);
         return false;
     }
 
@@ -57,6 +59,34 @@ public class Localization extends Task{
             state.y = pose.getPosition().y;
             state.theta = pose.getOrientation().getYaw();
         }
+        return state;
+    }
+
+    private RoboState prediction() {
+        return new RoboState();
+    }
+
+    private RoboState filter(RoboState odom, RoboState tags, RoboState prediction) {
+        RoboState state = new RoboState();
+
+        state.x = (odom.x*tags.sigmaX*prediction.sigmaX + tags.x*odom.sigmaX*prediction.sigmaX + prediction.x*odom.sigmaX*tags.sigmaX)/(tags.sigmaX*prediction.sigmaX + odom.sigmaX*prediction.sigmaX + odom.sigmaX*tags.sigmaX);
+        state.sigmaX = 1/((1/odom.sigmaX) + (1/tags.sigmaX) + (1/prediction.sigmaX));
+
+        state.y = (odom.y*tags.sigmaY*prediction.sigmaY + tags.y*odom.sigmaY*prediction.sigmaY + prediction.y*odom.sigmaY*tags.sigmaY)/(tags.sigmaY*prediction.sigmaY + odom.sigmaY*prediction.sigmaY + odom.sigmaY*tags.sigmaY);
+        state.sigmaY = 1/((1/odom.sigmaY) + (1/tags.sigmaY) + (1/prediction.sigmaY));
+
+        state.theta = (odom.theta*tags.sigmaTheta*prediction.sigmaTheta + tags.theta*odom.sigmaTheta*prediction.sigmaTheta + prediction.theta*odom.sigmaTheta*tags.sigmaTheta)/(tags.sigmaTheta*prediction.sigmaTheta + odom.sigmaTheta*prediction.sigmaTheta + odom.sigmaTheta*tags.sigmaTheta);
+        state.sigmaTheta = 1/((1/odom.sigmaTheta) + (1/tags.sigmaTheta) + (1/prediction.sigmaTheta));
+
+        state.velX = (odom.velX*tags.sigmaVelX*prediction.sigmaVelX + tags.velX*odom.sigmaVelX*prediction.sigmaVelX + prediction.velX*odom.sigmaVelX*tags.sigmaVelX)/(tags.sigmaVelX*prediction.sigmaVelX + odom.sigmaVelX*prediction.sigmaVelX + odom.sigmaVelX*tags.sigmaVelX);
+        state.sigmaVelX = 1/((1/odom.sigmaVelX) + (1/tags.sigmaVelX) + (1/prediction.sigmaVelX));
+
+        state.velY = (odom.velY*tags.sigmaVelY*prediction.sigmaVelY + tags.velY*odom.sigmaVelY*prediction.sigmaVelY + prediction.velY*odom.sigmaVelY*tags.sigmaVelY)/(tags.sigmaVelY*prediction.sigmaVelY + odom.sigmaVelY*prediction.sigmaVelY + odom.sigmaVelY*tags.sigmaVelY);
+        state.sigmaVelY = 1/((1/odom.sigmaVelY) + (1/tags.sigmaVelY) + (1/prediction.sigmaVelY));
+
+        state.velTheta = (odom.velTheta*tags.sigmaVelTheta*prediction.sigmaVelTheta + tags.velTheta*odom.sigmaVelTheta*prediction.sigmaVelTheta + prediction.velTheta*odom.sigmaVelTheta*tags.sigmaVelTheta)/(tags.sigmaVelTheta*prediction.sigmaVelTheta + odom.sigmaVelTheta*prediction.sigmaVelTheta + odom.sigmaVelTheta*tags.sigmaVelTheta);
+        state.sigmaVelTheta = 1/((1/odom.sigmaVelTheta) + (1/tags.sigmaVelTheta) + (1/prediction.sigmaVelTheta));
+
         return state;
     }
 
