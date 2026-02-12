@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.tasks;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
 import org.firstinspires.ftc.teamcode.utilities.RoboState;
 
+@Config
 public class Localization extends Task{
 
     Sensors sensors;
@@ -18,25 +20,45 @@ public class Localization extends Task{
     RoboState roboState;
 
     ElapsedTime dt;
+    ElapsedTime timer;
 
-    public Localization(Sensors sensors){
+    public static long delay = 50;
+
+    public static double odomPosAcc = 0.1;
+    public static double odomRotAcc = 0.1;
+    public static double odomVelAcc = 0.1;
+    public static double odomAngVelAcc = 0.1;
+
+    public static double limePosAcc = 0.1;
+    public static double limeRotAcc = 0.1;
+
+    public static double predAcc = 0.1;
+
+    public Localization(Sensors sensors, RoboState roboState){
+        this.roboState = roboState;
         this.sensors = sensors;
     }
 
     @Override
     public boolean run() {
-        if (dt == null) {
-            dt = new ElapsedTime();
-        }
-        roboState = filter(odom(), tags(), prediction());
-        setOdom(roboState);
-        dt.reset();
+//        if (dt == null) {
+//            dt = new ElapsedTime();
+//        }
+//        if(timer == null) {
+//            timer = new ElapsedTime();
+//        }
+//        if(timer.milliseconds() > delay) {
+//            roboState = filter(odom(), tags(), prediction());
+//            setOdom(roboState);
+//            dt.reset();
+//        }
+        roboState = odom();
         return false;
     }
 
     @Override
     public Task reset() {
-        return new Localization(sensors);
+        return new Localization(sensors, roboState);
     }
 
     public RoboState getRoboState(){
@@ -53,6 +75,12 @@ public class Localization extends Task{
         odomOutput.velX = sensors.odo.getVelX(DistanceUnit.CM);
         odomOutput.velY = sensors.odo.getVelY(DistanceUnit.CM);
         odomOutput.velTheta = sensors.odo.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
+        odomOutput.sigmaX = odomPosAcc * dt.seconds();
+        odomOutput.sigmaY = odomPosAcc * dt.seconds();
+        odomOutput.sigmaTheta = odomRotAcc * dt.seconds();
+        odomOutput.sigmaVelX = odomVelAcc * dt.seconds();
+        odomOutput.sigmaVelY = odomVelAcc * dt.seconds();
+        odomOutput.sigmaVelTheta = odomAngVelAcc * dt.seconds();
         return odomOutput;
     }
 
@@ -64,6 +92,9 @@ public class Localization extends Task{
             state.x = pose.getPosition().x;
             state.y = pose.getPosition().y;
             state.theta = pose.getOrientation().getYaw();
+            state.sigmaX = limePosAcc * dt.seconds();
+            state.sigmaY = limePosAcc * dt.seconds();
+            state.sigmaTheta = limeRotAcc * dt.seconds();
         }
         return state;
     }
@@ -72,13 +103,13 @@ public class Localization extends Task{
         RoboState state = new RoboState();
 
         state.x = roboState.x + roboState.velX * dt.seconds();
-        state.sigmaX = Math.sqrt(Math.pow(roboState.x, 2) + Math.pow(roboState.sigmaVelX * dt.seconds(), 2));
+        state.sigmaX = dt.seconds() * predAcc * Math.sqrt(Math.pow(roboState.x, 2) + Math.pow(roboState.sigmaVelX * dt.seconds(), 2));
 
         state.y = roboState.y + roboState.velY * dt.seconds();
-        state.sigmaY = Math.sqrt(Math.pow(roboState.y, 2) + Math.pow(roboState.sigmaVelY * dt.seconds(), 2));
+        state.sigmaY = dt.seconds() * predAcc * Math.sqrt(Math.pow(roboState.y, 2) + Math.pow(roboState.sigmaVelY * dt.seconds(), 2));
 
         state.theta = roboState.theta + roboState.velTheta * dt.seconds();
-        state.sigmaTheta = Math.sqrt(Math.pow(roboState.theta, 2) + Math.pow(roboState.sigmaVelTheta * dt.seconds(), 2));
+        state.sigmaTheta = dt.seconds() * predAcc * Math.sqrt(Math.pow(roboState.theta, 2) + Math.pow(roboState.sigmaVelTheta * dt.seconds(), 2));
 
         state.velX = roboState.velX;
         state.velY = roboState.velY;
