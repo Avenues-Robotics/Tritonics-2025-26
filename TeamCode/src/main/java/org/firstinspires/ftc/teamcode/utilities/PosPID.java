@@ -55,4 +55,14 @@ public class PosPID {
         return power;
     }
 
+    public double findPower() {
+        prevPos = currPos;
+        currPos = pos.getAsDouble();
+
+        runningIntegral += currPos * dt.seconds();
+        power = pCoeff*currPos + iCoeff*runningIntegral + dCoeff*(prevPos - currPos)/dt.seconds();
+        dt.reset();
+        return power;
+    }
+
 }
