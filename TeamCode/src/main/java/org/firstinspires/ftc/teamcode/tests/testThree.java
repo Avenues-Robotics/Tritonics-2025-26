@@ -6,19 +6,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
 import org.firstinspires.ftc.teamcode.tasks.Drive;
+import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 
 @Autonomous
-public class testThree extends LinearOpMode {
+public class testThree extends TritonicsOpMode {
 
-    DriveTrain driveTrain;
-    Sensors sensors;
     Drive drive;
 
     @Override
-    public void runOpMode() {
+    public void runTritonicsOpMode() {
 
-        driveTrain = new DriveTrain(this);
-        sensors = new Sensors(this, true);
         drive = new Drive(driveTrain, sensors, 1, 100, 45);
 
         waitForStart();

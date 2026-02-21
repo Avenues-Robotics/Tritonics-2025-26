@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.opModes;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -14,14 +13,11 @@ import org.firstinspires.ftc.teamcode.tasks.PowerIntake;
 import org.firstinspires.ftc.teamcode.tasks.PowerLauncherLimelight;
 import org.firstinspires.ftc.teamcode.tasks.PowerTransfer;
 import org.firstinspires.ftc.teamcode.tasks.Task;
+import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 
 @TeleOp
-public class TeleopOpModeBlue extends LinearOpMode {
+public class TeleopOpModeBlue extends TritonicsOpMode {
 
-    DriveTrain driveTrain;
-    Launcher launcher;
-    Sensors sensors;
-    Intake intake;
 
     Task drive;
     Task powerIntake;
@@ -46,12 +42,7 @@ public class TeleopOpModeBlue extends LinearOpMode {
     Gamepad prevGamepad;
 
     @Override
-    public void runOpMode() {
-
-        driveTrain = new DriveTrain(this, false);
-        launcher = new Launcher(this);
-        sensors = new Sensors(this, false);
-        intake = new Intake(this);
+    public void runTritonicsOpMode() {
 
         drive = new DriveTeleop(driveTrain, this);
         powerIntake = new PowerIntake(intake, 1);

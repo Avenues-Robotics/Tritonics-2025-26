@@ -6,9 +6,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
+
 @Config
 @Autonomous
-public class testMartin extends LinearOpMode {
+public class testMartin extends TritonicsOpMode {
 
     public static double transferPower = 1;
     public static double launcherPower = 1;
@@ -16,7 +18,7 @@ public class testMartin extends LinearOpMode {
     public static double servoPosition = 0.5;
 
     @Override
-    public void runOpMode() {
+    public void runTritonicsOpMode() {
 
         DcMotor transfer  = hardwareMap.get(DcMotor.class, "transfer");
         DcMotor launcherR = hardwareMap.get(DcMotor.class, "launcherR");

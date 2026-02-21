@@ -3,9 +3,10 @@ package org.firstinspires.ftc.teamcode.tests;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "test2")
-public class testTwo extends LinearOpMode {
+import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 
+@Autonomous(name = "test2")
+public class testTwo extends TritonicsOpMode {
 
     double b; // "some height"
     double m; // slop
@@ -13,7 +14,7 @@ public class testTwo extends LinearOpMode {
 
     @Override
 
-    public void runOpMode() {
+    public void runTritonicsOpMode() {
 
         waitForStart(); // Bro noah is a fool
 

@@ -9,9 +9,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Launcher;
+import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 
 @Autonomous(name = "Test")
-public class test extends LinearOpMode {
+public class test extends TritonicsOpMode {
 
     DcMotor launcherLeft;
     DcMotor launcherRight;
@@ -22,12 +23,8 @@ public class test extends LinearOpMode {
 
     Telemetry telem;
 
-    Intake intake;
-
     @Override
-    public void runOpMode() {
-
-        intake = new Intake(this);
+    public void runTritonicsOpMode() {
 
         waitForStart();
 

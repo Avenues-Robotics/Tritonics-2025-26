@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.opModes;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
@@ -18,15 +17,12 @@ import org.firstinspires.ftc.teamcode.tasks.RotateServo;
 import org.firstinspires.ftc.teamcode.tasks.SeriesTask;
 import org.firstinspires.ftc.teamcode.tasks.Task;
 import org.firstinspires.ftc.teamcode.tasks.Timer;
+import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 
 @Config
 @Autonomous
-public class AutoOpModeFarBlue extends LinearOpMode {
+public class AutoOpModeFarBlue extends TritonicsOpMode {
 
-    DriveTrain driveTrain;
-    Sensors sensors;
-    Launcher launcher;
-    Intake intake;
     Task FarLaunch;
     RotateServo Aim;
 
@@ -73,12 +69,7 @@ public class AutoOpModeFarBlue extends LinearOpMode {
     Task auto;
 
     @Override
-    public void runOpMode() {
-
-        driveTrain = new DriveTrain(this, true);
-        sensors = new Sensors(this, false);
-        intake = new Intake(this);
-        launcher = new Launcher(this);
+    public void runTritonicsOpMode() {
 
         powerIntake = new PowerIntake(intake, 1);
         AOrientLauncherLimelight = new Task(); //new OrientLauncherLimelight(sensors, launcher);

@@ -18,17 +18,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
 import org.firstinspires.ftc.teamcode.utilities.RoboState;
+import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 
 @Config
 @Autonomous
-public class testFivehundredEightySeven extends LinearOpMode {
+public class testFivehundredEightySeven extends TritonicsOpMode {
 
     public static long delay = 2000;
 
     @Override
-    public void runOpMode() {
+    public void runTritonicsOpMode() {
 
-        Sensors sensors = new Sensors(this, false);
         ElapsedTime dt = new ElapsedTime();
 
         Telemetry telemetry = FtcDashboard.getInstance().getTelemetry();

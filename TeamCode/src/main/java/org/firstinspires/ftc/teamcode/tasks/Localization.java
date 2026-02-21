@@ -37,13 +37,14 @@ public class Localization extends Task{
     public Localization(Sensors sensors, RoboState roboState){
         this.roboState = roboState;
         this.sensors = sensors;
+
     }
 
     @Override
     public boolean run() {
-//        if (dt == null) {
-//            dt = new ElapsedTime();
-//        }
+        if (dt == null) {
+            dt = new ElapsedTime();
+        }
 //        if(timer == null) {
 //            timer = new ElapsedTime();
 //        }

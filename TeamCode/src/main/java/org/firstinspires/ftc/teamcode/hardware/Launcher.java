@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -29,9 +30,16 @@ public class Launcher {
     public static boolean lForward = false;
     public static boolean rampForward = false;
 
+    public static double p = 150;
+    public static double i = 0;
+    public static double d = 0;
+    public static double f = 13;
+    PIDFCoefficients coefs;
+
     //The servos angling the launcher
     public Servo RA;
-    public Servo DEC;
+    public Servo DEC1;
+    public Servo DEC2;
 
     public Telemetry telem;
 
@@ -44,7 +52,8 @@ public class Launcher {
 
         //Grabs servo
         RA = opMode.hardwareMap.get(Servo.class, "launcherRA");
-        DEC = opMode.hardwareMap.get(Servo.class, "launcherDEC");
+        DEC1 = opMode.hardwareMap.get(Servo.class, "launcherDEC1");
+        DEC2 = opMode.hardwareMap.get(Servo.class, "launcherDEC2");
 
         //Sets the direction for each motor depending on the setting
         if(rForward){R.setDirection(DcMotor.Direction.FORWARD);}
@@ -56,9 +65,9 @@ public class Launcher {
         if(rampForward){ramp.setDirection(DcMotor.Direction.FORWARD);}
         else{ramp.setDirection(DcMotor.Direction.REVERSE);}
 
-        //Sets the runmode for each motor
-        R.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        L.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        coefs = new PIDFCoefficients(p, i, d, f);
+        R.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, coefs);
+        L.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, coefs);
 
         telem = FtcDashboard.getInstance().getTelemetry();
     }
