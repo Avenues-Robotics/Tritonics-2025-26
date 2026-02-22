@@ -40,6 +40,10 @@ public class Launcher {
     public Servo RA;
     public Servo DEC1;
     public Servo DEC2;
+    public Servo blocker;
+
+    public static double blockerAway = 0;
+    public static double blockerBlocking = 0.2;
 
     public Telemetry telem;
 
@@ -54,6 +58,7 @@ public class Launcher {
         RA = opMode.hardwareMap.get(Servo.class, "launcherRA");
         DEC1 = opMode.hardwareMap.get(Servo.class, "launcherDEC1");
         DEC2 = opMode.hardwareMap.get(Servo.class, "launcherDEC2");
+        blocker = opMode.hardwareMap.get(Servo.class, "blocker");
 
         //Sets the direction for each motor depending on the setting
         if(rForward){R.setDirection(DcMotor.Direction.FORWARD);}
