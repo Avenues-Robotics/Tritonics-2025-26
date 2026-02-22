@@ -13,9 +13,12 @@ public class SeriesTask extends Task{
     Task taskOne;
     Task taskTwo;
 
+    boolean taskOneDone;
+
     public SeriesTask(Task taskOne, Task taskTwo) {
         this.taskOne = taskOne;
         this.taskTwo = taskTwo;
+        taskOneDone = false;
     }
 
     public SeriesTask(Task[] tasks) {
@@ -38,7 +41,10 @@ public class SeriesTask extends Task{
 
     @Override
     public boolean run() {
-        if(taskOne.run()) {
+        if(!taskOneDone){
+            taskOneDone = taskOne.run();
+        }
+        if(taskOneDone) {
             return taskTwo.run();
         }
         return false;
