@@ -22,7 +22,7 @@ public class OrientPowerLauncherLocalization extends Task {
         this.launcher = launcher;
         this.localization = localization;
         this.opMode = opMode;
-        if(opMode.globalVariables.isRedSide) {
+        if(opMode.isRedSide) {
             goalX = -152;
             goalY = 152;
         } else {
@@ -41,6 +41,7 @@ public class OrientPowerLauncherLocalization extends Task {
         turrAngle = ((Math.toDegrees(Math.atan((goalY-robotPose.y)/(goalX-robotPose.x))) + 58) % 360)/315;
         launcher.DEC1.setPosition(turrAngle);
         launcher.DEC2.setPosition(turrAngle);
+        opMode.telemetry.addData("d", distance());
         return false;
     }
 
@@ -51,7 +52,7 @@ public class OrientPowerLauncherLocalization extends Task {
 
     private double distance() {
         robotPose = localization.getRoboState();
-        return Math.sqrt(Math.pow(robotPose.x, 2) + Math.pow(robotPose.y, 2));
+        return Math.sqrt(Math.pow(goalX - robotPose.x, 2) + Math.pow(goalY - robotPose.y, 2));
     }
 
 
