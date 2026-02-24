@@ -11,7 +11,7 @@ public class Intake {
     public Servo left;
     public Servo middle;
 
-    public static boolean motorForward = true;
+    public static boolean motorForward = false;
 
     public static double leftPushing = 0.367;
     public static double leftBlocking = 0.246;

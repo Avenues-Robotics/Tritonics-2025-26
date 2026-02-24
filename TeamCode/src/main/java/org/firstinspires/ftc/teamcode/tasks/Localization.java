@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
 import org.firstinspires.ftc.teamcode.utilities.RoboState;
+import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 
 @Config
 public class Localization extends Task{
@@ -34,10 +35,12 @@ public class Localization extends Task{
 
     public static double predAcc = 0.1;
 
-    public Localization(Sensors sensors, RoboState roboState){
+    TritonicsOpMode opMode;
+
+    public Localization(Sensors sensors, RoboState roboState, TritonicsOpMode opMode){
         this.roboState = roboState;
         this.sensors = sensors;
-
+        this.opMode = opMode;
     }
 
     @Override
@@ -54,12 +57,15 @@ public class Localization extends Task{
 //            dt.reset();
 //        }
         roboState = odom();
+        opMode.telemetry.addData("x", roboState.x);
+        opMode.telemetry.addData("y", roboState.y);
+        opMode.telemetry.addData("theta", Math.floorMod((int) (roboState.theta), 360));
         return false;
     }
 
     @Override
     public Task reset() {
-        return new Localization(sensors, roboState);
+        return new Localization(sensors, roboState, opMode);
     }
 
     public RoboState getRoboState(){

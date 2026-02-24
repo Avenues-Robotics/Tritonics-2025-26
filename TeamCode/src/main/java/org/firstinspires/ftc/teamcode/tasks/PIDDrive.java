@@ -19,13 +19,13 @@ public class PIDDrive extends Task{
     PosPID yPID;
     PosPID thetaPID;
 
-    public static double horizP = 1;
+    public static double horizP = -0.04;
     public static double horizI = 0;
-    public static double horizD = 0;
+    public static double horizD = 0.017;
 
-    public static double thetaP = 0.05;
+    public static double thetaP = 0.04;
     public static double thetaI = 0;
-    public static double thetaD = 0;
+    public static double thetaD = -0.008;
 
     public static double horizToler = 4;
     public static double thetaToler = 2;

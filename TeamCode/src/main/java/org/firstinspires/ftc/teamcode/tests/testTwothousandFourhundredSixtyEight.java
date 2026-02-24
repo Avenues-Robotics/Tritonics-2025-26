@@ -21,7 +21,7 @@ public class testTwothousandFourhundredSixtyEight extends TritonicsOpMode {
     public void runTritonicsOpMode() {
         isRedSide = false;
 
-        localization = new Localization(sensors, new RoboState(0,0,0,0,0,0));
+        localization = new Localization(sensors, new RoboState(0,0,0,0,0,0), this);
         orientPowerLauncherLocalization = new OrientPowerLauncherLocalization(launcher, localization, this);
 
         waitForStart();
