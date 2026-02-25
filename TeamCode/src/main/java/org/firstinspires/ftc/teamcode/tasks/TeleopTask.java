@@ -35,10 +35,6 @@ public class TeleopTask extends Task{
         currButton = button.getAsBoolean();
 
         if(toggleable) {
-            if (currButton && !prevButton) {
-                toggled = true;
-            }
-
             if (toggled) {
                 toggled = !task.run();
                 if (toggled) {
@@ -47,6 +43,10 @@ public class TeleopTask extends Task{
                 if (!toggled) {
                     task = task.reset();
                 }
+            } /// I think that I fixed the bug here, it was that it was starting, the button was still recognized as on the rising edge, and it decided that meant to end, I did this by switching the order of when to check when it starts/stops, check if it works please
+
+            if (currButton && !prevButton) {
+                toggled = true;
             }
         } else {
             if(currButton) {

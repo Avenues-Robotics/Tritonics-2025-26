@@ -27,17 +27,19 @@ public class PIDDrive extends Task{
     public static double thetaI = 0;
     public static double thetaD = -0.008;
 
-    public static double horizToler = 4;
-    public static double thetaToler = 2;
+    double horizToler;
+    double thetaToler;
 
     RoboState roboState;
 
     Pose2D destination;
 
-    public PIDDrive(DriveTrain driveTrain, Localization localization, Pose2D destination) {
+    public PIDDrive(DriveTrain driveTrain, Localization localization, Pose2D destination, double horizToler, double thetaToler) {
         this.driveTrain = driveTrain;
         this.localization = localization;
         this.destination = destination;
+        this.horizToler = horizToler;
+        this.thetaToler = thetaToler;
 
         xPID = new PosPID(horizP, horizI, horizD, () -> findError(destination).getX(DistanceUnit.CM), driveTrain.telem);
         yPID = new PosPID(horizP, horizI, horizD, () -> findError(destination).getY(DistanceUnit.CM), driveTrain.telem);
@@ -86,7 +88,7 @@ public class PIDDrive extends Task{
 
     @Override
     public Task reset() {
-        return new PIDDrive(driveTrain, localization, destination);
+        return new PIDDrive(driveTrain, localization, destination, 4, 2);
     }
 
 }

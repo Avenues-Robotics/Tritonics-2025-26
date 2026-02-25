@@ -37,7 +37,7 @@ public class RedTeleop extends TritonicsOpMode {
         localization = new Localization(sensors, new RoboState(0,0,0,0,0,0), this);
         powerLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
 
-        teleop = new ParallelTask(new Task[]{loadSequenceOne, launch, localization, powerLauncher});
+        teleop = new ParallelTask(new Task[]{loadSequenceOne, launch, localization, powerLauncher, driveTeleop});
 
         waitForStart();
 

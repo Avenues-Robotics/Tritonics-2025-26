@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.tasks;
 
+import com.acmerobotics.dashboard.config.Config;
+
 import org.firstinspires.ftc.teamcode.hardware.Launcher;
 import org.firstinspires.ftc.teamcode.utilities.RoboState;
 import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 
+@Config
 public class OrientPowerLauncherLocalization extends Task {
 
     Launcher launcher;
@@ -17,6 +20,8 @@ public class OrientPowerLauncherLocalization extends Task {
 
     double goalX;
     double goalY;
+
+    public static double value = -122;
 
     public OrientPowerLauncherLocalization(Launcher launcher, Localization localization, TritonicsOpMode opMode) {
         this.launcher = launcher;
@@ -39,7 +44,7 @@ public class OrientPowerLauncherLocalization extends Task {
         hoodAngle = Math.log10(0.0304062*distance()+1.67857)*2.16635-1.19756;
         opMode.telemetry.addData("RA Angle", hoodAngle);
         launcher.RA.setPosition(hoodAngle);
-        turrAngle = ((Math.toDegrees(Math.atan((-robotPose.y-goalY)/(-robotPose.x-goalX))) + 58 - localization.getRoboState().theta) % 360)/315;
+        turrAngle = modulo((Math.toDegrees(Math.atan2(goalY-robotPose.y, goalX-robotPose.x))-robotPose.theta + value), 360)/315;
         launcher.DEC1.setPosition(turrAngle);
         launcher.DEC2.setPosition(turrAngle);
         opMode.telemetry.addData("d", distance());
@@ -56,6 +61,10 @@ public class OrientPowerLauncherLocalization extends Task {
         return Math.sqrt(Math.pow(goalX - robotPose.x, 2) + Math.pow(goalY - robotPose.y, 2));
     }
 
-
+    private double modulo(double dividend, int divisor){
+        dividend %= divisor;
+        if(dividend<0){dividend += divisor;}
+        return dividend;
+    }
 
 }

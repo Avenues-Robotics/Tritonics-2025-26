@@ -22,11 +22,11 @@ public class Sensors {
     public Telemetry telem;
 
     public Sensors(TritonicsOpMode opMode) {
-        imu = opMode.hardwareMap.get(IMU.class, imuConfig);
-        imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot (
-                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP)
-        ));
+//        imu = opMode.hardwareMap.get(IMU.class, imuConfig);
+//        imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot (
+//                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
+//                RevHubOrientationOnRobot.UsbFacingDirection.UP)
+//        ));
 
         //limelight = opMode.hardwareMap.get(Limelight3A.class, limelightConfig);
 

@@ -41,6 +41,7 @@ public class Localization extends Task{
         this.roboState = roboState;
         this.sensors = sensors;
         this.opMode = opMode;
+        setOdom(roboState);
     }
 
     @Override
