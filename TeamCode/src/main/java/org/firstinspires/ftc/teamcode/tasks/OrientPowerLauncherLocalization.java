@@ -21,7 +21,7 @@ public class OrientPowerLauncherLocalization extends Task {
     double goalX;
     double goalY;
 
-    public static double value = -122;
+    public static double value = -105;
 
     public OrientPowerLauncherLocalization(Launcher launcher, Localization localization, TritonicsOpMode opMode) {
         this.launcher = launcher;
@@ -41,7 +41,7 @@ public class OrientPowerLauncherLocalization extends Task {
         velocity = 2.64*distance() + 1013;
         launcher.R.setVelocity(velocity);
         launcher.L.setVelocity(velocity);
-        hoodAngle = Math.log10(0.0304062*distance()+1.67857)*2.16635-1.19756;
+        hoodAngle = -0.0000126984*Math.pow(distance(),2)+0.00890476*distance()-0.516                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ;
         opMode.telemetry.addData("RA Angle", hoodAngle);
         launcher.RA.setPosition(hoodAngle);
         turrAngle = modulo((Math.toDegrees(Math.atan2(goalY-robotPose.y, goalX-robotPose.x))-robotPose.theta + value), 360)/315;

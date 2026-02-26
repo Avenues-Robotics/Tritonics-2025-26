@@ -27,7 +27,7 @@ public class testThirteen extends TritonicsOpMode {
 
         localization = new Localization(sensors, new RoboState(0,0,0,0,0,0), this);
         drive = new PIDDrive(driveTrain, localization, new Pose2D(
-                DistanceUnit.CM, 0, 0, AngleUnit.DEGREES, 0
+                DistanceUnit.CM, -100, 0, AngleUnit.DEGREES, 0
         ), 4, 2);
 
         auto = new ParallelTask(localization, drive);

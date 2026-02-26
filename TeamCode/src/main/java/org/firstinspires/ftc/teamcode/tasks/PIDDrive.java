@@ -63,10 +63,10 @@ public class PIDDrive extends Task{
         double angular = thetaPID.findPower();
 
         // Combine the joystick requests for each axis-motion to determine each wheel's power.
-        double fr = (-forward - lateral - angular/1.5) * Math.abs(-forward - lateral - angular/1.5);
-        double fl = (-forward + lateral + angular/1.5) * Math.abs(-forward + lateral + angular/1.5);
-        double br = (-forward + lateral - angular/1.5) * Math.abs(-forward + lateral - angular/1.5);
-        double bl = (-forward - lateral + angular/1.5) * Math.abs(-forward - lateral + angular/1.5);
+        double fr = (-forward + lateral - angular/1.5) * Math.abs(-forward + lateral - angular/1.5);
+        double fl = (-forward - lateral + angular/1.5) * Math.abs(-forward - lateral + angular/1.5);
+        double br = (-forward - lateral - angular/1.5) * Math.abs(-forward - lateral - angular/1.5);
+        double bl = (-forward + lateral + angular/1.5) * Math.abs(-forward + lateral + angular/1.5);
 
         // Normalize the values so no wheel power exceeds 100%
         double max = Math.max(Math.max(Math.max(Math.abs(fl), Math.abs(fr)), Math.abs(bl)), Math.abs(br));

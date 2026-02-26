@@ -18,7 +18,7 @@ public class LoadSequenceTwo extends SeriesTask {
                                             new SeriesTask(new LoadLeftArtifact(intake, 500),
                                                     new SeriesTask(new Timer (500),
                                                             new SeriesTask(new LoadRightArtifact(intake, 500),
-                                                                    new PowerIntake(intake, -0.2)))))))));
+                                                                    new PowerIntake(intake, 1)))))))));
     }
 
 }

@@ -21,6 +21,9 @@ public class Sensors {
 
     public Telemetry telem;
 
+    public static double xOffset = 8.57;
+    public static double yOffset = 8.57;
+
     public Sensors(TritonicsOpMode opMode) {
 //        imu = opMode.hardwareMap.get(IMU.class, imuConfig);
 //        imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot (
@@ -39,7 +42,7 @@ public class Sensors {
         //limelight.start();
 
         odo = opMode.hardwareMap.get(GoBildaPinpointDriver.class, odoConfig);
-        odo.setOffsets(0, 0, DistanceUnit.CM); ///Edit this according to actual values
+        odo.setOffsets(xOffset, yOffset, DistanceUnit.CM); ///Edit this according to actual values
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);///Edit this according to actual values
         odo.resetPosAndIMU();
