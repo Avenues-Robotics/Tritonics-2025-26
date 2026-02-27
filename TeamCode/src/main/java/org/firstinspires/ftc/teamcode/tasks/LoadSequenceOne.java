@@ -18,7 +18,8 @@ public class LoadSequenceOne extends SeriesTask {
                                             new SeriesTask(new RotateServo(Intake.middleDown, intake.middle),
                                                     new SeriesTask(new Timer (300),
                                                             new SeriesTask(new LoadLeftArtifact(intake, 300),
-                                                                    new PowerIntake(intake, 1)))))))));
+                                                                    new SeriesTask(new PowerIntake(intake, 0),
+                                                                            new PowerTransfer(launcher, 0.25))))))))));
     }
 
 }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.tasks;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -41,6 +42,7 @@ public class Localization extends Task{
         this.roboState = roboState;
         this.sensors = sensors;
         this.opMode = opMode;
+        while(sensors.odo.getDeviceStatus() != GoBildaPinpointDriver.DeviceStatus.READY){}
         setOdom(roboState);
     }
 

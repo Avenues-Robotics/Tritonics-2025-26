@@ -13,12 +13,13 @@ public class LoadSequenceThree extends SeriesTask {
         super(new RotateServo(Launcher.blockerBlocking, launcher.blocker),
                 new SeriesTask(new PowerTransfer(launcher, 1),
                         new SeriesTask(new PowerIntake(intake, 1),
-                            new SeriesTask(new LoadLeftArtifact(intake, 500),
-                                    new SeriesTask(new Timer(500),
-                                            new SeriesTask(new LoadRightArtifact(intake, 500),
-                                                    new SeriesTask(new Timer (500),
+                            new SeriesTask(new LoadLeftArtifact(intake, 300),
+                                    new SeriesTask(new Timer(300),
+                                            new SeriesTask(new LoadRightArtifact(intake, 300),
+                                                    new SeriesTask(new Timer (300),
                                                             new SeriesTask(new RotateServo(Intake.middleDown, intake.middle),
-                                                                    new PowerIntake(intake, 1)))))))));
+                                                                    new SeriesTask(new PowerIntake(intake, 0),
+                                                                            new PowerTransfer(launcher, 0.25))))))))));
     }
 
 }
