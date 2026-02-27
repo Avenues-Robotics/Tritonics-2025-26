@@ -32,15 +32,15 @@ public class testThirteen extends TritonicsOpMode {
 
         auto = new ParallelTask(localization, drive);
 
-        telemetry.addData("x", 0);
-        telemetry.addData("theta", 0);
-        telemetry.update();
+        telem.addData("x", 0);
+        telem.addData("theta", 0);
+        telem.update();
 
         waitForStart();
 
         while(opModeIsActive()){
             auto.run();
-            telemetry.update();
+            telem.update();
         }
 
     }

@@ -42,12 +42,12 @@ public class OrientPowerLauncherLocalization extends Task {
         launcher.R.setVelocity(velocity);
         launcher.L.setVelocity(velocity);
         hoodAngle = -0.0000126984*Math.pow(distance(),2)+0.00890476*distance()-0.516                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ;
-        opMode.telemetry.addData("RA Angle", hoodAngle);
+        opMode.telem.addData("RA Angle", hoodAngle);
         launcher.RA.setPosition(hoodAngle);
         turrAngle = modulo((Math.toDegrees(Math.atan2(goalY-robotPose.y, goalX-robotPose.x))-robotPose.theta + value), 360)/315;
         launcher.DEC1.setPosition(turrAngle);
         launcher.DEC2.setPosition(turrAngle);
-        opMode.telemetry.addData("d", distance());
+        opMode.telem.addData("d", distance());
         return false;
     }
 

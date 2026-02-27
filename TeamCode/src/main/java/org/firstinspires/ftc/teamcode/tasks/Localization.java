@@ -42,7 +42,17 @@ public class Localization extends Task{
         this.roboState = roboState;
         this.sensors = sensors;
         this.opMode = opMode;
-        while(sensors.odo.getDeviceStatus() != GoBildaPinpointDriver.DeviceStatus.READY){}
+        int i = 0;
+        while(sensors.odo.getDeviceStatus() != GoBildaPinpointDriver.DeviceStatus.READY){
+            sensors.odo.update();
+            opMode.telem.addData("Status", sensors.odo.getDeviceStatus());
+            opMode.telem.addData("loop", i);
+            opMode.telem.update();
+            opMode.telemetry.addData("Status", sensors.odo.getDeviceStatus());
+            opMode.telemetry.addData("Loop number", i);
+            opMode.telemetry.update();
+            i++;
+        }
         setOdom(roboState);
     }
 
@@ -60,9 +70,9 @@ public class Localization extends Task{
 //            dt.reset();
 //        }
         roboState = odom();
-        opMode.telemetry.addData("x", roboState.x);
-        opMode.telemetry.addData("y", roboState.y);
-        opMode.telemetry.addData("theta", Math.floorMod((int) (roboState.theta), 360));
+        opMode.telem.addData("x", roboState.x);
+        opMode.telem.addData("y", roboState.y);
+        opMode.telem.addData("theta", Math.floorMod((int) (roboState.theta), 360));
         return false;
     }
 

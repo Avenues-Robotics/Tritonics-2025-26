@@ -30,10 +30,10 @@ public class testTwothousandFourhundredSixtyEight extends TritonicsOpMode {
 
         while(opModeIsActive()) {
             auto.run();
-            telemetry.addData("x", localization.getRoboState().x);
-            telemetry.addData("y", localization.getRoboState().y);
-            telemetry.addData("theta", localization.getRoboState().theta);
-            telemetry.update();
+            telem.addData("x", localization.getRoboState().x);
+            telem.addData("y", localization.getRoboState().y);
+            telem.addData("theta", localization.getRoboState().theta);
+            telem.update();
         }
     }
 

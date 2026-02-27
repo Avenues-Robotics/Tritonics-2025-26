@@ -22,10 +22,10 @@ public class testfourtytwothousandtwentyfive extends TritonicsOpMode {
         while(opModeIsActive()) {
             sensors.odo.update();
             pose = sensors.odo.getPosition();
-            telemetry.addData("x", pose.getX(DistanceUnit.CM));
-            telemetry.addData("y", pose.getY(DistanceUnit.CM));
-            telemetry.addData("theta", pose.getHeading(AngleUnit.DEGREES));
-            telemetry.update();
+            telem.addData("x", pose.getX(DistanceUnit.CM));
+            telem.addData("y", pose.getY(DistanceUnit.CM));
+            telem.addData("theta", pose.getHeading(AngleUnit.DEGREES));
+            telem.update();
         }
 
     }

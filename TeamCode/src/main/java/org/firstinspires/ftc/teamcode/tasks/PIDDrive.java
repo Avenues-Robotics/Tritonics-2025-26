@@ -83,7 +83,14 @@ public class PIDDrive extends Task{
         driveTrain.BL.setPower(bl);
         driveTrain.BR.setPower(br);
 
-        return Math.sqrt(Math.pow(destination.getX(DistanceUnit.CM) - localization.getRoboState().x, 2) + Math.pow(destination.getY(DistanceUnit.CM) - localization.getRoboState().y, 2)) < horizToler && destination.getHeading(AngleUnit.DEGREES) - localization.getRoboState().theta < thetaToler;
+        if(Math.sqrt(Math.pow(destination.getX(DistanceUnit.CM) - localization.getRoboState().x, 2) + Math.pow(destination.getY(DistanceUnit.CM) - localization.getRoboState().y, 2)) < horizToler && destination.getHeading(AngleUnit.DEGREES) - localization.getRoboState().theta < thetaToler) {
+            driveTrain.FL.setPower(0);
+            driveTrain.FR.setPower(0);
+            driveTrain.BL.setPower(0);
+            driveTrain.BR.setPower(0);
+            return true;
+        }
+        return false;
     }
 
     @Override

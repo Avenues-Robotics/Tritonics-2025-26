@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 
@@ -21,8 +20,8 @@ public class testTwo extends TritonicsOpMode {
         // Perform calculations - something  noah cant do
         double calculation = -b * Math.log(1 + m) + (v / m);
 
-        telemetry.addData("Calculation", calculation); //gpt said addData was better than Println
-        telemetry.update(); // did gpt write this code? GPT code is unreliable and doesn't build your skills
+        telem.addData("Calculation", calculation); //gpt said addData was better than Println
+        telem.update(); // did gpt write this code? GPT code is unreliable and doesn't build your skills
     }
 
 

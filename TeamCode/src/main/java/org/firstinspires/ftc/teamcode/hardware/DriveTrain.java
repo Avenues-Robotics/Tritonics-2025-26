@@ -36,7 +36,7 @@ public class DriveTrain {
     public DcMotor odomL; public static String odomLConfig = "FL"; public static double lDistance = 393475;
     public DcMotor odomH; public static String odomHConfig = "BR"; public static double hDistance = 584393;
 
-    //Dashboard telemetry instance
+    //Dashboard telem instance
     public Telemetry telem;
 
     //Drive Train constructor initiates drive train hardware, giving the option to run without encoder
@@ -86,7 +86,7 @@ public class DriveTrain {
 //        odomR.setDirection(DcMotor.Direction.REVERSE);
 //        odomL.setDirection(DcMotor.Direction.REVERSE);
 
-        //grabs a dashboard telemetry instance
+        //grabs a dashboard telem instance
         telem = FtcDashboard.getInstance().getTelemetry();
     }
 
@@ -128,7 +128,7 @@ public class DriveTrain {
 //        odomL = opMode.hardwareMap.get(DcMotor.class, odomLConfig);
 //        odomH = opMode.hardwareMap.get(DcMotor.class, odomHConfig);
 
-        //grabs a dashboard telemetry instance
+        //grabs a dashboard telem instance
         telem = FtcDashboard.getInstance().getTelemetry();
     }
 }

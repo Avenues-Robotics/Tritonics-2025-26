@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 @Autonomous
 public class RedCloseAuto12 extends TritonicsOpMode {
 
-    public static long wait = 1000;
+    public static long wait = 2000;
 
     Localization localization;
 

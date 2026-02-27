@@ -52,7 +52,7 @@ public class testNine extends TritonicsOpMode {
 
         while(opModeIsActive()){
             auto.run();
-            telemetry.update();
+            telem.update();
         }
 
     }

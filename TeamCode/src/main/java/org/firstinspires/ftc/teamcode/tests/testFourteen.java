@@ -22,7 +22,7 @@ public class testFourteen extends TritonicsOpMode {
 
         while(opModeIsActive()) {
             localization.run();
-            telemetry.update();
+            telem.update();
         }
 
     }

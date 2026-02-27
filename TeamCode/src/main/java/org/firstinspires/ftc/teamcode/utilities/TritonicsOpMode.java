@@ -18,7 +18,7 @@ public abstract class TritonicsOpMode extends LinearOpMode {
     public Launcher launcher;
     public Sensors sensors;
 
-    public Telemetry telemetry;
+    public Telemetry telem;
 
     @Override
     public void runOpMode() {
@@ -26,7 +26,7 @@ public abstract class TritonicsOpMode extends LinearOpMode {
         intake = new Intake(this);
         launcher = new Launcher(this);
         sensors = new Sensors(this);
-        telemetry = FtcDashboard.getInstance().getTelemetry();
+        telem = FtcDashboard.getInstance().getTelemetry();
         runTritonicsOpMode();
     }
 
