@@ -18,7 +18,7 @@ public class LoadSequenceThree extends SeriesTask {
                                             new SeriesTask(new LoadRightArtifact(intake, 300),
                                                     new SeriesTask(new Timer (300),
                                                             new SeriesTask(new RotateServo(Intake.middleDown, intake.middle),
-                                                                    new SeriesTask(new PowerIntake(intake, 0),
+                                                                    new SeriesTask(new PowerIntake(intake, 1),
                                                                             new PowerTransfer(launcher, 0))))))))));
     }
 
