@@ -11,6 +11,15 @@ import org.firstinspires.ftc.teamcode.hardware.Sensors;
 
 public abstract class TritonicsOpMode extends LinearOpMode {
 
+    public enum Motif{
+        UNREAD,
+        GPP,
+        PGP,
+        PPG
+    }
+
+    public Motif motif;
+
     public boolean isRedSide;
 
     public DriveTrain driveTrain;
@@ -27,6 +36,7 @@ public abstract class TritonicsOpMode extends LinearOpMode {
         launcher = new Launcher(this);
         sensors = new Sensors(this);
         telem = FtcDashboard.getInstance().getTelemetry();
+        motif = Motif.UNREAD;
         runTritonicsOpMode();
     }
 

@@ -30,21 +30,16 @@ public class Sensors {
 //                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
 //                RevHubOrientationOnRobot.UsbFacingDirection.UP)
 //        ));
+        limelight = opMode.hardwareMap.get(Limelight3A.class, limelightConfig);
 
-        //limelight = opMode.hardwareMap.get(Limelight3A.class, limelightConfig);
+        limelight.pipelineSwitch(0);
 
-//        if(opMode.globalVariables.isRedSide) {
-//            limelight.pipelineSwitch(0);
-//        } else {
-//            limelight.pipelineSwitch(1);
-//        }
-
-        //limelight.start();
+        limelight.start();
 
         odo = opMode.hardwareMap.get(GoBildaPinpointDriver.class, odoConfig);
-        odo.setOffsets(xOffset, yOffset, DistanceUnit.CM); ///Edit this according to actual values
+        odo.setOffsets(xOffset, yOffset, DistanceUnit.CM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);///Edit this according to actual values
+        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         odo.resetPosAndIMU();
 
         telem = FtcDashboard.getInstance().getTelemetry();
