@@ -10,10 +10,11 @@ import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.tasks.DriveTeleop;
 import org.firstinspires.ftc.teamcode.tasks.Launch;
 import org.firstinspires.ftc.teamcode.tasks.LoadSequenceOne;
-import org.firstinspires.ftc.teamcode.tasks.LoadSequenceThree;
 import org.firstinspires.ftc.teamcode.tasks.Localization;
 import org.firstinspires.ftc.teamcode.tasks.OrientPowerLauncherLocalization;
 import org.firstinspires.ftc.teamcode.tasks.ParallelTask;
+import org.firstinspires.ftc.teamcode.tasks.PowerIntake;
+import org.firstinspires.ftc.teamcode.tasks.PowerTransfer;
 import org.firstinspires.ftc.teamcode.tasks.Relocalize;
 import org.firstinspires.ftc.teamcode.tasks.Task;
 import org.firstinspires.ftc.teamcode.tasks.TeleopTask;
@@ -22,7 +23,7 @@ import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 
 @TeleOp
 @Config
-public class RedTeleop extends TritonicsOpMode {
+public class RedCloseTeleop extends TritonicsOpMode {
 
     Localization localization;
 
@@ -31,6 +32,7 @@ public class RedTeleop extends TritonicsOpMode {
     Task launch;
     Task powerLauncher;
     Task relocalize;
+    Task reverse;
 
     Task teleop;
 
@@ -40,13 +42,14 @@ public class RedTeleop extends TritonicsOpMode {
         isRedSide = true;
 
         driveTeleop = new DriveTeleop(driveTrain, this);
-        loadSequence = new TeleopTask(new LoadSequenceOne(intake, launcher), ()->gamepad1.right_bumper, true);
-        launch = new TeleopTask(new Launch(intake, launcher), ()->gamepad1.right_trigger > 0.7, true);
-        localization = new Localization(sensors, new RoboState(0,0,0,0,0,0), this);
+        loadSequence = new TeleopTask(new LoadSequenceOne(intake, launcher), () -> gamepad1.right_bumper, true);
+        launch = new TeleopTask(new Launch(intake, launcher), () -> gamepad1.right_trigger > 0.7, true);
+        localization = new Localization(sensors, new RoboState(-74.277, 77.846,90,0,0,0), this);
         powerLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
-        relocalize = new Relocalize(sensors, new Pose2D(DistanceUnit.CM, 0, 0, AngleUnit.DEGREES, 0)); // TODO: Get the right coordinates, these change for blue
+        relocalize = new TeleopTask(new Relocalize(sensors, new Pose2D(DistanceUnit.CM, 165.936, -151.990, AngleUnit.DEGREES, 270)), () -> gamepad1.square, false);
+        reverse = new TeleopTask(new ParallelTask(new PowerTransfer(launcher, -1), new PowerIntake(intake, -1)), () -> gamepad1.left_trigger > 0.7, true);
 
-        teleop = new ParallelTask(new Task[]{loadSequence, launch, localization, powerLauncher, driveTeleop});
+        teleop = new ParallelTask(new Task[]{loadSequence, launch, localization, powerLauncher, driveTeleop, relocalize, reverse});
 
         waitForStart();
 

@@ -21,11 +21,13 @@ public class PIDDrive extends Task{
 
     public static double horizP = -0.08;
     public static double horizI = 0;
-    public static double horizD = 0.038;
+    public static double horizD = 0.015;
 
     public static double thetaP = 0.04;
     public static double thetaI = 0;
-    public static double thetaD = -0.008;
+    public static double thetaD = -0.0065;
+
+    public static double latScaling = 1.414;
 
     double horizToler;
     double thetaToler;
@@ -59,7 +61,7 @@ public class PIDDrive extends Task{
     public boolean run() {
 
         double forward = -yPID.findPower();
-        double lateral = xPID.findPower();
+        double lateral = latScaling * xPID.findPower();
         double angular = thetaPID.findPower();
 
         // Combine the joystick requests for each axis-motion to determine each wheel's power.
