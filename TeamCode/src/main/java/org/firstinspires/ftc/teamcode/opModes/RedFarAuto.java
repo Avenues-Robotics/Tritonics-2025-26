@@ -69,7 +69,7 @@ public class RedFarAuto extends TritonicsOpMode {
 
         orientLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
 
-        startTimer = new Timer(1000);
+        startTimer = new Timer(2000);
         loadOne = new LoadSequenceOne(intake, launcher);
         launchOne = new Launch(intake, launcher);
         timerOne = new Timer(1000);
