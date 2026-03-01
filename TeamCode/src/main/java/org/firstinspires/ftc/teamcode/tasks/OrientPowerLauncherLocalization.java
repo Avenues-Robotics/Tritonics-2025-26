@@ -21,10 +21,10 @@ public class OrientPowerLauncherLocalization extends Task {
     double goalX;
     double goalY;
 
-    public static double m = 3.3;
-    public static double b = 1013;
+    public static double m = 2.8;
+    public static double b = 1100;
 
-    public static double value = -108;
+    public static double value = -155;
 
     public OrientPowerLauncherLocalization(Launcher launcher, Localization localization, TritonicsOpMode opMode) {
         this.launcher = launcher;

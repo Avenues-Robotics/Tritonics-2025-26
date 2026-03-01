@@ -32,7 +32,7 @@ public class Launcher {
 
     public static double p = 150;
     public static double i = 0;
-    public static double d = 0;
+    public static double d = 20;
     public static double f = 13;
     PIDFCoefficients coefs;
 
