@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.hardware.Launcher;
 public class LaunchSequenceTwo extends SeriesTask {
 
     public LaunchSequenceTwo(Intake intake, Launcher launcher) {
-        super(new RotateServo(Launcher.blockerBlocking, launcher.blocker),
+        super(new RotateServo(Launcher.blockerAway, launcher.blocker),
                 new SeriesTask(new PowerTransfer(launcher, 1),
                         new SeriesTask(new PowerIntake(intake, 1),
                             new SeriesTask(new RotateServo(Intake.middleDown, intake.middle),
