@@ -14,13 +14,16 @@ public class LaunchSequenceTwo extends SeriesTask {
                 new SeriesTask(new PowerTransfer(launcher, 1),
                         new SeriesTask(new PowerIntake(intake, 1),
                             new SeriesTask(new RotateServo(Intake.middleDown, intake.middle),
-                                    new SeriesTask(new Timer(300),
-                                            new SeriesTask(new LoadLeftArtifact(intake, 300),
-                                                    new SeriesTask(new Timer (300),
-                                                            new SeriesTask(new LoadRightArtifact(intake, 300),
-                                                                    new SeriesTask(new Timer(300),
+                                    new SeriesTask(new Timer(200),
+                                            new SeriesTask(new LoadLeftArtifact(intake, 200),
+                                                    new SeriesTask(new Timer (200),
+                                                            new SeriesTask(new LoadRightArtifact(intake, 200),
+                                                                    new SeriesTask(new Timer(600),
+                                                                            new SeriesTask(new RotateServo(Intake.rightBlocking, intake.right),
+                                                                                    new SeriesTask(new RotateServo(Intake.middleUp, intake.middle),
+                                                                                            new SeriesTask(new RotateServo(Intake.leftBlocking, intake.left),
                                                                         new SeriesTask(new PowerIntake(intake, 1),
-                                                                                new PowerTransfer(launcher, 0)))))))))));
+                                                                                new PowerTransfer(launcher, 0))))))))))))));
     }
 
 }

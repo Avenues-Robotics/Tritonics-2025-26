@@ -22,7 +22,7 @@ public class OrientPowerLauncherLocalization extends Task {
     double goalY;
 
     public static double m = 2.8;
-    public static double b = 1100;
+    public static double b = 1013;
 
     public static double value = -155;
 
@@ -43,7 +43,7 @@ public class OrientPowerLauncherLocalization extends Task {
     public boolean run() {
         velocity = m*distance() + b;
         launcher.L.setVelocity(velocity);
-        launcher.R.setPower(launcher.L.getPower()); //TODO: FIX THIS WITH PROPER WIRES SO WE CAN SET BOTH VELOCITY
+        launcher.R.setVelocity(velocity);
         hoodAngle = -0.0000126984*Math.pow(distance(),2)+0.00890476*distance()-0.516                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ;
         opMode.telem.addData("RA Angle", hoodAngle);
         launcher.RA.setPosition(hoodAngle);

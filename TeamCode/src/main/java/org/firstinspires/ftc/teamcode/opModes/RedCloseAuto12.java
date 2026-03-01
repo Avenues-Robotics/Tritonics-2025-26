@@ -103,7 +103,6 @@ public class RedCloseAuto12 extends TritonicsOpMode {
                 new ParallelTask(loadTwo, new SeriesTask(new Task[]{firstToGate, gateWait, gateToShoot})),
                 timerTwo,
                 launchTwo,
-                shootToSecond,
                 secondPickup,
                 new ParallelTask(loadThree, secondToShoot),
                 timerThree,

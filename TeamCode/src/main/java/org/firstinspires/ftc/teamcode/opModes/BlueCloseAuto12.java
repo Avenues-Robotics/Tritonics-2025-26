@@ -93,31 +93,27 @@ public class BlueCloseAuto12 extends TritonicsOpMode {
         timerFour = new Timer(wait);
         park = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -79.412, -125.148, AngleUnit.DEGREES, 90), 5, 5);
 
-        auto = new Task();
-
-//        auto = new ParallelTask(new Task[]{localization, orientPowerLauncher, new SeriesTask(new Task[]{
-//                startToShoot,
-//                new ParallelTask(loadOne,
-//                timerOne,
-//                shootToFirst,
-//                firstPickup,
-//                firstToGate,
-//                gateWait,
-//                gateToShoot,
-//                new ParallelTask(loadTwo, new SeriesTask(new Task[]{}),
-//                timerTwo,
-//                shootToSecond,
-//                secondPickup,
-//                secondToShoot,
-//                new ParallelTask(loadThree,
-//                timerThree,
-//                shootToThird,
-//                thirdPickup,
-//                thirdToShoot,
-//                new ParallelTask(loadFour,
-//                timerFour,
-//                park
-//        })});
+        auto = new ParallelTask(new Task[]{localization, orientPowerLauncher, new SeriesTask(new Task[]{
+                new ParallelTask(loadOne, startToShoot),
+                launchOne,
+                timerOne,
+                shootToFirst,
+                firstPickup,
+                new ParallelTask(loadTwo, new SeriesTask(new Task[]{firstToGate, gateWait, gateToShoot})),
+                timerTwo,
+                launchTwo,
+                shootToSecond,
+                secondPickup,
+                new ParallelTask(loadThree, secondToShoot),
+                timerThree,
+                launchThree,
+                shootToThird,
+                thirdPickup,
+                new ParallelTask(loadFour, thirdToShoot),
+                timerFour,
+                launchFour,
+                park
+        })});
 
         intake.left.setPosition(Intake.leftBlocking);
         intake.middle.setPosition(Intake.middleUp);
