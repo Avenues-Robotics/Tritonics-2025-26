@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.tasks.Launch;
 import org.firstinspires.ftc.teamcode.tasks.LaunchSequence;
+import org.firstinspires.ftc.teamcode.tasks.LaunchSequenceThree;
 import org.firstinspires.ftc.teamcode.tasks.LoadSequenceOne;
 import org.firstinspires.ftc.teamcode.tasks.LoadSequenceThree;
 import org.firstinspires.ftc.teamcode.tasks.Localization;
@@ -71,63 +72,58 @@ public class RedFarAuto extends TritonicsOpMode {
         orientLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
 
         startTimer = new Timer(2000);
-        loadOne = new LoadSequenceThree(intake, launcher);
+        loadOne = new LaunchSequenceThree(intake, launcher);
         launchOne = new Launch(intake, launcher);
         timerOne = new Timer(1000);
         driveThereOne = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 158.816, 142.783, AngleUnit.DEGREES, 180), 20, 10);
         driveBackOne = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 159.989, 34.611, AngleUnit.DEGREES, 180), 10, 10);
-        loadTwo = new LoadSequenceThree(intake, launcher);
+        loadTwo = new LaunchSequenceThree(intake, launcher);
         launchTwo = new Launch(intake, launcher);
         timerTwo = new Timer(1000);
         driveThereTwo = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 158.816, 142.783, AngleUnit.DEGREES, 180), 20, 10);
         driveBackTwo = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 159.989, 34.611, AngleUnit.DEGREES, 180), 10, 10);
-        loadThree = new LoadSequenceThree(intake, launcher);
+        loadThree = new LaunchSequenceThree(intake, launcher);
         launchThree = new Launch(intake, launcher);
         timerThree = new Timer(1000);
         driveThereThree = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 158.816, 142.783, AngleUnit.DEGREES, 180), 20, 10);
         driveBackThree = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 159.989, 34.611, AngleUnit.DEGREES, 180), 10, 10);
-        loadFour = new LoadSequenceThree(intake, launcher);
+        loadFour = new LaunchSequenceThree(intake, launcher);
         launchFour = new Launch(intake, launcher);
         timerFour = new Timer(1000);
         driveThereFour = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 158.816, 142.783, AngleUnit.DEGREES, 180), 20, 10);
         driveBackFour = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 159.989, 34.611, AngleUnit.DEGREES, 180), 10, 10);
-        loadFive = new LoadSequenceThree(intake, launcher);
+        loadFive = new LaunchSequenceThree(intake, launcher);
         launchFive = new Launch(intake, launcher);
         timerFive = new Timer(1000);
         driveThereFive = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 158.816, 142.783, AngleUnit.DEGREES, 180), 20, 10);
         driveBackFive = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 159.989, 34.611, AngleUnit.DEGREES, 180), 10, 10);
-        loadSix = new LoadSequenceThree(intake, launcher);
+        loadSix = new LaunchSequenceThree(intake, launcher);
         launchSix = new Launch(intake, launcher);
         park = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 157.424, 77.624, AngleUnit.DEGREES, 180), 5, 5);
 
         auto = new ParallelTask(new Task[] {localization, orientLauncher, new SeriesTask(new Task[]{
                 startTimer,
                 loadOne,
-                launchOne,
                 timerOne,
                 driveThereOne,
-                new ParallelTask(driveBackOne, loadTwo),
+                driveBackOne,
                 loadTwo,
-                launchTwo,
                 timerTwo,
                 driveThereTwo,
-                new ParallelTask(driveBackTwo, loadThree),
+                driveBackTwo,
                 loadThree,
-                launchThree,
                 timerThree,
                 driveThereThree,
-                new ParallelTask(driveBackThree, loadFour),
+                driveBackThree,
                 loadFour,
-                launchFour,
                 timerFour,
                 driveThereFour,
-                new ParallelTask(driveBackFour, loadFive),
+                driveBackFour,
                 loadFive,
-                launchFive,
                 timerFive,
                 driveThereFive,
-                new ParallelTask(driveBackFive, loadSix),
-                launchSix,
+                driveBackFive,
+                loadSix,
                 park
         })});
 

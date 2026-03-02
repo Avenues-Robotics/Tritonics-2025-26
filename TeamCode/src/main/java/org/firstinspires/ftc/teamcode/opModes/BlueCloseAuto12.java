@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.tasks.LoadSequenceThree;
 import org.firstinspires.ftc.teamcode.tasks.Localization;
 import org.firstinspires.ftc.teamcode.tasks.OrientPowerLauncherLocalization;
 import org.firstinspires.ftc.teamcode.tasks.PIDDrive;
+import org.firstinspires.ftc.teamcode.tasks.ParallelRaceTask;
 import org.firstinspires.ftc.teamcode.tasks.ParallelTask;
 import org.firstinspires.ftc.teamcode.tasks.SeriesTask;
 import org.firstinspires.ftc.teamcode.tasks.Task;
@@ -68,50 +69,51 @@ public class BlueCloseAuto12 extends TritonicsOpMode {
         orientPowerLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
 
         startToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -96.323, -42.197, AngleUnit.DEGREES, 90), 10, 20);
-        loadOne = new LoadSequenceThree(intake, launcher);
+        loadOne = new FindLaunchSequence(this, Motif.GPP);
         launchOne = new Launch(intake, launcher);
         timerOne = new Timer(wait);
         shootToFirst = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -79.412, -125.148, AngleUnit.DEGREES, 90), 5, 5);
-        firstPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -54.412, -125.148, AngleUnit.DEGREES, 90), 5, 5);
+        firstPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -44.412, -125.148, AngleUnit.DEGREES, 90), 5, 5);
         firstToGate = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -11.133, -141.002, AngleUnit.DEGREES, 90), 5, 10);
         gateWait = new Timer(1500);
-        loadTwo = new LoadSequenceThree(intake, launcher);
+        loadTwo = new FindLaunchSequence(this, Motif.PPG);
         gateToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, -77.846, AngleUnit.DEGREES, 90), 10, 20);
         launchTwo = new Launch(intake, launcher);
         timerTwo = new Timer(wait);
         shootToSecond = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -30.088, -126.597, AngleUnit.DEGREES, 90), 5, 5);
         secondPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 4.912, -126.597, AngleUnit.DEGREES, 90), 5, 5);
         secondToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, -77.846, AngleUnit.DEGREES, 90), 10, 20);
-        loadThree = new LoadSequenceThree(intake, launcher);
+        loadThree = new FindLaunchSequence(this, Motif.PGP);
         launchThree = new Launch(intake, launcher);
         timerThree = new Timer(wait);
         shootToThird = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 21.948, -127.206, AngleUnit.DEGREES, 90), 5, 5);
         thirdPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 66.948, -127.206, AngleUnit.DEGREES, 90), 5, 5);
         thirdToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, -77.846, AngleUnit.DEGREES, 90), 5, 5);
-        loadFour = new LoadSequenceThree(intake, launcher);
+        loadFour = new FindLaunchSequence(this, Motif.GPP);
         launchFour = new Launch(intake, launcher);
         timerFour = new Timer(wait);
         park = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -79.412, -125.148, AngleUnit.DEGREES, 90), 5, 5);
 
         auto = new ParallelTask(new Task[]{localization, orientPowerLauncher, new SeriesTask(new Task[]{
-                new ParallelTask(loadOne, startToShoot),
-                launchOne,
+                startToShoot,
+                loadOne,
                 timerOne,
                 shootToFirst,
                 firstPickup,
-                new ParallelTask(loadTwo, new SeriesTask(new Task[]{firstToGate, gateWait, gateToShoot})),
+                new ParallelRaceTask(firstToGate, new Timer(2000)),
+                gateWait,
+                gateToShoot,
+                loadTwo,
                 timerTwo,
-                launchTwo,
-                shootToSecond,
                 secondPickup,
-                new ParallelTask(loadThree, secondToShoot),
+                secondToShoot,
+                loadThree,
                 timerThree,
-                launchThree,
                 shootToThird,
                 thirdPickup,
-                new ParallelTask(loadFour, thirdToShoot),
+                thirdToShoot,
+                loadFour,
                 timerFour,
-                launchFour,
                 park
         })});
 
@@ -120,6 +122,8 @@ public class BlueCloseAuto12 extends TritonicsOpMode {
         intake.right.setPosition(Intake.rightBlocking);
 
         waitForStart();
+
+        intake.motor.setPower(1);
 
         while(opModeIsActive()) {
             auto.run();

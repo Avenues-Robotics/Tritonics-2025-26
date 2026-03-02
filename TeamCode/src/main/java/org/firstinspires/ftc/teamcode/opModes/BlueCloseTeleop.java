@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.tasks.DriveTeleop;
 import org.firstinspires.ftc.teamcode.tasks.Launch;
+import org.firstinspires.ftc.teamcode.tasks.LaunchSequenceThree;
 import org.firstinspires.ftc.teamcode.tasks.LoadSequenceThree;
 import org.firstinspires.ftc.teamcode.tasks.Localization;
 import org.firstinspires.ftc.teamcode.tasks.OrientPowerLauncherLocalization;
@@ -42,14 +43,14 @@ public class BlueCloseTeleop extends TritonicsOpMode {
         isRedSide = false;
 
         driveTeleop = new DriveTeleop(driveTrain, this);
-        loadSequence = new TeleopTask(new LoadSequenceThree(intake, launcher), () -> gamepad1.right_bumper, true);
+        loadSequence = new TeleopTask(new LaunchSequenceThree(intake, launcher), () -> gamepad1.right_bumper, true);
         launch = new TeleopTask(new Launch(intake, launcher), () -> gamepad1.right_trigger > 0.7, true);
         localization = new Localization(sensors, new RoboState(-79.412, 125.148, 90,0,0,0), this);
         powerLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
         relocalize = new TeleopTask(new Relocalize(sensors, new Pose2D(DistanceUnit.CM, 165.936, -151.990, AngleUnit.DEGREES, 270)), () -> gamepad1.square, false);
         reverse = new TeleopTask(new ParallelTask(new PowerTransfer(launcher, -1), new PowerIntake(intake, -1)), () -> gamepad1.left_trigger > 0.7, true);
 
-        teleop = new ParallelTask(new Task[]{loadSequence, launch, localization, powerLauncher, driveTeleop, relocalize, reverse});
+        teleop = new ParallelTask(new Task[]{loadSequence, localization, powerLauncher, driveTeleop, relocalize, reverse});
 
         waitForStart();
 
