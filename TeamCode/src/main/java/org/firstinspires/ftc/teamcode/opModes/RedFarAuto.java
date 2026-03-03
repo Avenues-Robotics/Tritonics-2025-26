@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.opModes;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.util.ReadWriteFile;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.tasks.Launch;
 import org.firstinspires.ftc.teamcode.tasks.LaunchSequence;
@@ -22,11 +24,15 @@ import org.firstinspires.ftc.teamcode.tasks.Timer;
 import org.firstinspires.ftc.teamcode.utilities.RoboState;
 import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 @Config
 @Autonomous
-public class RedFarAuto extends TritonicsOpMode {
-
-    Localization localization;
+public class RedFarAuto extends TritonicsOpMode{
 
     Task orientLauncher;
 
@@ -136,6 +142,8 @@ public class RedFarAuto extends TritonicsOpMode {
         while(opModeIsActive()) {
             auto.run();
         }
+
+        saveState();
 
     }
 

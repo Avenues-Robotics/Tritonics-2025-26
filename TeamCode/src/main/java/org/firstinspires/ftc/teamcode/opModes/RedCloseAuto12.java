@@ -28,7 +28,6 @@ public class RedCloseAuto12 extends TritonicsOpMode {
 
     public static long wait = 0;
 
-    Localization localization;
     Task readMotif;
     Task orientPowerLauncher;
 
@@ -131,6 +130,8 @@ public class RedCloseAuto12 extends TritonicsOpMode {
             telem.update();
             auto.run();
         }
+
+        saveState();
 
     }
 

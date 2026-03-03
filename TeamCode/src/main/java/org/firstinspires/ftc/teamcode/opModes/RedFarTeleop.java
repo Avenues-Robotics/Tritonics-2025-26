@@ -27,8 +27,6 @@ import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 @Config
 public class RedFarTeleop extends TritonicsOpMode {
 
-    Localization localization;
-
     Task driveTeleop;
     Task loadSequence;
     Task launch;
@@ -45,13 +43,15 @@ public class RedFarTeleop extends TritonicsOpMode {
 
         driveTeleop = new DriveTeleop(driveTrain, this);
         loadSequence = new TeleopTask(new LoadSequenceThree(intake, launcher), () -> gamepad1.right_bumper, true);
-        launch = new TeleopTask(new Launch(intake, launcher), () -> gamepad1.right_trigger > 0.7, true);
+        launch = new TeleopTask(new LaunchSequenceThree(intake, launcher), () -> gamepad1.right_trigger > 0.7, true);
         localization = new Localization(sensors, new RoboState(157.424, 77.624,180,0,0,0), this);
         powerLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
         relocalize = new TeleopTask(new Relocalize(sensors, new Pose2D(DistanceUnit.CM, 165.936, -151.990, AngleUnit.DEGREES, 270)), () -> gamepad1.square, false);
         reverse = new TeleopTask(new ParallelTask(new PowerTransfer(launcher, -1), new PowerIntake(intake, -1)), () -> gamepad1.left_trigger > 0.7, true);
 
-        teleop = new ParallelTask(new Task[]{loadSequence, launch, localization, powerLauncher, driveTeleop, relocalize, reverse});
+        readState();
+
+        teleop = new ParallelTask(new Task[]{launch, localization, powerLauncher, driveTeleop, relocalize, reverse});
 
         waitForStart();
 

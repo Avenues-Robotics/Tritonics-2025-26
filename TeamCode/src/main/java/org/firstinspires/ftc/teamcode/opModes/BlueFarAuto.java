@@ -25,8 +25,6 @@ import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 @Autonomous
 public class BlueFarAuto extends TritonicsOpMode {
 
-    Localization localization;
-
     Task orientLauncher;
 
     Task startTimer;
@@ -135,6 +133,8 @@ public class BlueFarAuto extends TritonicsOpMode {
         while(opModeIsActive()) {
             auto.run();
         }
+
+        saveState();
 
     }
 

@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.utilities;
 
-public class RoboState {
+import java.io.Serializable;
+
+public class RoboState implements Serializable {
     public double x; public double sigmaX;
     public double y; public double sigmaY;
     public double theta; public double sigmaTheta;

@@ -27,8 +27,6 @@ public class BlueCloseAuto12 extends TritonicsOpMode {
 
     public static long wait = 0;
 
-    Localization localization;
-
     Task orientPowerLauncher;
 
     Task startToShoot;
@@ -128,6 +126,8 @@ public class BlueCloseAuto12 extends TritonicsOpMode {
         while(opModeIsActive()) {
             auto.run();
         }
+
+        saveState();
 
     }
 

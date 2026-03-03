@@ -27,8 +27,6 @@ import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 @Config
 public class RedCloseTeleop extends TritonicsOpMode {
 
-    Localization localization;
-
     Task driveTeleop;
     Task loadSequence;
     Task launch;
@@ -50,6 +48,8 @@ public class RedCloseTeleop extends TritonicsOpMode {
         powerLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
         relocalize = new TeleopTask(new Relocalize(sensors, new Pose2D(DistanceUnit.CM, 165.936, -151.990, AngleUnit.DEGREES, 270)), () -> gamepad1.square, false);
         reverse = new TeleopTask(new ParallelTask(new PowerTransfer(launcher, -1), new PowerIntake(intake, -1)), () -> gamepad1.left_trigger > 0.7, true);
+
+        readState();
 
         teleop = new ParallelTask(new Task[]{loadSequence, localization, powerLauncher, driveTeleop, relocalize, reverse});
 

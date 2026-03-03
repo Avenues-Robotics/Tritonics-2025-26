@@ -20,6 +20,12 @@ public class Localization extends Task{
     Sensors sensors;
 
     RoboState roboState;
+    RoboState odom;
+    RoboState correctedOdom;
+    RoboState tags;
+    RoboState offsets;
+
+    LLResult result;
 
     ElapsedTime dt;
     ElapsedTime timer;
@@ -54,6 +60,8 @@ public class Localization extends Task{
             i++;
         }
         setOdom(roboState);
+        timer = new ElapsedTime();
+        correctedOdom = new RoboState();
     }
 
     @Override
@@ -61,18 +69,39 @@ public class Localization extends Task{
         if (dt == null) {
             dt = new ElapsedTime();
         }
-//        if(timer == null) {
-//            timer = new ElapsedTime();
-//        }
-//        if(timer.milliseconds() > delay) {
-//            roboState = filter(odom(), tags(), prediction());
-//            setOdom(roboState);
-//            dt.reset();
-//        }
-        roboState = odom();
+
+        odom = odom();
+        tags = tags();
+
+        correctedOdom.x = odom.x + offsets.x;
+        correctedOdom.y = odom.y + offsets.y;
+        correctedOdom.theta = odom.theta + offsets.theta;
+        correctedOdom.sigmaX = odom.sigmaX;
+        correctedOdom.sigmaY = odom.sigmaY;
+        correctedOdom.sigmaTheta = odom.sigmaTheta;
+        correctedOdom.velX = odom.velX;
+        correctedOdom.velY = odom.velY;
+        correctedOdom.velTheta = odom.velTheta;
+        correctedOdom.sigmaVelX = odom.sigmaVelX;
+        correctedOdom.sigmaVelY = odom.sigmaVelY;
+        correctedOdom.sigmaVelTheta = odom.sigmaVelTheta;
+
+        roboState = filter(correctedOdom, tags);
+
+        offsets.x = roboState.x - odom.x;
+        offsets.y = roboState.y - odom.y;
+        offsets.theta = roboState.theta - odom.theta;
+
+        if((Math.sqrt(Math.pow(correctedOdom.velX, 2) + Math.pow(correctedOdom.velY, 2)) < 20 && correctedOdom.velTheta < 5)
+            || timer.milliseconds() < 2000) {
+            setOdom(roboState);
+            timer.reset();
+        }
+
         opMode.telem.addData("x", roboState.x);
         opMode.telem.addData("y", roboState.y);
         opMode.telem.addData("theta", Math.floorMod((int) (roboState.theta), 360));
+        dt.reset();
         return false;
     }
 
@@ -106,7 +135,7 @@ public class Localization extends Task{
 
     private RoboState tags() {
         RoboState state = new RoboState();
-        LLResult result = sensors.limelight.getLatestResult();
+        result = sensors.limelight.getLatestResult();
         if(result.isValid()) {
             Pose3D pose = result.getBotpose();
             state.x = pose.getPosition().x;
@@ -161,6 +190,30 @@ public class Localization extends Task{
 
         state.velTheta = (odom.velTheta*tags.sigmaVelTheta*prediction.sigmaVelTheta + tags.velTheta*odom.sigmaVelTheta*prediction.sigmaVelTheta + prediction.velTheta*odom.sigmaVelTheta*tags.sigmaVelTheta)/(tags.sigmaVelTheta*prediction.sigmaVelTheta + odom.sigmaVelTheta*prediction.sigmaVelTheta + odom.sigmaVelTheta*tags.sigmaVelTheta);
         state.sigmaVelTheta = 1/((1/odom.sigmaVelTheta) + (1/tags.sigmaVelTheta) + (1/prediction.sigmaVelTheta));
+
+        return state;
+    }
+
+    private RoboState filter(RoboState odom, RoboState tags) {
+        RoboState state = new RoboState();
+
+        state.x = (odom.x*tags.sigmaX + tags.x*odom.sigmaX) / (tags.sigmaX + odom.sigmaX);
+        state.sigmaX = 1/((1/tags.sigmaX)+(1/odom.sigmaX));
+
+        state.y = (odom.y*tags.sigmaY + tags.y*odom.sigmaY) / (tags.sigmaY + odom.sigmaY);
+        state.sigmaY = 1/((1/tags.sigmaY)+(1/odom.sigmaY));
+
+        state.theta = (odom.theta*tags.sigmaTheta + tags.theta*odom.sigmaTheta) / (tags.sigmaTheta + odom.sigmaTheta);
+        state.sigmaTheta = 1/((1/tags.sigmaTheta)+(1/odom.sigmaTheta));
+
+        state.velX = odom.velX;
+        state.sigmaVelX = 0.0001;
+
+        state.velY = odom.velY;
+        state.sigmaVelY = 0.0001;
+
+        state.velTheta = odom.velTheta;
+        state.sigmaVelTheta = 0.0001;
 
         return state;
     }
