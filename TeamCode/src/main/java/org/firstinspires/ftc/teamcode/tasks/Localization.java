@@ -3,16 +3,13 @@ package org.firstinspires.ftc.teamcode.tasks;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
 import org.firstinspires.ftc.teamcode.utilities.RoboState;
 import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
@@ -29,7 +26,6 @@ public class Localization extends Task{
     RoboState offsets;
 
     LLResult result;
-    boolean limelightPoseValid;
 
     ElapsedTime dt;
     ElapsedTime timer;
@@ -43,7 +39,6 @@ public class Localization extends Task{
 
     public static double limePosAcc = 0.1;
     public static double limeRotAcc = 0.1;
-    public static boolean enableLimelightLocalization = false;
 
     public static double predAcc = 0.1;
 
@@ -67,7 +62,6 @@ public class Localization extends Task{
         setOdom(roboState);
         timer = new ElapsedTime();
         correctedOdom = new RoboState();
-        offsets = new RoboState();
     }
 
     @Override
@@ -97,19 +91,14 @@ public class Localization extends Task{
         correctedOdom.sigmaVelY = odom.sigmaVelY;
         correctedOdom.sigmaVelTheta = odom.sigmaVelTheta;
 
-        if (limelightPoseValid) {
-            roboState = filter(correctedOdom, tags);
-            offsets.x = roboState.x - odom.x;
-            offsets.y = roboState.y - odom.y;
-            offsets.theta = roboState.theta - odom.theta;
-        } else {
-            roboState = correctedOdom;
-        }
+        roboState = filter(correctedOdom, tags);
 
-        if(limelightPoseValid
-            && Math.sqrt(Math.pow(correctedOdom.velX, 2) + Math.pow(correctedOdom.velY, 2)) < 20
-            && Math.abs(correctedOdom.velTheta) < 5
-            && timer.milliseconds() > 2000) {
+        offsets.x = roboState.x - odom.x;
+        offsets.y = roboState.y - odom.y;
+        offsets.theta = roboState.theta - odom.theta;
+
+        if((Math.sqrt(Math.pow(correctedOdom.velX, 2) + Math.pow(correctedOdom.velY, 2)) < 20 && correctedOdom.velTheta < 5)
+            || timer.milliseconds() < 2000) {
             setOdom(roboState);
             timer.reset();
         }
@@ -151,34 +140,15 @@ public class Localization extends Task{
 
     private RoboState tags() {
         RoboState state = new RoboState();
-        limelightPoseValid = false;
-
-        if (!enableLimelightLocalization) {
-            return state;
-        }
-
         result = sensors.limelight.getLatestResult();
-        if(result != null && result.isValid()) {
-            if (result.getFiducialResults() == null || result.getFiducialResults().isEmpty()) {
-                return state;
-            }
-
-            for (LLResultTypes.FiducialResult fiducialResult : result.getFiducialResults()) {
-                if (fiducialResult.getFiducialId() <= 0) {
-                    return state;
-                }
-            }
-
+        if(result.isValid()) {
             Pose3D pose = result.getBotpose();
-            Position position = pose.getPosition();
-            YawPitchRollAngles orientation = pose.getOrientation();
-            state.x = position.x * 100;
-            state.y = position.y * 100;
-            state.theta = orientation.getYaw(AngleUnit.DEGREES);
+            state.x = pose.getPosition().x;
+            state.y = pose.getPosition().y;
+            state.theta = pose.getOrientation().getYaw();
             state.sigmaX = limePosAcc * dt.seconds();
             state.sigmaY = limePosAcc * dt.seconds();
             state.sigmaTheta = limeRotAcc * dt.seconds();
-            limelightPoseValid = true;
         }
         return state;
     }
