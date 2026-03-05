@@ -62,6 +62,7 @@ public class Localization extends Task{
         setOdom(roboState);
         timer = new ElapsedTime();
         correctedOdom = new RoboState();
+        offsets = new RoboState();
     }
 
     @Override
@@ -72,6 +73,11 @@ public class Localization extends Task{
 
         odom = odom();
         tags = tags();
+
+        opMode.telem.addData("tags x", tags.x);
+        opMode.telem.addData("tags y", tags.y);
+        opMode.telem.addData("tags theta", tags.theta);
+        opMode.telem.update();
 
         correctedOdom.x = odom.x + offsets.x;
         correctedOdom.y = odom.y + offsets.y;
