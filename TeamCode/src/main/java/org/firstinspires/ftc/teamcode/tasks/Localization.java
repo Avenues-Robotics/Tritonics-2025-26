@@ -98,8 +98,7 @@ public class Localization extends Task{
         offsets.y = roboState.y - odom.y;
         offsets.theta = roboState.theta - odom.theta;
 
-        if((Math.sqrt(Math.pow(correctedOdom.velX, 2) + Math.pow(correctedOdom.velY, 2)) < 20 && correctedOdom.velTheta < 5)
-            || timer.milliseconds() < 2000) {
+        if((Math.sqrt(Math.pow(correctedOdom.velX, 2) + Math.pow(correctedOdom.velY, 2)) < 20 && correctedOdom.velTheta < 5) && timer.milliseconds() > 5000) {
             setOdom(roboState);
             timer.reset();
         }
@@ -209,8 +208,11 @@ public class Localization extends Task{
         state.y = (odom.y*tags.sigmaY + tags.y*odom.sigmaY) / (tags.sigmaY + odom.sigmaY);
         state.sigmaY = 1/((1/tags.sigmaY)+(1/odom.sigmaY));
 
-        state.theta = (odom.theta*tags.sigmaTheta + tags.theta*odom.sigmaTheta) / (tags.sigmaTheta + odom.sigmaTheta);
+        double y = (Math.sin(Math.toRadians(odom.theta)) * tags.sigmaTheta + Math.sin(Math.toRadians(tags.theta)) * odom.sigmaTheta) / (tags.sigmaTheta + odom.sigmaTheta);
+        double x = (Math.cos(Math.toRadians(odom.theta)) * tags.sigmaTheta + Math.cos(Math.toRadians(tags.theta)) * odom.sigmaTheta) / (tags.sigmaTheta + odom.sigmaTheta);
+        state.theta = Math.toDegrees(Math.atan2(y, x));
         state.sigmaTheta = 1/((1/tags.sigmaTheta)+(1/odom.sigmaTheta));
+
 
         state.velX = odom.velX;
         state.sigmaVelX = 0.0001;
@@ -224,8 +226,11 @@ public class Localization extends Task{
         return state;
     }
 
-    private void setOdom(RoboState roboState) {
+    public void setOdom(RoboState roboState) {
         sensors.odo.setPosition(new Pose2D(DistanceUnit.CM, roboState.x, roboState.y, AngleUnit.DEGREES, roboState.theta));
     }
 
+    public void resetOffsets() {
+        offsets = new RoboState();
+    }
 }
