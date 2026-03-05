@@ -62,6 +62,7 @@ public class Localization extends Task{
         setOdom(roboState);
         timer = new ElapsedTime();
         correctedOdom = new RoboState();
+        offsets = new RoboState();
     }
 
     @Override
@@ -143,12 +144,12 @@ public class Localization extends Task{
         result = sensors.limelight.getLatestResult();
         if(result.isValid()) {
             Pose3D pose = result.getBotpose();
-            state.x = pose.getPosition().x;
-            state.y = pose.getPosition().y;
-            state.theta = pose.getOrientation().getYaw();
-            state.sigmaX = limePosAcc * dt.seconds();
-            state.sigmaY = limePosAcc * dt.seconds();
-            state.sigmaTheta = limeRotAcc * dt.seconds();
+            state.x = pose.getPosition().x * 100;
+            state.y = pose.getPosition().y * 100;
+            state.theta = pose.getOrientation().getYaw() + 90;
+            state.sigmaX = limePosAcc;
+            state.sigmaY = limePosAcc;
+            state.sigmaTheta = limeRotAcc;
         }
         return state;
     }
