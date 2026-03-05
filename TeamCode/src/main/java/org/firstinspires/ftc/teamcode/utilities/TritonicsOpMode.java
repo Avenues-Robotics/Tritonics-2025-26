@@ -54,32 +54,24 @@ public abstract class TritonicsOpMode extends LinearOpMode implements Serializab
     public abstract void runTritonicsOpMode();
 
      protected void saveState() {
-        try {
-            File file = new File(hardwareMap.appContext.getFilesDir(), "lelandus_stultus_est.poop");
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
-            oos.writeObject(this);
-            oos.close();
-        } catch (IOException e) {
-            telemetry.addLine("Failed to save data, sorry");
-            telemetry.update();
-        }
+        DataHandoff.roboState = localization.getRoboState();
+        DataHandoff.isRedSide = isRedSide;
+        DataHandoff.motif = motif;
+        DataHandoff.hasData = true;
     }
 
     protected void readState() {
-        TritonicsOpMode oldOpMode;
-        try {
-            File file = new File(hardwareMap.appContext.getFilesDir(), "lelandus_stultus_est.poop");
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-            oldOpMode = (TritonicsOpMode) ois.readObject();
-            ois.close();
-
-            motif = oldOpMode.motif;
-            isRedSide = oldOpMode.isRedSide;
-            localization = oldOpMode.localization;
-        } catch (Exception e) {
-            telemetry.addLine("Failed to retrieve data, sorry");
-            telemetry.update();
-        }
+         if(DataHandoff.hasData) {
+             localization.setOdom(DataHandoff.roboState);
+             isRedSide = DataHandoff.isRedSide;
+             motif = DataHandoff.motif;
+             localization.resetOffsets();
+         } else {
+             telemetry.addLine("Failed to retrieve handoff data from auto");
+             telemetry.addLine("Using defaults");
+             telemetry.addLine("Relocalization likely required");
+             telemetry.update();
+         }
     }
 
 }
