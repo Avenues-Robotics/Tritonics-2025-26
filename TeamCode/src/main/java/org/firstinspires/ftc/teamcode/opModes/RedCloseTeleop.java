@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.tasks.LaunchSequenceThree;
 import org.firstinspires.ftc.teamcode.tasks.LoadSequenceOne;
 import org.firstinspires.ftc.teamcode.tasks.LoadSequenceThree;
 import org.firstinspires.ftc.teamcode.tasks.Localization;
+import org.firstinspires.ftc.teamcode.tasks.MirrorArtifactsLEDs;
 import org.firstinspires.ftc.teamcode.tasks.OrientPowerLauncherLocalization;
 import org.firstinspires.ftc.teamcode.tasks.ParallelTask;
 import org.firstinspires.ftc.teamcode.tasks.PowerIntake;
@@ -33,6 +34,7 @@ public class RedCloseTeleop extends TritonicsOpMode {
     Task powerLauncher;
     Task relocalize;
     Task reverse;
+    Task mirror;
 
     Task teleop;
 
@@ -48,10 +50,11 @@ public class RedCloseTeleop extends TritonicsOpMode {
         powerLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
         relocalize = new TeleopTask(new Relocalize(sensors, new Pose2D(DistanceUnit.CM, 165.936, -151.990, AngleUnit.DEGREES, 270)), () -> gamepad1.square, false);
         reverse = new TeleopTask(new ParallelTask(new PowerTransfer(launcher, -1), new PowerIntake(intake, -1)), () -> gamepad1.left_trigger > 0.7, true);
+        mirror = new MirrorArtifactsLEDs(this);
 
         readState();
 
-        teleop = new ParallelTask(new Task[]{loadSequence, localization, powerLauncher, driveTeleop, relocalize, reverse});
+        teleop = new ParallelTask(new Task[]{mirror, loadSequence, localization, powerLauncher, driveTeleop, relocalize, reverse});
 
         waitForStart();
 

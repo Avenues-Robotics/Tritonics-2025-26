@@ -37,8 +37,8 @@ public class Localization extends Task{
     public static double odomVelAcc = 0.1;
     public static double odomAngVelAcc = 0.1;
 
-    public static double limePosAcc = 0.1;
-    public static double limeRotAcc = 0.1;
+    public static double limePosAcc = 20;
+    public static double limeRotAcc = 5;
 
     public static double predAcc = 0.1;
 
