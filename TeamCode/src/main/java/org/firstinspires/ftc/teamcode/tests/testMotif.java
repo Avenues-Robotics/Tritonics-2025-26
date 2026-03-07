@@ -17,20 +17,22 @@ public class testMotif extends TritonicsOpMode {
 
     Task readMotif;
     Task timer;
-    Task launchSequenceFinder;
+    Task launchSequenceFinder1;
+    Task launchSequenceFinder2;
+    Task launchSequenceFinder3;
 
     Task auto;
-
-    public static Motif inputMotif;
 
     @Override
     public void runTritonicsOpMode() {
 
         readMotif = new ReadMotif(this);
         timer = new Timer(5000);
-        launchSequenceFinder = new FindLaunchSequence(this, inputMotif);
+        launchSequenceFinder1 = new FindLaunchSequence(this, Motif.GPP);
+        launchSequenceFinder2 = new FindLaunchSequence(this, Motif.PGP);
+        launchSequenceFinder3 = new FindLaunchSequence(this, Motif.PPG);
 
-        auto = new ParallelTask(readMotif, new SeriesTask(timer, launchSequenceFinder));
+        auto = new ParallelTask(readMotif, new SeriesTask(new Task[]{timer, launchSequenceFinder1, launchSequenceFinder2, launchSequenceFinder3}));
 
         waitForStart();
 

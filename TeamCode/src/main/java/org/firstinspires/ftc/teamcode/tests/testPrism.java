@@ -23,7 +23,7 @@ public class testPrism extends TritonicsOpMode {
 
         waitForStart();
 
-//        intake.motor.setPower(1);
+        intake.motor.setPower(1);
         intake.right.setPosition(Intake.rightBlocking);
         intake.middle.setPosition(Intake.middleUp);
         intake.left.setPosition(Intake.leftBlocking);

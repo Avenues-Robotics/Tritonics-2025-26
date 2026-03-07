@@ -33,9 +33,10 @@ public class FindLaunchSequence extends Task {
                     loadSequence = new LaunchSequenceThree(opMode.intake, opMode.launcher);
                     opMode.telem.addLine("LRM");
                 }
+            } else {
+                loadSequence = new LaunchSequenceThree(opMode.intake, opMode.launcher);
+                opMode.telem.addLine("default");
             }
-            loadSequence = new LaunchSequenceThree(opMode.intake, opMode.launcher);
-            opMode.telem.addLine("default");
             return false;
         } else {
             return loadSequence.run();

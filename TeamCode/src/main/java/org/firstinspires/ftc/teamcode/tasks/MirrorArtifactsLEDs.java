@@ -2,8 +2,7 @@ package org.firstinspires.ftc.teamcode.tasks;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
-import com.qualcomm.robotcore.hardware.NormalizedRGBA;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.utilities.Prism;
 import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
@@ -31,6 +30,13 @@ public class MirrorArtifactsLEDs extends Task{
     Colors center;
     Colors left;
 
+    public static double thresholdCenter = 270;
+    public static double thresholdOuter = 500;
+
+    ElapsedTime rightTime;
+    ElapsedTime centerTime;
+    ElapsedTime leftTime;
+
     public MirrorArtifactsLEDs(TritonicsOpMode opMode) {
         this.opMode = opMode;
 
@@ -42,6 +48,10 @@ public class MirrorArtifactsLEDs extends Task{
         right = Colors.EMPTY;
         center = Colors.EMPTY;
         left = Colors.EMPTY;
+
+        rightTime = new ElapsedTime();
+        centerTime = new ElapsedTime();
+        leftTime = new ElapsedTime();
     }
 
     @Override
@@ -53,7 +63,7 @@ public class MirrorArtifactsLEDs extends Task{
 
         opMode.telem.addData("isn't artifact", rightSensor.red() + rightSensor.green() + rightSensor.blue() < 400);
 
-        if (rightSensor.red() + rightSensor.green() + rightSensor.blue() < 400) {
+        if (rightSensor.red() + rightSensor.green() + rightSensor.blue() < thresholdOuter) {
             if(right != Colors.EMPTY) {
                 prism.setSegment(0, 0, 7, 0, 0, 0, 0);
             }
@@ -70,7 +80,7 @@ public class MirrorArtifactsLEDs extends Task{
             }
         }
 
-        if (centerSensor.red() + centerSensor.green() + centerSensor.blue() < 400) {
+        if (centerSensor.red() + centerSensor.green() + centerSensor.blue() < thresholdCenter) {
             if(center != Colors.EMPTY) {
                 prism.setSegment(1, 8, 15, 0, 0, 0, 0);
             }
@@ -87,7 +97,7 @@ public class MirrorArtifactsLEDs extends Task{
             }
         }
 
-        if (leftSensor.red() + leftSensor.green() + leftSensor.blue() < 400) {
+        if (leftSensor.red() + leftSensor.green() + leftSensor.blue() < thresholdOuter) {
             if(left != Colors.EMPTY) {
                 prism.setSegment(2, 16, 233, 0, 0, 0, 0);
             }

@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.opModes;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
@@ -41,6 +43,8 @@ public class RedCloseTeleop extends TritonicsOpMode {
     @Override
     public void runTritonicsOpMode() {
 
+        LynxModule hub = hardwareMap.get(LynxModule.class, "Control Hub");
+
         isRedSide = true;
 
         driveTeleop = new DriveTeleop(driveTrain, this);
@@ -65,6 +69,8 @@ public class RedCloseTeleop extends TritonicsOpMode {
 
         while(opModeIsActive()){
             teleop.run();
+            telem.addData("Current Draw", hub.getCurrent(CurrentUnit.AMPS));
+            telem.update();
         }
 
     }

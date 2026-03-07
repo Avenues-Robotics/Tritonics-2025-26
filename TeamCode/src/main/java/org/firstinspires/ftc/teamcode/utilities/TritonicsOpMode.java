@@ -10,15 +10,7 @@ import org.firstinspires.ftc.teamcode.hardware.Launcher;
 import org.firstinspires.ftc.teamcode.hardware.Sensors;
 import org.firstinspires.ftc.teamcode.tasks.Localization;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-
-public abstract class TritonicsOpMode extends LinearOpMode implements Serializable {
+public abstract class TritonicsOpMode extends LinearOpMode {
 
     public enum Motif{
         UNREAD,
@@ -42,7 +34,7 @@ public abstract class TritonicsOpMode extends LinearOpMode implements Serializab
 
     @Override
     public void runOpMode() {
-        driveTrain = new DriveTrain(this);
+        driveTrain = new DriveTrain(this, false);
         intake = new Intake(this);
         launcher = new Launcher(this);
         sensors = new Sensors(this);

@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
 import org.firstinspires.ftc.teamcode.utilities.PosPID;
 import org.firstinspires.ftc.teamcode.utilities.RoboState;
+import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 
 @Config
 public class PIDDrive extends Task{
@@ -36,12 +37,17 @@ public class PIDDrive extends Task{
 
     Pose2D destination;
 
-    public PIDDrive(DriveTrain driveTrain, Localization localization, Pose2D destination, double horizToler, double thetaToler) {
+    TritonicsOpMode opMode;
+    double desiredMax;
+    double actualMax;
+
+    public PIDDrive(DriveTrain driveTrain, Localization localization, Pose2D destination, double horizToler, double thetaToler, TritonicsOpMode opMode) {
         this.driveTrain = driveTrain;
         this.localization = localization;
         this.destination = destination;
         this.horizToler = horizToler;
         this.thetaToler = thetaToler;
+        this.opMode = opMode;
 
         xPID = new PosPID(horizP, horizI, horizD, () -> findError(destination).getX(DistanceUnit.CM), driveTrain.telem);
         yPID = new PosPID(horizP, horizI, horizD, () -> findError(destination).getY(DistanceUnit.CM), driveTrain.telem);
@@ -65,19 +71,23 @@ public class PIDDrive extends Task{
         double angular = thetaPID.findPower();
 
         // Combine the joystick requests for each axis-motion to determine each wheel's power.
-        double fr = (-forward + lateral - angular/1.5) * Math.abs(-forward + lateral - angular/1.5);
-        double fl = (-forward - lateral + angular/1.5) * Math.abs(-forward - lateral + angular/1.5);
-        double br = (-forward - lateral - angular/1.5) * Math.abs(-forward - lateral - angular/1.5);
-        double bl = (-forward + lateral + angular/1.5) * Math.abs(-forward + lateral + angular/1.5);
+        double fr = (forward + lateral - angular/1.5) * Math.abs(forward + lateral - angular/1.5);
+        double fl = (forward - lateral + angular/1.5) * Math.abs(forward - lateral + angular/1.5);
+        double br = (forward - lateral - angular/1.5) * Math.abs(forward - lateral - angular/1.5);
+        double bl = (forward + lateral + angular/1.5) * Math.abs(forward + lateral + angular/1.5);
 
         // Normalize the values so no wheel power exceeds 100%
-        double max = Math.max(Math.max(Math.max(Math.abs(fl), Math.abs(fr)), Math.abs(bl)), Math.abs(br));
+        actualMax = Math.max(Math.max(Math.max(Math.abs(fl), Math.abs(fr)), Math.abs(bl)), Math.abs(br));
 
-        if (max > 1.0) {
-            fl /= max;
-            fr /= max;
-            bl /= max;
-            br /= max;
+        roboState = opMode.localization.getRoboState();
+        desiredMax = 0.0657104*Math.sqrt(Math.pow(roboState.x, 2) + Math.pow(roboState.y, 2))+0.434783;
+        if(desiredMax > 1) {desiredMax = 1;}
+
+        if (actualMax > 1) {
+            fl /= actualMax;
+            fr /= actualMax;
+            bl /= actualMax;
+            br /= actualMax;
         }
 
         driveTrain.FL.setPower(fl);
@@ -97,7 +107,7 @@ public class PIDDrive extends Task{
 
     @Override
     public Task reset() {
-        return new PIDDrive(driveTrain, localization, destination, 4, 2);
+        return new PIDDrive(driveTrain, localization, destination, 4, 2, opMode);
     }
 
 }

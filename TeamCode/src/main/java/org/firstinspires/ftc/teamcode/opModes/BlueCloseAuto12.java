@@ -9,7 +9,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.tasks.FindLaunchSequence;
 import org.firstinspires.ftc.teamcode.tasks.Launch;
-import org.firstinspires.ftc.teamcode.tasks.LoadSequenceThree;
 import org.firstinspires.ftc.teamcode.tasks.Localization;
 import org.firstinspires.ftc.teamcode.tasks.OrientPowerLauncherLocalization;
 import org.firstinspires.ftc.teamcode.tasks.PIDDrive;
@@ -62,35 +61,35 @@ public class BlueCloseAuto12 extends TritonicsOpMode {
 
         isRedSide = false;
 
-        localization = new Localization(sensors, new RoboState(-111.148,-141.285,90,0,0,0), this);
+        localization = new Localization(sensors, new RoboState(-108.326,-138.633,90,0,0,0), this);
 
         orientPowerLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
 
-        startToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -96.323, -42.197, AngleUnit.DEGREES, 90), 10, 20);
+        startToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -96.323, -42.197, AngleUnit.DEGREES, 90), 10, 20, this);
         loadOne = new FindLaunchSequence(this, Motif.GPP);
         launchOne = new Launch(intake, launcher);
         timerOne = new Timer(wait);
-        shootToFirst = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -79.412, -125.148, AngleUnit.DEGREES, 90), 5, 5);
-        firstPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -44.412, -125.148, AngleUnit.DEGREES, 90), 5, 5);
-        firstToGate = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -11.133, -141.002, AngleUnit.DEGREES, 90), 5, 10);
+        shootToFirst = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -82.522, -124.475, AngleUnit.DEGREES, 90), 5, 5, this);
+        firstPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -42.522, -124.475, AngleUnit.DEGREES, 90), 5, 5, this);
+        firstToGate = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -17.437, -139.891, AngleUnit.DEGREES, 90), 5, 10, this);
         gateWait = new Timer(1500);
         loadTwo = new FindLaunchSequence(this, Motif.PPG);
-        gateToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, -77.846, AngleUnit.DEGREES, 90), 10, 20);
+        gateToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, -77.846, AngleUnit.DEGREES, 90), 10, 20, this);
         launchTwo = new Launch(intake, launcher);
         timerTwo = new Timer(wait);
-        shootToSecond = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -30.088, -126.597, AngleUnit.DEGREES, 90), 5, 5);
-        secondPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 4.912, -126.597, AngleUnit.DEGREES, 90), 5, 5);
-        secondToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, -77.846, AngleUnit.DEGREES, 90), 10, 20);
+        shootToSecond = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -22.640, -124.207, AngleUnit.DEGREES, 90), 5, 5, this);
+        secondPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 17.360, -124.207, AngleUnit.DEGREES, 90), 5, 5, this);
+        secondToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, -77.846, AngleUnit.DEGREES, 90), 10, 20, this);
         loadThree = new FindLaunchSequence(this, Motif.PGP);
         launchThree = new Launch(intake, launcher);
         timerThree = new Timer(wait);
-        shootToThird = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 21.948, -127.206, AngleUnit.DEGREES, 90), 5, 5);
-        thirdPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 66.948, -127.206, AngleUnit.DEGREES, 90), 5, 5);
-        thirdToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, -77.846, AngleUnit.DEGREES, 90), 5, 5);
+        shootToThird = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 39.005, -125.891, AngleUnit.DEGREES, 90), 5, 5, this);
+        thirdPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 79.005, -125.891, AngleUnit.DEGREES, 90), 5, 5, this);
+        thirdToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, -77.846, AngleUnit.DEGREES, 90), 5, 5, this);
         loadFour = new FindLaunchSequence(this, Motif.GPP);
         launchFour = new Launch(intake, launcher);
         timerFour = new Timer(wait);
-        park = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -79.412, -125.148, AngleUnit.DEGREES, 90), 5, 5);
+        park = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -79.412, -125.148, AngleUnit.DEGREES, 90), 5, 5, this);
 
         auto = new ParallelTask(new Task[]{localization, orientPowerLauncher, new SeriesTask(new Task[]{
                 startToShoot,
@@ -103,6 +102,7 @@ public class BlueCloseAuto12 extends TritonicsOpMode {
                 gateToShoot,
                 loadTwo,
                 timerTwo,
+                shootToSecond,
                 secondPickup,
                 secondToShoot,
                 loadThree,

@@ -145,7 +145,7 @@ public class Localization extends Task{
             Pose3D pose = result.getBotpose();
             state.x = pose.getPosition().x * 100;
             state.y = pose.getPosition().y * 100;
-            state.theta = pose.getOrientation().getYaw() + 90;
+            state.theta = pose.getOrientation().getYaw() - 90;
             state.sigmaX = limePosAcc;
             state.sigmaY = limePosAcc;
             state.sigmaTheta = limeRotAcc;

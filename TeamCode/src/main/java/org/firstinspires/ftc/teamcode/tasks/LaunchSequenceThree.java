@@ -28,7 +28,7 @@ public class LaunchSequenceThree extends SeriesTask {
                                                                                         new SeriesTask(new RotateServo(Intake.middleUp, intake.middle),
                                                                                                 new SeriesTask(new RotateServo(Intake.leftBlocking, intake.left),
                                                                                 new SeriesTask(new PowerIntake(intake, 1),
-                                                                                        new PowerTransfer(launcher, 0))))))))))))));
+                                                                                        new PowerTransfer(launcher, 1))))))))))))));
     }
 
 }

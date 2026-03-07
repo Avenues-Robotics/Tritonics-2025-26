@@ -9,8 +9,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.tasks.Launch;
 import org.firstinspires.ftc.teamcode.tasks.LaunchSequenceThree;
-import org.firstinspires.ftc.teamcode.tasks.LoadSequenceOne;
-import org.firstinspires.ftc.teamcode.tasks.LoadSequenceThree;
 import org.firstinspires.ftc.teamcode.tasks.Localization;
 import org.firstinspires.ftc.teamcode.tasks.OrientPowerLauncherLocalization;
 import org.firstinspires.ftc.teamcode.tasks.PIDDrive;
@@ -64,7 +62,7 @@ public class BlueFarAuto extends TritonicsOpMode {
 
         isRedSide = false;
 
-        localization = new Localization(sensors, new RoboState(159.989, -64.611, 0, 0, 0, 0), this);
+        localization = new Localization(sensors, new RoboState(159.623, -66.685, 0, 0, 0, 0), this);
 
         orientLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
 
@@ -72,31 +70,31 @@ public class BlueFarAuto extends TritonicsOpMode {
         loadOne = new LaunchSequenceThree(intake, launcher);
         launchOne = new Launch(intake, launcher);
         timerOne = new Timer(1000);
-        driveThereOne = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 158.816, -142.783, AngleUnit.DEGREES, 0), 20, 10);
-        driveBackOne = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 159.989, -34.611, AngleUnit.DEGREES, 0), 10, 10);
+        driveThereOne = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 155.134, -152.534, AngleUnit.DEGREES, 0), 20, 10, this);
+        driveBackOne = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 148.585, -23.799, AngleUnit.DEGREES, 0), 10, 10, this);
         loadTwo = new LaunchSequenceThree(intake, launcher);
         launchTwo = new Launch(intake, launcher);
         timerTwo = new Timer(1000);
-        driveThereTwo = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 158.816, -142.783, AngleUnit.DEGREES, 0), 20, 10);
-        driveBackTwo = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 159.989, -34.611, AngleUnit.DEGREES, 0), 10, 10);
+        driveThereTwo = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 155.134, -152.534, AngleUnit.DEGREES, 0), 20, 10, this);
+        driveBackTwo = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 148.585, -23.799, AngleUnit.DEGREES, 0), 10, 10, this);
         loadThree = new LaunchSequenceThree(intake, launcher);
         launchThree = new Launch(intake, launcher);
         timerThree = new Timer(1000);
-        driveThereThree = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 158.816, -142.783, AngleUnit.DEGREES, 0), 20, 10);
-        driveBackThree = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 159.989, -34.611, AngleUnit.DEGREES, 0), 10, 10);
+        driveThereThree = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 155.134, -152.534, AngleUnit.DEGREES, 0), 20, 10, this);
+        driveBackThree = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 148.585, -23.799, AngleUnit.DEGREES, 0), 10, 10, this);
         loadFour = new LaunchSequenceThree(intake, launcher);
         launchFour = new Launch(intake, launcher);
         timerFour = new Timer(1000);
-        driveThereFour = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 158.816, -142.783, AngleUnit.DEGREES, 0), 20, 10);
-        driveBackFour = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 159.989, -34.611, AngleUnit.DEGREES, 0), 10, 10);
+        driveThereFour = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 155.134, -152.534, AngleUnit.DEGREES, 0), 20, 10, this);
+        driveBackFour = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 148.585, -23.799, AngleUnit.DEGREES, 0), 10, 10, this);
         loadFive = new LaunchSequenceThree(intake, launcher);
         launchFive = new Launch(intake, launcher);
         timerFive = new Timer(1000);
-        driveThereFive = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 158.816, -142.783, AngleUnit.DEGREES, 0), 20, 10);
-        driveBackFive = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 159.989, -34.611, AngleUnit.DEGREES, 0), 10, 10);
+        driveThereFive = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 155.134, -152.534, AngleUnit.DEGREES, 0), 20, 10, this);
+        driveBackFive = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 148.585, -23.799, AngleUnit.DEGREES, 0), 10, 10, this);
         loadSix = new LaunchSequenceThree(intake, launcher);
         launchSix = new Launch(intake, launcher);
-        park = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 157.424, -77.624, AngleUnit.DEGREES, 0), 5, 5);
+        park = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 113.233, -26.570, AngleUnit.DEGREES, 0), 5, 5, this);
 
         auto = new ParallelTask(new Task[] {localization, orientLauncher, new SeriesTask(new Task[]{
                 startTimer,

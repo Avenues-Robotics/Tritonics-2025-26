@@ -1,15 +1,16 @@
 package org.firstinspires.ftc.teamcode.opModes;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.tasks.FindLaunchSequence;
 import org.firstinspires.ftc.teamcode.tasks.Launch;
-import org.firstinspires.ftc.teamcode.tasks.LoadSequenceThree;
 import org.firstinspires.ftc.teamcode.tasks.Localization;
 import org.firstinspires.ftc.teamcode.tasks.OrientPowerLauncherLocalization;
 import org.firstinspires.ftc.teamcode.tasks.PIDDrive;
@@ -62,40 +63,41 @@ public class RedCloseAuto12 extends TritonicsOpMode {
     @Override
     public void runTritonicsOpMode() {
 
+        LynxModule hub = hardwareMap.get(LynxModule.class, "Control Hub");
+
         isRedSide = true;
 
-        localization = new Localization(sensors, new RoboState(-108.169,137.044,90,0,0,0), this);
+        localization = new Localization(sensors, new RoboState(-108.501,136.941,90,0,0,0), this);
         readMotif = new ReadMotif(this);
         orientPowerLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
 
-        startToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -96.323, 42.197, AngleUnit.DEGREES, 130), 10, 20);
+        startToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -96.323, 42.197, AngleUnit.DEGREES, 130), 10, 20, this);
         loadOne = new FindLaunchSequence(this, Motif.PPG);
         launchOne = new Launch(intake, launcher);
         timerOne = new Timer(wait);
-        shootToFirst = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -81.6, 119.028, AngleUnit.DEGREES, 90), 5, 5);
-        firstPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -41.6, 119.028, AngleUnit.DEGREES, 90), 5, 5);
-        firstToGate = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -10, 136.028, AngleUnit.DEGREES, 90), 5, 10);
+        shootToFirst = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -84.710, 118.023, AngleUnit.DEGREES, 90), 5, 5, this);
+        firstPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -49.710, 118.023, AngleUnit.DEGREES, 90), 5, 5, this);
+        firstToGate = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -12.457, 138.902, AngleUnit.DEGREES, 90), 5, 10, this);
         gateWait = new Timer(1500);
         loadTwo = new FindLaunchSequence(this, Motif.PPG);
-        gateToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, 77.846, AngleUnit.DEGREES, 90), 10, 20);
+        gateToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, 77.846, AngleUnit.DEGREES, 90), 10, 20, this);
         launchTwo = new Launch(intake, launcher);
         timerTwo = new Timer(wait);
-        shootToSecond = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -11.09, 117.735, AngleUnit.DEGREES, 90), 5, 5);
-        secondPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 18.910, 117.735, AngleUnit.DEGREES, 90), 5, 5);
-        secondToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, 77.846, AngleUnit.DEGREES, 90), 10, 20);
+        shootToSecond = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -20.640, 118.023, AngleUnit.DEGREES, 90), 5, 5, this);
+        secondPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 19.360, 118.023, AngleUnit.DEGREES, 90), 5, 5, this);
+        secondToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, 77.846, AngleUnit.DEGREES, 90), 10, 20, this);
         loadThree = new FindLaunchSequence(this, Motif.PGP);
         launchThree = new Launch(intake, launcher);
         timerThree = new Timer(wait);
-        shootToThird = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 46.806, 115.897, AngleUnit.DEGREES, 90), 5, 5);
-        thirdPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 76.806, 115.897, AngleUnit.DEGREES, 90), 5, 5);
-        thirdToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, 77.846, AngleUnit.DEGREES, 90), 5, 3);
+        shootToThird = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 41.433, 118.023, AngleUnit.DEGREES, 90), 5, 5, this);
+        thirdPickup = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, 81.433, 118.023, AngleUnit.DEGREES, 90), 5, 5, this);
+        thirdToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -74.277, 77.846, AngleUnit.DEGREES, 90), 5, 3, this);
         loadFour = new FindLaunchSequence(this, Motif.GPP);
         launchFour = new Launch(intake, launcher);
         timerFour = new Timer(wait);
-        park = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -51.6, 119.028, AngleUnit.DEGREES, 90), 5, 5);
+        park = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -54.710, 118.023, AngleUnit.DEGREES, 90), 5, 5, this);
 
         auto = new ParallelTask(new Task[]{localization, orientPowerLauncher, readMotif, new SeriesTask(new Task[]{
-                new Timer(1500),
                 startToShoot,
                 loadOne,
                 timerOne,
@@ -123,12 +125,16 @@ public class RedCloseAuto12 extends TritonicsOpMode {
         intake.middle.setPosition(Intake.middleUp);
         intake.right.setPosition(Intake.rightBlocking);
 
+        telem.addData("Current Draw", 0.54);
+        telem.update();
+
         waitForStart();
 
         intake.motor.setPower(1);
 
         while(opModeIsActive()) {
             telem.addData("Motif", motif);
+            telem.addData("Current Draw", hub.getCurrent(CurrentUnit.AMPS));
             telem.update();
             auto.run();
         }

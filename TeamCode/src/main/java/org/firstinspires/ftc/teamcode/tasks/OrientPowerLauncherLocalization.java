@@ -21,8 +21,8 @@ public class OrientPowerLauncherLocalization extends Task {
     double goalX;
     double goalY;
 
-    public static double m = 2.8;
-    public static double b = 1130;
+    public static double m = 3;
+    public static double b = 900;
 
     public static double value = -113;
 
