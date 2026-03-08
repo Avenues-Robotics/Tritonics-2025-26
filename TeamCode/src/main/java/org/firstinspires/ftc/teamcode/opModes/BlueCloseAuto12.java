@@ -65,7 +65,7 @@ public class BlueCloseAuto12 extends TritonicsOpMode {
 
         orientPowerLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
 
-        startToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -96.323, -42.197, AngleUnit.DEGREES, 90), 10, 20, this);
+        startToShoot = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -96.323, -42.197, AngleUnit.DEGREES, 45), 10, 20, this);
         loadOne = new FindLaunchSequence(this, Motif.GPP);
         launchOne = new Launch(intake, launcher);
         timerOne = new Timer(wait);
@@ -89,7 +89,7 @@ public class BlueCloseAuto12 extends TritonicsOpMode {
         loadFour = new FindLaunchSequence(this, Motif.GPP);
         launchFour = new Launch(intake, launcher);
         timerFour = new Timer(wait);
-        park = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -79.412, -125.148, AngleUnit.DEGREES, 90), 5, 5, this);
+        park = new PIDDrive(driveTrain, localization, new Pose2D(DistanceUnit.CM, -42.522, -125.148, AngleUnit.DEGREES, 90), 5, 5, this);
 
         auto = new ParallelTask(new Task[]{localization, orientPowerLauncher, new SeriesTask(new Task[]{
                 startToShoot,

@@ -22,7 +22,7 @@ public class OrientPowerLauncherLocalization extends Task {
     double goalY;
 
     public static double m = 3;
-    public static double b = 900;
+    public static double b = 950;
 
     public static double value = -113;
 
@@ -48,6 +48,7 @@ public class OrientPowerLauncherLocalization extends Task {
         opMode.telem.addData("RA Angle", hoodAngle);
         launcher.RA.setPosition(hoodAngle);
         turrAngle = modulo((Math.toDegrees(Math.atan2(goalY-robotPose.y, goalX-robotPose.x))-robotPose.theta + value), 360)/315;
+        if (turrAngle > 0.9) { turrAngle = 0.9; }
         launcher.DEC1.setPosition(turrAngle);
         launcher.DEC2.setPosition(turrAngle);
         opMode.telem.addData("d", distance());

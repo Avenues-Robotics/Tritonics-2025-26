@@ -92,7 +92,7 @@ public class Localization extends Task{
         correctedOdom.sigmaVelY = odom.sigmaVelY;
         correctedOdom.sigmaVelTheta = odom.sigmaVelTheta;
 
-        roboState = filter(correctedOdom, tags);
+        roboState = odom;
 
         offsets.x = roboState.x - odom.x;
         offsets.y = roboState.y - odom.y;
