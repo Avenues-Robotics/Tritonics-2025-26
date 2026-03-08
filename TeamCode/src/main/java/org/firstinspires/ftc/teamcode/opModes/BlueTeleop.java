@@ -54,8 +54,6 @@ public class BlueTeleop extends TritonicsOpMode {
         reverse = new TeleopTask(new ParallelTask(new PowerTransfer(launcher, -1), new PowerIntake(intake, -1)), () -> gamepad1.left_trigger > 0.7, true);
         mirror = new MirrorArtifactsLEDs(this);
 
-        readState();
-
         teleop = new ParallelTask(new Task[]{mirror, loadSequence, launch, localization, powerLauncher, driveTeleop, relocalize, reverse});
 
         waitForStart();
