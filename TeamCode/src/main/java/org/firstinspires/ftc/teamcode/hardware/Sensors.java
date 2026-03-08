@@ -51,7 +51,6 @@ public class Sensors {
         odo.setOffsets(xOffset, yOffset, DistanceUnit.CM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
-        odo.resetPosAndIMU();
 
         prism = new Prism(opMode.hardwareMap, prismConfig);
         prism.off();

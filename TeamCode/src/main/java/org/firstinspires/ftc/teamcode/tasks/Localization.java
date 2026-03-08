@@ -49,6 +49,7 @@ public class Localization extends Task{
         this.sensors = sensors;
         this.opMode = opMode;
         int i = 0;
+        sensors.odo.resetPosAndIMU();
         while(sensors.odo.getDeviceStatus() != GoBildaPinpointDriver.DeviceStatus.READY){
             sensors.odo.update();
             opMode.telem.addData("Status", sensors.odo.getDeviceStatus());
@@ -60,6 +61,15 @@ public class Localization extends Task{
             i++;
         }
         setOdom(roboState);
+        timer = new ElapsedTime();
+        correctedOdom = new RoboState();
+        offsets = new RoboState();
+    }
+
+    public Localization(Sensors sensors, TritonicsOpMode opMode){
+        roboState = null;
+        this.sensors = sensors;
+        this.opMode = opMode;
         timer = new ElapsedTime();
         correctedOdom = new RoboState();
         offsets = new RoboState();
@@ -112,6 +122,9 @@ public class Localization extends Task{
 
     @Override
     public Task reset() {
+        if(roboState == null) {
+            return new Localization(sensors, opMode);
+        }
         return new Localization(sensors, roboState, opMode);
     }
 

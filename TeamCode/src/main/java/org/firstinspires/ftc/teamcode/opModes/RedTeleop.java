@@ -1,18 +1,19 @@
 package org.firstinspires.ftc.teamcode.opModes;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.tasks.DriveTeleop;
 import org.firstinspires.ftc.teamcode.tasks.Launch;
-import org.firstinspires.ftc.teamcode.tasks.LaunchSequenceThree;
-import org.firstinspires.ftc.teamcode.tasks.LoadSequenceOne;
 import org.firstinspires.ftc.teamcode.tasks.LoadSequenceThree;
 import org.firstinspires.ftc.teamcode.tasks.Localization;
+import org.firstinspires.ftc.teamcode.tasks.MirrorArtifactsLEDs;
 import org.firstinspires.ftc.teamcode.tasks.OrientPowerLauncherLocalization;
 import org.firstinspires.ftc.teamcode.tasks.ParallelTask;
 import org.firstinspires.ftc.teamcode.tasks.PowerIntake;
@@ -25,7 +26,7 @@ import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 
 @TeleOp
 @Config
-public class RedFarTeleop extends TritonicsOpMode {
+public class RedTeleop extends TritonicsOpMode {
 
     Task driveTeleop;
     Task loadSequence;
@@ -33,25 +34,29 @@ public class RedFarTeleop extends TritonicsOpMode {
     Task powerLauncher;
     Task relocalize;
     Task reverse;
+    Task mirror;
 
     Task teleop;
 
     @Override
     public void runTritonicsOpMode() {
 
+        LynxModule hub = hardwareMap.get(LynxModule.class, "Control Hub");
+
         isRedSide = true;
 
         driveTeleop = new DriveTeleop(driveTrain, this);
-        loadSequence = new TeleopTask(new LoadSequenceThree(intake, launcher), () -> gamepad1.right_bumper, true);
-        launch = new TeleopTask(new LaunchSequenceThree(intake, launcher), () -> gamepad1.right_trigger > 0.7, true);
-        localization = new Localization(sensors, new RoboState(157.424, 77.624,180,0,0,0), this);
+        loadSequence = new TeleopTask(new LoadSequenceThree(intake, launcher), () -> gamepad2.right_bumper, true);
+        launch = new TeleopTask(new Launch(intake, launcher), () -> gamepad1.right_trigger > 0.7, true);
+        localization = new Localization(sensors, new RoboState(-51.6, 119.028,90,0,0,0), this);
         powerLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
-        relocalize = new TeleopTask(new Relocalize(sensors, new Pose2D(DistanceUnit.CM, 165.936, -151.990, AngleUnit.DEGREES, 270)), () -> gamepad1.square, false);
+        relocalize = new TeleopTask(new Relocalize(sensors, new Pose2D(DistanceUnit.CM, 155.134, -152.534, AngleUnit.DEGREES, 0)), () -> gamepad1.square, false);
         reverse = new TeleopTask(new ParallelTask(new PowerTransfer(launcher, -1), new PowerIntake(intake, -1)), () -> gamepad1.left_trigger > 0.7, true);
+        mirror = new MirrorArtifactsLEDs(this);
 
         readState();
 
-        teleop = new ParallelTask(new Task[]{launch, localization, powerLauncher, driveTeleop, relocalize, reverse});
+        teleop = new ParallelTask(new Task[]{mirror, loadSequence, launch, localization, powerLauncher, driveTeleop, relocalize, reverse});
 
         waitForStart();
 
@@ -62,6 +67,8 @@ public class RedFarTeleop extends TritonicsOpMode {
 
         while(opModeIsActive()){
             teleop.run();
+            telem.addData("Current Draw", hub.getCurrent(CurrentUnit.AMPS));
+            telem.update();
         }
 
     }
