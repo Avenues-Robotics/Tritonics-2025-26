@@ -48,7 +48,7 @@ public class RedTeleop extends TritonicsOpMode {
         driveTeleop = new DriveTeleop(driveTrain, this);
         loadSequence = new TeleopTask(new LoadSequenceThree(intake, launcher), () -> gamepad2.right_bumper, true);
         launch = new TeleopTask(new Launch(intake, launcher), () -> gamepad1.right_trigger > 0.7, true);
-        localization = new Localization(sensors, new RoboState(-51.6, 119.028,90,0,0,0), this);
+        localization = new Localization(sensors, this);
         powerLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
         relocalize = new TeleopTask(new Relocalize(sensors, new Pose2D(DistanceUnit.CM, 155.134, -152.534, AngleUnit.DEGREES, 0)), () -> gamepad1.square, false);
         reverse = new TeleopTask(new ParallelTask(new PowerTransfer(launcher, -1), new PowerIntake(intake, -1)), () -> gamepad1.left_trigger > 0.7, true);
