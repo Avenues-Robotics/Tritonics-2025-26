@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.tasks;
 
+import static org.firstinspires.ftc.teamcode.hardware.Sensors.xOffset;
+import static org.firstinspires.ftc.teamcode.hardware.Sensors.yOffset;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.limelightvision.LLResult;
@@ -48,6 +51,9 @@ public class Localization extends Task{
         this.roboState = roboState;
         this.sensors = sensors;
         this.opMode = opMode;
+        sensors.odo.setOffsets(xOffset, yOffset, DistanceUnit.CM);
+        sensors.odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        sensors.odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         int i = 0;
         sensors.odo.resetPosAndIMU();
         while(sensors.odo.getDeviceStatus() != GoBildaPinpointDriver.DeviceStatus.READY){
