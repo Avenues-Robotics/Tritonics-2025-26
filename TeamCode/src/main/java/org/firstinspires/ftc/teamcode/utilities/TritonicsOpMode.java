@@ -23,6 +23,8 @@ public abstract class TritonicsOpMode extends LinearOpMode {
 
     public boolean isRedSide;
 
+    public int offset;
+
     public DriveTrain driveTrain;
     public Intake intake;
     public Launcher launcher;

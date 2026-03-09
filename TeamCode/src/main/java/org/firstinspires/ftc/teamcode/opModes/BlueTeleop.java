@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
+import org.firstinspires.ftc.teamcode.tasks.DpadOffset;
 import org.firstinspires.ftc.teamcode.tasks.DriveTeleop;
 import org.firstinspires.ftc.teamcode.tasks.Launch;
 import org.firstinspires.ftc.teamcode.tasks.LoadSequenceThree;
@@ -21,7 +22,6 @@ import org.firstinspires.ftc.teamcode.tasks.PowerTransfer;
 import org.firstinspires.ftc.teamcode.tasks.Relocalize;
 import org.firstinspires.ftc.teamcode.tasks.Task;
 import org.firstinspires.ftc.teamcode.tasks.TeleopTask;
-import org.firstinspires.ftc.teamcode.utilities.RoboState;
 import org.firstinspires.ftc.teamcode.utilities.TritonicsOpMode;
 
 @TeleOp
@@ -35,11 +35,14 @@ public class BlueTeleop extends TritonicsOpMode {
     Task relocalize;
     Task reverse;
     Task mirror;
+    Task dpadOffset;
 
     Task teleop;
 
     @Override
     public void runTritonicsOpMode() {
+
+        offset = 0;
 
         LynxModule hub = hardwareMap.get(LynxModule.class, "Control Hub");
 
@@ -47,14 +50,15 @@ public class BlueTeleop extends TritonicsOpMode {
 
         driveTeleop = new DriveTeleop(driveTrain, this);
         loadSequence = new TeleopTask(new LoadSequenceThree(intake, launcher), () -> gamepad2.right_bumper, true);
-        launch = new TeleopTask(new Launch(intake, launcher), () -> gamepad1.right_trigger > 0.7, true);
+        launch = new TeleopTask(new Launch(intake, launcher), () -> gamepad2.right_trigger > 0.7, true);
         localization = new Localization(sensors, this);
         powerLauncher = new OrientPowerLauncherLocalization(launcher, localization, this);
-        relocalize = new TeleopTask(new Relocalize(sensors, new Pose2D(DistanceUnit.CM, 159.869, 145.180, AngleUnit.DEGREES, 180)), () -> gamepad1.square, false);
+        relocalize = new TeleopTask(new Relocalize(sensors, new Pose2D(DistanceUnit.CM, 159.869, 145.180, AngleUnit.DEGREES, 180), this), () -> gamepad1.square, false);
         reverse = new TeleopTask(new ParallelTask(new PowerTransfer(launcher, -1), new PowerIntake(intake, -1)), () -> gamepad1.left_trigger > 0.7, true);
         mirror = new MirrorArtifactsLEDs(this);
+        dpadOffset = new DpadOffset(this);
 
-        teleop = new ParallelTask(new Task[]{mirror, loadSequence, launch, localization, powerLauncher, driveTeleop, relocalize, reverse});
+        teleop = new ParallelTask(new Task[]{dpadOffset, mirror, loadSequence, launch, localization, powerLauncher, driveTeleop, relocalize, reverse});
 
         waitForStart();
 
